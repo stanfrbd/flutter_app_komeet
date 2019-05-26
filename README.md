@@ -20,4 +20,8 @@ Projet tutoré Komeet
 
 **J'utilise dans cette version ma version de firebase, elle sera changée ensuite**
 
+### Avant toute chose
+
+run `flutter packages get`à la racine du projet
+
 
