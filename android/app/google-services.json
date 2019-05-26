@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "11651511075",
+    "firebase_url": "https://perso-3354a.firebaseio.com",
+    "project_id": "perso-3354a",
+    "storage_bucket": "perso-3354a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11651511075:android:c9e0eb4ee336ca2f",
+        "android_client_info": {
+          "package_name": "komeet.flutter_app_komeet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "11651511075-h3c5kjvvp7o45lvmvcl34qt2u56ga0jc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTWncX_TZsHGs1z6R_qS51XMbav9fndFk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "11651511075-h3c5kjvvp7o45lvmvcl34qt2u56ga0jc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

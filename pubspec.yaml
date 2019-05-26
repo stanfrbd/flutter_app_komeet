@@ -1,0 +1,39 @@
+name: flutter_app_komeet
+description: Projet tutoré Komeet
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.2
+  firebase_auth: 0.7.0
+  google_sign_in: 3.2.4
+  cloud_firestore: 0.8.2+3
+  fluttertoast: ^2.0.7
+  image_picker: 0.4.12+1
+  shared_preferences: 0.4.3
+  firebase_storage: 1.0.4
+  cached_network_image: ^0.7.0
+  intl: ^0.15.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
