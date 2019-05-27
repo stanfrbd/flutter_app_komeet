@@ -27,8 +27,9 @@ run `flutter packages get`à la racine du projet
 
 # Compilation
 
-* La compilation fonctionne mais **Google Sign In** ne fonctionne pas
-* Si vous voulez tester des requêtes avec la base de données 
+* Attention à bien avoir tous les packages et les dependencies
 
-mettez en commentaire le `if(firebaseUser != NULL) {` et le `}` de fin de `lib/login.dart`  mais pas le contenu : cela affichera les données de la BD sans être connecté en tant qu'utilisateur
+# Google Sign In fonctionne
+
+* Les réglages de firebase sont à manipuler avec précautions
 
