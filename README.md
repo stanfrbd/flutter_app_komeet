@@ -5,14 +5,15 @@ Projet tutoré Komeet
 ## Contenu
 
 ***Le projet en lui-même fait 340 Mo***
+
 **d'où l'intérêt du .gitignore**
 
 ### Ne surtout pas modifier 
 
-`pubspecs.yaml`
-`google-services.json`
+* `pubspecs.yaml`
+* `google-services.json`
 
-**Les plugins suivants doivent être installés**
+**Les plugins suivants doivent être installés et configurés dans le path (Android Studio et OS)**
 
 `flutter`
 `dart`
