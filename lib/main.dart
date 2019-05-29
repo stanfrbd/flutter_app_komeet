@@ -5,19 +5,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_app_komeet/chat.dart';
 import 'package:flutter_app_komeet/const.dart';
 import 'package:flutter_app_komeet/login.dart';
 import 'package:flutter_app_komeet/settings.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-// C'est juste une histoire de variables
 
 void main() => runApp(MyApp());
 
 class MainScreen extends StatefulWidget {
   final String currentUserId;
-
+  String userSelected;
   MainScreen({Key key, @required this.currentUserId}) : super(key: key);
 
   @override
@@ -33,6 +33,7 @@ class MainScreenState extends State<MainScreen> {
   List<Choice> choices = const <Choice>[
     const Choice(title: 'Réglages', icon: Icons.settings),
     const Choice(title: 'Déconnexion', icon: Icons.exit_to_app),
+    const Choice(title: 'Supprimer mon profil', icon: Icons.delete)
   ];
 
   Future<bool> onBackPress() {
@@ -157,15 +158,16 @@ class MainScreenState extends State<MainScreen> {
                     children: <Widget>[
                       Container(
                         child: Text(
-                          'Prénom: ${document['nickname']}',
-                          style: TextStyle(color: primaryColor),
+                          '${document['nickname']}',
+                          style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold, fontSize: 18),
+
                         ),
                         alignment: Alignment.centerLeft,
                         margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
                       ),
                       Container(
                         child: Text(
-                          'Ce que je fais : ${document['aboutMe'] ?? 'Je suis cool'}',
+                          'Statut : ${document['aboutMe'] ?? 'Je suis cool'}', // il faudra mettre le dernier message à la place
                           style: TextStyle(color: primaryColor),
                         ),
                         alignment: Alignment.centerLeft,
@@ -185,6 +187,7 @@ class MainScreenState extends State<MainScreen> {
                     builder: (context) => Chat(
                           peerId: document.documentID,
                           peerAvatar: document['photoUrl'],
+                          chatMate: document['nickname'],
                         )));
           },
           color: greyColor2,
@@ -201,8 +204,11 @@ class MainScreenState extends State<MainScreen> {
   void onItemMenuPress(Choice choice) {
     if (choice.title == 'Déconnexion') {
       handleSignOut();
-    } else {
+    } else if (choice.title == 'Réglages') {
       Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
+    }
+    else if (choice.title == 'Supprimer mon profil') {
+      handleDeleteProfile(); // permettra de supprimer le profil
     }
   }
 
@@ -221,6 +227,27 @@ class MainScreenState extends State<MainScreen> {
 
     Navigator.of(context)
         .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false);
+  }
+
+  Future<Null> handleDeleteProfile() async {
+    Fluttertoast.showToast(msg: "Profil supprimé");
+    this.setState(() {
+      isLoading = true;
+    });
+
+    await FirebaseAuth.instance.signOut();
+    await googleSignIn.disconnect();
+    await googleSignIn.signOut();
+
+    this.setState(() {
+      isLoading = false;
+    });
+
+    Navigator.of(context)
+        .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false);
+
+  //ajouter la ligne pour supprimer le profil et donner un message : profil supprimé
+
   }
 
   @override

@@ -17,15 +17,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Chat extends StatelessWidget {
   final String peerId;
   final String peerAvatar;
+  String chatMate; // le nom d'utilisateur
 
-  Chat({Key key, @required this.peerId, @required this.peerAvatar}) : super(key: key);
+  Chat({Key key, @required this.peerId, @required this.peerAvatar, @required this.chatMate}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(
-          'CHAT',
+          chatMate, // à qui on envoie le message
           style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -145,7 +146,6 @@ class ChatScreenState extends State<ChatScreen> {
     // type: 0 = text, 1 = image, 2 = sticker
     if (content.trim() != '') {
       textEditingController.clear();
-
       var documentReference = Firestore.instance
           .collection('messages')
           .document(groupChatId)
@@ -166,7 +166,7 @@ class ChatScreenState extends State<ChatScreen> {
       });
       listScrollController.animateTo(0.0, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
     } else {
-      Fluttertoast.showToast(msg: 'Nothing to send');
+      Fluttertoast.showToast(msg: 'Rien à envoyer');
     }
   }
 
@@ -550,7 +550,7 @@ class ChatScreenState extends State<ChatScreen> {
             child: new Container(
               margin: new EdgeInsets.symmetric(horizontal: 1.0),
               child: new IconButton(
-                icon: new Icon(Icons.face),
+                icon: new Icon(Icons.timer), // icône
                 onPressed: getSticker,
                 color: primaryColor,
               ),
