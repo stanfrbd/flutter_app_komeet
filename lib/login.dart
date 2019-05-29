@@ -15,11 +15,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Chat Demo',
+      title: 'Komeet',
       theme: ThemeData(
         primaryColor: themeColor,
       ),
-      home: LoginScreen(title: 'CHAT DEMO'),
+      home: LoginScreen(title: 'KOMEET'),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -35,18 +35,18 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> {
-  final GoogleSignIn googleSignIn = GoogleSignIn();
-  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn(); // déclaration d'un nouveau client google
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance; // nouvelle instance de firebase auth
   SharedPreferences prefs;
 
   bool isLoading = false;
   bool isLoggedIn = false;
-  FirebaseUser currentUser;
+  FirebaseUser currentUser; // utilisateur courant
 
   @override
   void initState() {
     super.initState();
-    isSignedIn();
+    isSignedIn(); // si l'utilisateur est connecté booléen
   }
 
   void isSignedIn() async {
@@ -54,9 +54,9 @@ class LoginScreenState extends State<LoginScreen> {
       isLoading = true;
     });
 
-    prefs = await SharedPreferences.getInstance();
+    prefs = await SharedPreferences.getInstance(); // préférences
 
-    isLoggedIn = await googleSignIn.isSignedIn();
+    isLoggedIn = await googleSignIn.isSignedIn(); // booléen qui dit si connecté
     if (isLoggedIn) {
       Navigator.push(
         context,
@@ -65,7 +65,7 @@ class LoginScreenState extends State<LoginScreen> {
     }
 
     this.setState(() {
-      isLoading = false;
+      isLoading = false; // l'utilisateur est connecté donc chargement terminé
     });
   }
 
@@ -76,17 +76,17 @@ class LoginScreenState extends State<LoginScreen> {
       isLoading = true;
     });
 
-    GoogleSignInAccount googleUser = await googleSignIn.signIn();
-    GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    GoogleSignInAccount googleUser = await googleSignIn.signIn(); // compte de connexion google
+    GoogleSignInAuthentication googleAuth = await googleUser.authentication; // évènement de connexion
 
     final AuthCredential credential = GoogleAuthProvider.getCredential(
       accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
+      idToken: googleAuth.idToken, // identifiant de l'utilisateur compte google
     );
 
     FirebaseUser firebaseUser = await firebaseAuth.signInWithCredential(credential);
 
-    if (firebaseUser != null) {
+    if (firebaseUser != null) { // si les tokens ont bien été récupérés
       Fluttertoast.showToast(msg: "Utilisateur existant");
       // Check is already sign up
       final QuerySnapshot result =
@@ -147,7 +147,7 @@ class LoginScreenState extends State<LoginScreen> {
           children: <Widget>[
             Center(
               child: FlatButton(
-                  onPressed: handleSignIn,
+                  onPressed: handleSignIn, // evenemenent presser le bouton
                   child: Text(
                     'CONNEXION AVEC GOOGLE',
                     style: TextStyle(fontSize: 16.0),
@@ -161,7 +161,7 @@ class LoginScreenState extends State<LoginScreen> {
 
             // Loading
             Positioned(
-              child: isLoading
+              child: isLoading // if true
                   ? Container(
                       child: Center(
                         child: CircularProgressIndicator(

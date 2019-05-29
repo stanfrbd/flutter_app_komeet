@@ -17,7 +17,6 @@ void main() => runApp(MyApp());
 
 class MainScreen extends StatefulWidget {
   final String currentUserId;
-  String userSelected;
   MainScreen({Key key, @required this.currentUserId}) : super(key: key);
 
   @override
