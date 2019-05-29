@@ -1,6 +1,8 @@
-# flutter_app_komeet
+# Komeet
 
-Projet tutoré
+Projet tutoré S2 - Application en réseau - Dart - Flutter - Firebase
+
+Rémi T. - Josquin I. - Antoine D-G. - Stanislas M.
 
 ### Avant toute chose
 
@@ -47,7 +49,7 @@ Projet tutoré
 
 # Firebase
 
-* Les réglages de firebase sont à manipuler avec précautions 
+* Les réglages de firebase sont à manipuler avec précautions (clé SHA-1, ajout d'app, fichiers config...)
 * Je vais faire la doc pour que vous puissiez voir tout
-* Google Sign in fonctionne sur iOS mais aucun message n'est vu (normal les variables ne sont pas encore changées)
+* Google Sign in fonctionne sur iOS mais aucun message n'est vu (les variables des collections ne sont pas encore changées)
 
