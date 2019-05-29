@@ -1,6 +1,16 @@
 # flutter_app_komeet
 
-Projet tutoré Komeet
+Projet tutoré
+
+### Avant toute chose
+
+* `git clone https://github.com/stanfrbd/flutter_app_komeet` ou `download zip`
+
+* **Dans le cas où on `download zip` il faut renommer `flutter_app_komeet-master` en `flutter_app_komeet`**
+
+* ***Dans le cas contraire erreur à la compilation `packages not found`***
+
+* `flutter packages get` à la racine du projet ou dans Android Studio
 
 ## Contenu
 
@@ -8,7 +18,7 @@ Projet tutoré Komeet
 
 **d'où l'intérêt du .gitignore**
 
-### Ne surtout pas modifier 
+### Ne surtout pas modifier
 
 * `pubspecs.yaml`
 * `google-services.json`
@@ -23,9 +33,6 @@ Projet tutoré Komeet
 
 **Version changée de firebase : celle de Rémi**
 
-### Avant toute chose
-
-run `flutter packages get`à la racine du projet
 
 # Compilation
 
@@ -34,4 +41,3 @@ run `flutter packages get`à la racine du projet
 # Google Sign In fonctionne
 
 * Les réglages de firebase sont à manipuler avec précautions
-
