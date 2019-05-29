@@ -4,7 +4,7 @@ Projet tutoré S2 - Application en réseau - Dart - Flutter - Firebase
 
 Rémi T. - Josquin I. - Antoine D-G. - Stanislas M.
 
-### Avant toute chose
+## Avant toute chose
 
 * `git clone https://github.com/stanfrbd/flutter_app_komeet` ou `download zip`
 
@@ -20,7 +20,7 @@ Rémi T. - Josquin I. - Antoine D-G. - Stanislas M.
 
 **d'où l'intérêt du .gitignore**
 
-### Ne surtout pas modifier
+## Ne surtout pas modifier
 
 * `pubspecs.yaml` 
 * `google-services.json` 
