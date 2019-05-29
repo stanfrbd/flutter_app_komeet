@@ -17,7 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Chat extends StatelessWidget {
   final String peerId;
   final String peerAvatar;
-  String chatMate; // le nom d'utilisateur
+  final String chatMate; // le nom d'utilisateur
 
   Chat({Key key, @required this.peerId, @required this.peerAvatar, @required this.chatMate}) : super(key: key);
 
