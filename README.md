@@ -12,6 +12,8 @@ Projet tutoré Komeet
 
 * `pubspecs.yaml`
 * `google-services.json`
+* `AndroidManifest.xml`
+* `build.gradle`(les deux)
 
 **Les plugins suivants doivent être installés et configurés dans le path (Android Studio et OS)**
 
@@ -19,7 +21,7 @@ Projet tutoré Komeet
 `dart`
 `firebase`
 
-**J'utilise dans cette version ma version de firebase, elle sera changée ensuite**
+**Version changée de firebase : celle de Rémi**
 
 ### Avant toute chose
 
