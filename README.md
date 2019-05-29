@@ -38,6 +38,9 @@ Projet tutoré
 
 * Attention à bien avoir tous les packages et les dependencies
 
-# Google Sign In fonctionne
+# Firebase
 
-* Les réglages de firebase sont à manipuler avec précautions
+* Les réglages de firebase sont à manipuler avec précautions 
+* Je vais faire la doc pour que vous puissiez voir tout
+* Google Sign in fonctionne sur iOS mais aucun message n'est vu (normal les variables ne sont pas encore changées)
+
