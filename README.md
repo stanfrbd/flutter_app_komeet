@@ -20,10 +20,12 @@ Projet tutoré
 
 ### Ne surtout pas modifier
 
-* `pubspecs.yaml`
-* `google-services.json`
-* `AndroidManifest.xml`
-* `build.gradle`(les deux)
+* `pubspecs.yaml` 
+* `google-services.json` 
+* `AndroidManifest.xml` 
+* `build.gradle`(les deux) 
+* `GoogleServices-Info.plist`
+* `Podfile` 
 
 **Les plugins suivants doivent être installés et configurés dans le path (Android Studio et OS)**
 
@@ -37,6 +39,11 @@ Projet tutoré
 # Compilation
 
 * Attention à bien avoir tous les packages et les dependencies
+* Si vous voulez nettoyer le projet :
+* `flutter clean` à la racine du projet
+* Si vous n'avez pas envie de lancer Android Studio mais que vous voulez debug le projet : 
+* `flutter analyze` à la racine du projet permet de voir s'il y a des erreurs
+* `flutter run` (compile sans Android Studio) **à condition d'avoir une VM allumée ou un appareil branché**
 
 # Firebase
 
