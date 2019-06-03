@@ -50,6 +50,5 @@ Rémi T. - Josquin I. - Antoine D-G. - Stanislas M.
 # Firebase
 
 * Les réglages de firebase sont à manipuler avec précautions (clé SHA-1, ajout d'app, fichiers config...)
-* Je vais faire la doc pour que vous puissiez voir tout
-* Google Sign in fonctionne sur iOS mais aucun message n'est vu (les variables des collections ne sont pas encore changées)
+* Mieux vaut utiliser pour l'instant firebase avec Google Sign In qui fonctionne
 
