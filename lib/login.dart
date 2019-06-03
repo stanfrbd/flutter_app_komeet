@@ -9,19 +9,29 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// il va falloir utiliser les bons login etc.
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Komeet',
-      theme: ThemeData(
-        primaryColor: themeColor,
-      ),
-      home: LoginScreen(title: 'KOMEET'),
-      debugShowCheckedModeBanner: false,
-    );
+    if (!ThemeKomeet.darkTheme) {
+      return MaterialApp(
+        title: 'Komeet',
+        theme: new ThemeData(
+          primarySwatch: ThemeKomeet.themeColor,
+
+        ),
+        home: LoginScreen(title: 'Komeet'),
+        debugShowCheckedModeBanner: false,
+      );
+    }
+  else {
+      return MaterialApp(
+        title: 'Komeet',
+        theme: new ThemeData.dark(), // Mode sombre
+        home: LoginScreen(title: 'Komeet'),
+        debugShowCheckedModeBanner: false,
+      );
+    }
   }
 }
 
@@ -35,6 +45,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> {
+
   final GoogleSignIn googleSignIn = GoogleSignIn(); // déclaration d'un nouveau client google
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance; // nouvelle instance de firebase auth
   SharedPreferences prefs;
@@ -87,13 +98,13 @@ class LoginScreenState extends State<LoginScreen> {
     FirebaseUser firebaseUser = await firebaseAuth.signInWithCredential(credential);
 
     if (firebaseUser != null) { // si les tokens ont bien été récupérés
-      Fluttertoast.showToast(msg: "Utilisateur existant");
       // Check is already sign up
       final QuerySnapshot result =
           await Firestore.instance.collection('users').where('id', isEqualTo: firebaseUser.uid).getDocuments();
       final List<DocumentSnapshot> documents = result.documents;
+       Fluttertoast.showToast(msg: "Utilisateur existant");
       if (documents.length == 0) {
-        Fluttertoast.showToast(msg: "Nouvel utilisateur");
+        Fluttertoast.showToast(msg: "Premier utilisateur");
         // Update data to server if new user
         Firestore.instance
             .collection('users')
@@ -139,7 +150,7 @@ class LoginScreenState extends State<LoginScreen> {
         appBar: AppBar(
           title: Text(
             widget.title,
-            style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
+            style: TextStyle(color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
         ),
@@ -161,11 +172,12 @@ class LoginScreenState extends State<LoginScreen> {
 
             // Loading
             Positioned(
+
               child: isLoading // if true
                   ? Container(
                       child: Center(
                         child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(themeColor),
+                          valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor),
                         ),
                       ),
                       color: Colors.white.withOpacity(0.8),

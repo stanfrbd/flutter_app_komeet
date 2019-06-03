@@ -1,35 +1,94 @@
 {
   "project_info": {
-    "project_number": "609970619495",
-    "firebase_url": "https://komit-0.firebaseio.com",
-    "project_id": "komit-0",
-    "storage_bucket": "komit-0.appspot.com"
+    "project_number": "11651511075",
+    "firebase_url": "https://perso-3354a.firebaseio.com",
+    "project_id": "perso-3354a",
+    "storage_bucket": "perso-3354a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:609970619495:android:325ce0e4ed9b7b6e",
+        "mobilesdk_app_id": "1:11651511075:android:4df8a64fc556c821",
         "android_client_info": {
-          "package_name": "komeet_release.flutter_app_komeet"
+          "package_name": "komeet.flutter_komeet_perso"
         }
       },
       "oauth_client": [
         {
-          "client_id": "609970619495-khlau34ror4ioktoq8gqs4lm1dmn9dds.apps.googleusercontent.com",
+          "client_id": "11651511075-3hdqriq22q2kh72kud7vgpokt9l04b3k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "komeet.flutter_komeet_perso",
+            "certificate_hash": "4e91b9dad64f597277b25770ef9b2ce29ce0900a"
+          }
+        },
+        {
+          "client_id": "11651511075-h3c5kjvvp7o45lvmvcl34qt2u56ga0jc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAyvEXcuaVQ09XhWAdn-I7FQ758a8WHMYk"
+          "current_key": "AIzaSyBTWncX_TZsHGs1z6R_qS51XMbav9fndFk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "609970619495-khlau34ror4ioktoq8gqs4lm1dmn9dds.apps.googleusercontent.com",
+              "client_id": "11651511075-h3c5kjvvp7o45lvmvcl34qt2u56ga0jc.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "11651511075-9h3deb1a6qs4dnl88300723aii6b2niv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.flutter.eplugins.googleSignInExample"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11651511075:android:325ce0e4ed9b7b6e",
+        "android_client_info": {
+          "package_name": "komeet_release.flutter_app_komeet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "11651511075-5d0alq4l9jc9sd81tpe2lj6i7ohqd01i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "komeet_release.flutter_app_komeet",
+            "certificate_hash": "2dbc2fd2358e1ea1b7a6bc08ea647b9a337ac92d"
+          }
+        },
+        {
+          "client_id": "11651511075-h3c5kjvvp7o45lvmvcl34qt2u56ga0jc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTWncX_TZsHGs1z6R_qS51XMbav9fndFk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "11651511075-h3c5kjvvp7o45lvmvcl34qt2u56ga0jc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "11651511075-9h3deb1a6qs4dnl88300723aii6b2niv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.flutter.eplugins.googleSignInExample"
+              }
             }
           ]
         }

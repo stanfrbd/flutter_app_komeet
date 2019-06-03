@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>Komeet b0.1</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -25,7 +27,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.609970619495-8pohs0fdik8fjnf3b4m0o9o761ee9ni5</string>
+				<string>com.googleusercontent.apps.11651511075-ahrvsdlnclavetlq59bpdkjf357jvh46</string>
 			</array>
 		</dict>
 	</array>

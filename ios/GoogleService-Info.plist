@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>609970619495-8pohs0fdik8fjnf3b4m0o9o761ee9ni5.apps.googleusercontent.com</string>
+	<string>11651511075-ahrvsdlnclavetlq59bpdkjf357jvh46.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.609970619495-8pohs0fdik8fjnf3b4m0o9o761ee9ni5</string>
+	<string>com.googleusercontent.apps.11651511075-ahrvsdlnclavetlq59bpdkjf357jvh46</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDyCM2BzXNlLVM9kbGhlk3NKVIfX3JRH2E</string>
+	<string>AIzaSyAlTp1uzruS0jrhrF3sQ6RzSJ1BkO9I06o</string>
 	<key>GCM_SENDER_ID</key>
-	<string>609970619495</string>
+	<string>11651511075</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>komeet-ios-release.flutterAppKomeet</string>
+	<string>komeet-ios.flutterAppKomeet</string>
 	<key>PROJECT_ID</key>
-	<string>komit-0</string>
+	<string>perso-3354a</string>
 	<key>STORAGE_BUCKET</key>
-	<string>komit-0.appspot.com</string>
+	<string>perso-3354a.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:609970619495:ios:e07ea7b32badf4f7</string>
+	<string>1:11651511075:ios:56e7040256fd960a</string>
 	<key>DATABASE_URL</key>
-	<string>https://komit-0.firebaseio.com</string>
+	<string>https://perso-3354a.firebaseio.com</string>
 </dict>
 </plist>

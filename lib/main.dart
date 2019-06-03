@@ -31,7 +31,6 @@ class MainScreenState extends State<MainScreen> {
   bool isLoading = false;
   List<Choice> choices = const <Choice>[
     const Choice(title: 'Réglages', icon: Icons.settings),
-    const Choice(title: 'Déconnexion', icon: Icons.exit_to_app),
     const Choice(title: 'Supprimer mon profil', icon: Icons.delete)
   ];
 
@@ -48,7 +47,7 @@ class MainScreenState extends State<MainScreen> {
             contentPadding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
             children: <Widget>[
               Container(
-                color: themeColor,
+                color: ThemeKomeet.themeColor,
                 margin: EdgeInsets.all(0.0),
                 padding: EdgeInsets.only(bottom: 10.0, top: 10.0),
                 height: 100.0,
@@ -63,11 +62,11 @@ class MainScreenState extends State<MainScreen> {
                       margin: EdgeInsets.only(bottom: 10.0),
                     ),
                     Text(
-                      'Quitter',
+                      'Déconnexion',
                       style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      'Voulez-vous vraiment quitter ?',
+                      'Confirmation ?',
                       style: TextStyle(color: Colors.white70, fontSize: 14.0),
                     ),
                   ],
@@ -82,13 +81,13 @@ class MainScreenState extends State<MainScreen> {
                     Container(
                       child: Icon(
                         Icons.cancel,
-                        color: primaryColor,
+                        color: ThemeKomeet.primaryColor,
                       ),
                       margin: EdgeInsets.only(right: 10.0),
                     ),
                     Text(
                       'Annuler',
-                      style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
+                      style: TextStyle(color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
@@ -102,13 +101,13 @@ class MainScreenState extends State<MainScreen> {
                     Container(
                       child: Icon(
                         Icons.check_circle,
-                        color: primaryColor,
+                        color: ThemeKomeet.primaryColor,
                       ),
                       margin: EdgeInsets.only(right: 10.0),
                     ),
                     Text(
                       'Oui',
-                      style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
+                      style: TextStyle(color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
@@ -119,10 +118,20 @@ class MainScreenState extends State<MainScreen> {
       case 0:
         break;
       case 1:
-        exit(0);
+        handleSignOut();
         break;
     }
   }
+
+  Future<Null> handleSearchContact () {
+    Fluttertoast.showToast(msg: "A implémenter");
+  }
+
+  Future<bool> handleAddFavorites() {
+    Fluttertoast.showToast(msg: "A implémenter");
+    return Future.value(true);
+  }
+
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
     if (document['id'] == currentUserId) {
@@ -137,7 +146,7 @@ class MainScreenState extends State<MainScreen> {
                   placeholder: (context, url) => Container(
                         child: CircularProgressIndicator(
                           strokeWidth: 1.0,
-                          valueColor: AlwaysStoppedAnimation<Color>(themeColor),
+                          valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor),
                         ),
                         width: 50.0,
                         height: 50.0,
@@ -158,7 +167,7 @@ class MainScreenState extends State<MainScreen> {
                       Container(
                         child: Text(
                           '${document['nickname']}',
-                          style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold, fontSize: 18),
+                          style: TextStyle(color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold, fontSize: 18),
 
                         ),
                         alignment: Alignment.centerLeft,
@@ -167,7 +176,7 @@ class MainScreenState extends State<MainScreen> {
                       Container(
                         child: Text(
                           'Statut : ${document['aboutMe'] ?? 'Je suis cool'}', // il faudra mettre le dernier message à la place
-                          style: TextStyle(color: primaryColor),
+                          style: TextStyle(color: ThemeKomeet.primaryColor),
                         ),
                         alignment: Alignment.centerLeft,
                         margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
@@ -189,7 +198,7 @@ class MainScreenState extends State<MainScreen> {
                           chatMate: document['nickname'],
                         )));
           },
-          color: greyColor2,
+          color: ThemeKomeet.greyColor2,
           padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         ),
@@ -198,16 +207,14 @@ class MainScreenState extends State<MainScreen> {
     }
   }
 
-  final GoogleSignIn googleSignIn = GoogleSignIn(); // devient intéressant
+  final GoogleSignIn googleSignIn = GoogleSignIn();
 
   void onItemMenuPress(Choice choice) {
-    if (choice.title == 'Déconnexion') {
-      handleSignOut();
-    } else if (choice.title == 'Réglages') {
+   if (choice.title == 'Réglages') {
       Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
     }
     else if (choice.title == 'Supprimer mon profil') {
-      handleDeleteProfile(); // permettra de supprimer le profil
+      handleDeleteProfile();
     }
   }
 
@@ -245,7 +252,7 @@ class MainScreenState extends State<MainScreen> {
     Navigator.of(context)
         .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false);
 
-  //ajouter la ligne pour supprimer le profil et donner un message : profil supprimé
+  Firestore.instance.collection("users").document(currentUserId).delete();  // méthode pour supprimer de firebase le currentUser 
 
   }
 
@@ -253,12 +260,30 @@ class MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: ThemeKomeet.primaryColor,
+        ),
+        leading: new IconButton(
+          icon: new Icon(Icons.exit_to_app),
+          onPressed: openDialog,
+        ),
         title: Text(
           'Messages',
-          style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
+          style: TextStyle(color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
+
         ),
         centerTitle: true,
         actions: <Widget>[
+          IconButton(
+            onPressed: handleSearchContact,
+            icon: Icon(Icons.search),
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+          ),
+          IconButton(
+            onPressed: handleAddFavorites,
+            icon: Icon(Icons.star),
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+          ),
           PopupMenuButton<Choice>(
             onSelected: onItemMenuPress,
             itemBuilder: (BuildContext context) {
@@ -269,14 +294,14 @@ class MainScreenState extends State<MainScreen> {
                       children: <Widget>[
                         Icon(
                           choice.icon,
-                          color: primaryColor,
+                          color: ThemeKomeet.primaryColor,
                         ),
                         Container(
                           width: 10.0,
                         ),
                         Text(
                           choice.title,
-                          style: TextStyle(color: primaryColor),
+                          style: TextStyle(color: ThemeKomeet.primaryColor),
                         ),
                       ],
                     ));
@@ -296,7 +321,7 @@ class MainScreenState extends State<MainScreen> {
                   if (!snapshot.hasData) {
                     return Center(
                       child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(themeColor),
+                        valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor),
                       ),
                     );
                   } else {
@@ -315,7 +340,7 @@ class MainScreenState extends State<MainScreen> {
               child: isLoading
                   ? Container(
                       child: Center(
-                        child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(themeColor)),
+                        child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor)),
                       ),
                       color: Colors.white.withOpacity(0.8),
                     )
@@ -335,3 +360,4 @@ class Choice {
   final String title;
   final IconData icon;
 }
+

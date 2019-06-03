@@ -1,0 +1,1485 @@
+[  +53 ms] executing: [C:\Users\Stan\flutter\] git log -n 1 --pretty=format:%H
+[  +76 ms] Exit code 0 from: git log -n 1 --pretty=format:%H
+[        ] 7a4c33425ddd78c54aba07d86f3f9a4a0051769b
+[        ] executing: [C:\Users\Stan\flutter\] git describe --match v*.*.* --first-parent --long --tags
+[ +107 ms] Exit code 0 from: git describe --match v*.*.* --first-parent --long --tags
+[   +2 ms] v1.5.4-hotfix.2-0-g7a4c33425
+[  +19 ms] executing: [C:\Users\Stan\flutter\] git rev-parse --abbrev-ref --symbolic @{u}
+[  +54 ms] Exit code 0 from: git rev-parse --abbrev-ref --symbolic @{u}
+[        ] origin/stable
+[        ] executing: [C:\Users\Stan\flutter\] git ls-remote --get-url origin
+[  +45 ms] Exit code 0 from: git ls-remote --get-url origin
+[        ] https://github.com/flutter/flutter.git
+[ +101 ms] executing: [C:\Users\Stan\flutter\] git rev-parse --abbrev-ref HEAD
+[  +69 ms] Exit code 0 from: git rev-parse --abbrev-ref HEAD
+[        ] stable
+[ +258 ms] executing: C:\Users\Stan\AppData\Local\Android\Sdk\platform-tools\adb.exe devices -l
+[  +30 ms] Exit code 0 from: C:\Users\Stan\AppData\Local\Android\Sdk\platform-tools\adb.exe devices -l
+[        ] List of devices attached
+           emulator-5554          device product:sdk_gphone_x86 model:Android_SDK_built_for_x86 device:generic_x86 transport_id:1
+[  +17 ms] C:\Users\Stan\AppData\Local\Android\Sdk\platform-tools\adb.exe -s emulator-5554 shell getprop
+[ +118 ms] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
+[   +3 ms] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
+[   +1 ms] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[   +2 ms] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[   +2 ms] Artifact Instance of 'FuchsiaCacheArtifacts' is not required, skipping update.
+[ +102 ms] Found plugin cloud_firestore at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-0.8.2+3\
+[  +22 ms] Found plugin firebase_auth at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\firebase_auth-0.7.0\
+[   +6 ms] Found plugin firebase_core at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\firebase_core-0.2.5+1\
+[   +4 ms] Found plugin firebase_storage at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\firebase_storage-1.0.4\
+[  +22 ms] Found plugin fluttertoast at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\fluttertoast-2.2.11\
+[   +3 ms] Found plugin google_sign_in at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\google_sign_in-3.2.4\
+[   +9 ms] Found plugin image_picker at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\image_picker-0.4.12+1\
+[  +13 ms] Found plugin path_provider at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\path_provider-0.5.0+1\
+[  +10 ms] Found plugin shared_preferences at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\shared_preferences-0.4.3\
+[   +8 ms] Found plugin sqflite at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\sqflite-1.1.5\
+[  +60 ms] Found plugin cloud_firestore at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-0.8.2+3\
+[   +9 ms] Found plugin firebase_auth at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\firebase_auth-0.7.0\
+[   +2 ms] Found plugin firebase_core at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\firebase_core-0.2.5+1\
+[   +1 ms] Found plugin firebase_storage at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\firebase_storage-1.0.4\
+[   +6 ms] Found plugin fluttertoast at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\fluttertoast-2.2.11\
+[   +2 ms] Found plugin google_sign_in at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\google_sign_in-3.2.4\
+[   +7 ms] Found plugin image_picker at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\image_picker-0.4.12+1\
+[   +9 ms] Found plugin path_provider at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\path_provider-0.5.0+1\
+[   +6 ms] Found plugin shared_preferences at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\shared_preferences-0.4.3\
+[   +8 ms] Found plugin sqflite at C:\Users\Stan\flutter\.pub-cache\hosted\pub.dartlang.org\sqflite-1.1.5\
+[  +73 ms] ro.hardware = ranchu
+[  +15 ms] Using hardware rendering with device Android SDK built for x86. If you get graphics artifacts, consider enabling software rendering with "--enable-software-rendering".
+[  +27 ms] Launching lib/main.dart on Android SDK built for x86 in debug mode...
+[  +20 ms] Initializing gradle...
+[   +1 ms] Using gradle from C:\Users\Stan\Desktop\flutter_app_komeet\android\gradlew.bat.
+[ +145 ms] executing: C:\Users\Stan\Desktop\flutter_app_komeet\android\gradlew.bat -v
+[+1479 ms] 
+           C:\Users\Stan\Desktop\flutter_app_komeet>doskey algo=cd C:\Users\Stan\Nextcloud\MON_REP_IUT\ALGO_PROG\C++\M1103  
+
+           C:\Users\Stan\Desktop\flutter_app_komeet>doskey iut=cd C:\Users\Stan\Nextcloud\MON_REP_IUT  
+
+           C:\Users\Stan\Desktop\flutter_app_komeet>doskey compile=g++ -std=c++14 *.cpp 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet>doskey run=a.exe 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet>doskey sudo=RUNAS /user:Stan cmd  
+
+           C:\Users\Stan\Desktop\flutter_app_komeet>doskey stan=cd C:\Users\Stan  
+
+           C:\Users\Stan\Desktop\flutter_app_komeet>doskey desk=cd C:\Users\Stan\Desktop  
+
+           C:\Users\Stan\Desktop\flutter_app_komeet>doskey codin=cd C:\Users\Stan\Nextcloud\MON_REP_IUT\CODIN 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet>doskey sql=cd C:\Program Files\sqldeveloper 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet>doskey ls=dir 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet>doskey clear=cls 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet>doskey x=exit 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet>doskey pc=C:\WINDOWS\explorer.exe ::{20D04FE0-3AEA-1069-A2D8-08002B30309D} 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet>cls
+
+           ------------------------------------------------------------
+           Gradle 4.10.2
+           ------------------------------------------------------------
+
+           Build time:   2018-09-19 18:10:15 UTC
+           Revision:     b4d8d5d170bb4ba516e88d7fe5647e2323d791dd
+
+           Kotlin DSL:   1.0-rc-6
+           Kotlin:       1.2.61
+           Groovy:       2.4.15
+           Ant:          Apache Ant(TM) version 1.9.11 compiled on March 23 2018
+           JVM:          1.8.0_152-release (JetBrains s.r.o 25.152-b01)
+           OS:           Windows 10 10.0 amd64
+[  +13 ms] Initializing gradle... (completed in 1,6s)
+[   +1 ms] Resolving dependencies...
+[        ] executing: [C:\Users\Stan\Desktop\flutter_app_komeet\android\] C:\Users\Stan\Desktop\flutter_app_komeet\android\gradlew.bat app:properties
+[+4099 ms] 
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey algo=cd C:\Users\Stan\Nextcloud\MON_REP_IUT\ALGO_PROG\C++\M1103  
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey iut=cd C:\Users\Stan\Nextcloud\MON_REP_IUT  
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey compile=g++ -std=c++14 *.cpp 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey run=a.exe 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey sudo=RUNAS /user:Stan cmd  
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey stan=cd C:\Users\Stan  
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey desk=cd C:\Users\Stan\Desktop  
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey codin=cd C:\Users\Stan\Nextcloud\MON_REP_IUT\CODIN 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey sql=cd C:\Program Files\sqldeveloper 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey ls=dir 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey clear=cls 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey x=exit 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey pc=C:\WINDOWS\explorer.exe ::{20D04FE0-3AEA-1069-A2D8-08002B30309D} 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>cls
+
+           > Configure project :app
+           WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
+           It will be removed at the end of 2018. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+           registerResGeneratingTask is deprecated, use registerGeneratedResFolders(FileCollection)
+           registerResGeneratingTask is deprecated, use registerGeneratedResFolders(FileCollection)
+           registerResGeneratingTask is deprecated, use registerGeneratedResFolders(FileCollection)
+           registerResGeneratingTask is deprecated, use registerGeneratedResFolders(FileCollection)
+           registerResGeneratingTask is deprecated, use registerGeneratedResFolders(FileCollection)
+           WARNING: API 'variant.getMergeAssets()' is obsolete and has been replaced with 'variant.getMergeAssetsProvider()'.
+           It will be removed at the end of 2019.
+           For more information, see https://d.android.com/r/tools/task-configuration-avoidance.
+           To determine what is calling variant.getMergeAssets(), use -Pandroid.debug.obsoleteApi=true on the command line to display a stack trace.
+           WARNING: API 'variantOutput.getProcessResources()' is obsolete and has been replaced with 'variantOutput.getProcessResourcesProvider()'.
+           It will be removed at the end of 2019.
+           For more information, see https://d.android.com/r/tools/task-configuration-avoidance.
+           To determine what is calling variantOutput.getProcessResources(), use -Pandroid.debug.obsoleteApi=true on the command line to display a stack trace.
+
+           > Task :app:properties
+
+           ------------------------------------------------------------
+           Project :app
+           ------------------------------------------------------------
+
+           INTERNAL__CHECKED_MINIMUM_PLUGIN_VERSIONS: true
+           _internalAndroidGradlePluginDependencyCheckerRegistered: true
+           allprojects: [project ':app']
+           android: com.android.build.gradle.internal.dsl.BaseAppModuleExtension_Decorated@524adc40
+           ant: org.gradle.api.internal.project.DefaultAntBuilder@c598689
+           antBuilderFactory: org.gradle.api.internal.project.DefaultAntBuilderFactory@4c3b3f13
+           archivesBaseName: app
+           artifacts: org.gradle.api.internal.artifacts.dsl.DefaultArtifactHandler_Decorated@6082ab2
+           asDynamicObject: DynamicObject for project ':app'
+           assemble: task ':app:assemble'
+           baseClassLoaderScope: org.gradle.api.internal.initialization.DefaultClassLoaderScope@2244eef
+           buildDir: C:\Users\Stan\Desktop\flutter_app_komeet\build\app
+           buildFile: C:\Users\Stan\Desktop\flutter_app_komeet\android\app\build.gradle
+           buildOutputs: BaseVariantOutput container
+           buildPath: :
+           buildScriptSource: org.gradle.groovy.scripts.TextResourceScriptSource@4209edec
+           buildscript: org.gradle.api.internal.initialization.DefaultScriptHandler@575f8119
+           childProjects: {}
+           class: class org.gradle.api.internal.project.DefaultProject_Decorated
+           classLoaderScope: org.gradle.api.internal.initialization.DefaultClassLoaderScope@10c57cfa
+           components: SoftwareComponentInternal set
+           configurationActions: org.gradle.configuration.project.DefaultProjectConfigurationActionContainer@30b61b3b
+           configurationTargetIdentifier: org.gradle.configuration.ConfigurationTargetIdentifier$1@3dddf64c
+           configurations: configuration container
+           convention: org.gradle.api.internal.plugins.DefaultConvention@16a1efa7
+           copyFlutterAssetsDebug: task ':app:copyFlutterAssetsDebug'
+           copyFlutterAssetsDynamicProfile: task ':app:copyFlutterAssetsDynamicProfile'
+           copyFlutterAssetsDynamicRelease: task ':app:copyFlutterAssetsDynamicRelease'
+           copyFlutterAssetsProfile: task ':app:copyFlutterAssetsProfile'
+           copyFlutterAssetsRelease: task ':app:copyFlutterAssetsRelease'
+           createMockableJar: task ':app:createMockableJar'
+           defaultArtifacts: org.gradle.api.internal.plugins.DefaultArtifactPublicationSet_Decorated@2db86325
+           defaultTasks: []
+           deferredProjectConfiguration: org.gradle.api.internal.project.DeferredProjectConfiguration@2d57ca6a
+           dependencies: org.gradle.api.internal.artifacts.dsl.dependencies.DefaultDependencyHandler_Decorated@7fea261a
+           dependencyLocking: org.gradle.internal.locking.DefaultDependencyLockingHandler_Decorated@662f2297
+           depth: 1
+           description: null
+           displayName: project ':app'
+           distsDir: C:\Users\Stan\Desktop\flutter_app_komeet\build\app\distributions
+           distsDirName: distributions
+           docsDir: C:\Users\Stan\Desktop\flutter_app_komeet\build\app\docs
+           docsDirName: docs
+           ext: org.gradle.api.internal.plugins.DefaultExtraPropertiesExtension@860c43c
+           extensions: org.gradle.api.internal.plugins.DefaultConvention@16a1efa7
+           fileOperations: org.gradle.api.internal.file.DefaultFileOperations@1b774bc0
+           fileResolver: org.gradle.api.internal.file.BaseDirFileResolver@35837442
+           flutter: FlutterExtension_Decorated@2aa7c3ff
+           flutterBuildDebug: task ':app:flutterBuildDebug'
+           flutterBuildDynamicProfile: task ':app:flutterBuildDynamicProfile'
+           flutterBuildDynamicRelease: task ':app:flutterBuildDynamicRelease'
+           flutterBuildProfile: task ':app:flutterBuildProfile'
+           flutterBuildRelease: task ':app:flutterBuildRelease'
+           flutterBuildX86Jar: task ':app:flutterBuildX86Jar'
+           googleServices: com.google.gms.googleservices.GoogleServicesPlugin$GoogleServicesPluginConfig_Decorated@2468b3b3
+           gradle: build 'android'
+           group: android
+           identityPath: :app
+           inheritedScope: org.gradle.api.internal.ExtensibleDynamicObject$InheritedDynamicObject@560d5b5
+           java: org.gradle.api.plugins.internal.DefaultJavaPluginExtension_Decorated@2bef903f
+           layout: org.gradle.api.internal.file.DefaultProjectLayout@3fc30686
+           libsDir: C:\Users\Stan\Desktop\flutter_app_komeet\build\app\libs
+           libsDirName: libs
+           listenerBuildOperationDecorator: org.gradle.configuration.internal.DefaultListenerBuildOperationDecorator@5e57dfe6
+           logger: org.gradle.internal.logging.slf4j.OutputEventListenerBackedLogger@6ffc2a64
+           logging: org.gradle.internal.logging.services.DefaultLoggingManager@5d9964e4
+           mergeDebugAssets: task ':app:mergeDebugAssets'
+           mergeDynamicProfileAssets: task ':app:mergeDynamicProfileAssets'
+           mergeDynamicReleaseAssets: task ':app:mergeDynamicReleaseAssets'
+           mergeProfileAssets: task ':app:mergeProfileAssets'
+           mergeReleaseAssets: task ':app:mergeReleaseAssets'
+           modelRegistry: org.gradle.model.internal.registry.DefaultModelRegistry@a206900
+           modelSchemaStore: org.gradle.model.internal.manage.schema.extract.DefaultModelSchemaStore@5251efc1
+           module: org.gradle.api.internal.artifacts.ProjectBackedModule@5519612c
+           name: app
+           normalization: org.gradle.normalization.internal.DefaultInputNormalizationHandler_Decorated@2df0b9f4
+           objects: org.gradle.api.internal.model.DefaultObjectFactory@4db8eb43
+           org.gradle.jvmargs: -Xmx1536M
+           parent: root project 'android'
+           parentIdentifier: root project 'android'
+           path: :app
+           pluginManager: org.gradle.api.internal.plugins.DefaultPluginManager_Decorated@5b901854
+           plugins: [org.gradle.api.plugins.HelpTasksPlugin@5271024f, com.android.build.gradle.api.AndroidBasePlugin@7a662eec, org.gradle.language.base.plugins.LifecycleBasePlugin@700e3010, org.gradle.api.plugins.BasePlugin@2b07c4fd, org.gradle.api.plugins.ReportingBasePlugin@71bec8a8, org.gradle.api.plugins.JavaBasePlugin@3ae4993d, com.android.build.gradle.AppPlugin@3beba0c1, FlutterPlugin@2e5ebb6d, com.google.gms.googleservices.GoogleServicesPlugin@2922cd86]
+           processDebugGoogleServices: task ':app:processDebugGoogleServices'
+           processDebugResources: task ':app:processDebugResources'
+           processDynamicProfileGoogleServices: task ':app:processDynamicProfileGoogleServices'
+           processDynamicProfileResources: task ':app:processDynamicProfileResources'
+           processDynamicReleaseGoogleServices: task ':app:processDynamicReleaseGoogleServices'
+           processDynamicReleaseResources: task ':app:processDynamicReleaseResources'
+           processOperations: org.gradle.api.internal.file.DefaultFileOperations@1b774bc0
+           processProfileGoogleServices: task ':app:processProfileGoogleServices'
+           processProfileResources: task ':app:processProfileResources'
+           processReleaseGoogleServices: task ':app:processReleaseGoogleServices'
+           processReleaseResources: task ':app:processReleaseResources'
+           project: project ':app'
+           projectConfigurator: org.gradle.api.internal.project.BuildOperationCrossProjectConfigurator@371184ee
+           projectDir: C:\Users\Stan\Desktop\flutter_app_komeet\android\app
+           projectEvaluationBroadcaster: ProjectEvaluationListener broadcast
+           projectEvaluator: org.gradle.configuration.project.LifecycleProjectEvaluator@511ad765
+           projectPath: :app
+           projectRegistry: org.gradle.api.internal.project.DefaultProjectRegistry@a448bf8
+           properties: {...}
+           providers: org.gradle.api.internal.provider.DefaultProviderFactory@ecec0db
+           reporting: org.gradle.api.reporting.ReportingExtension_Decorated@35b529cb
+           reportsDir: C:\Users\Stan\Desktop\flutter_app_komeet\build\app\reports
+           repositories: repository container
+           resourceLoader: org.gradle.internal.resource.transfer.DefaultUriTextResourceLoader@eb8ed67
+           resources: org.gradle.api.internal.resources.DefaultResourceHandler@99eb22a
+           rootDir: C:\Users\Stan\Desktop\flutter_app_komeet\android
+           rootProject: root project 'android'
+           script: false
+           scriptHandlerFactory: org.gradle.api.internal.initialization.DefaultScriptHandlerFactory@272bf3aa
+           scriptPluginFactory: org.gradle.configuration.ScriptPluginFactorySelector@3b4c7df5
+           serviceRegistryFactory: org.gradle.internal.service.scopes.ProjectScopeServices$4@72566c2e
+           services: ProjectScopeServices
+           sourceCompatibility: 1.8
+           sourceSets: SourceSet container
+           standardOutputCapture: org.gradle.internal.logging.services.DefaultLoggingManager@5d9964e4
+           state: project state 'EXECUTED'
+           status: integration
+           subprojects: []
+           targetCompatibility: 1.8
+           tasks: task set
+           testReportDir: C:\Users\Stan\Desktop\flutter_app_komeet\build\app\reports\tests
+           testReportDirName: tests
+           testResultsDir: C:\Users\Stan\Desktop\flutter_app_komeet\build\app\test-results
+           testResultsDirName: test-results
+           version: unspecified
+           1 actionable task: 1 executed
+[   +3 ms] executing: [C:\Users\Stan\Desktop\flutter_app_komeet\android\] C:\Users\Stan\Desktop\flutter_app_komeet\android\gradlew.bat app:tasks --all --console=auto
+[+4083 ms] 
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey algo=cd C:\Users\Stan\Nextcloud\MON_REP_IUT\ALGO_PROG\C++\M1103  
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey iut=cd C:\Users\Stan\Nextcloud\MON_REP_IUT  
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey compile=g++ -std=c++14 *.cpp 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey run=a.exe 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey sudo=RUNAS /user:Stan cmd  
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey stan=cd C:\Users\Stan  
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey desk=cd C:\Users\Stan\Desktop  
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey codin=cd C:\Users\Stan\Nextcloud\MON_REP_IUT\CODIN 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey sql=cd C:\Program Files\sqldeveloper 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey ls=dir 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey clear=cls 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey x=exit 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey pc=C:\WINDOWS\explorer.exe ::{20D04FE0-3AEA-1069-A2D8-08002B30309D} 
+
+           C:\Users\Stan\Desktop\flutter_app_komeet\android>cls
+
+           > Configure project :app
+           WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
+           It will be removed at the end of 2018. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+           registerResGeneratingTask is deprecated, use registerGeneratedResFolders(FileCollection)
+           registerResGeneratingTask is deprecated, use registerGeneratedResFolders(FileCollection)
+           registerResGeneratingTask is deprecated, use registerGeneratedResFolders(FileCollection)
+           registerResGeneratingTask is deprecated, use registerGeneratedResFolders(FileCollection)
+           registerResGeneratingTask is deprecated, use registerGeneratedResFolders(FileCollection)
+           WARNING: API 'variant.getMergeAssets()' is obsolete and has been replaced with 'variant.getMergeAssetsProvider()'.
+           It will be removed at the end of 2019.
+           For more information, see https://d.android.com/r/tools/task-configuration-avoidance.
+           To determine what is calling variant.getMergeAssets(), use -Pandroid.debug.obsoleteApi=true on the command line to display a stack trace.
+           WARNING: API 'variantOutput.getProcessResources()' is obsolete and has been replaced with 'variantOutput.getProcessResourcesProvider()'.
+           It will be removed at the end of 2019.
+           For more information, see https://d.android.com/r/tools/task-configuration-avoidance.
+           To determine what is calling variantOutput.getProcessResources(), use -Pandroid.debug.obsoleteApi=true on the command line to display a stack trace.
+
+           > Task :app:tasks
+
+           ------------------------------------------------------------
+           All tasks runnable from project :app
+           ------------------------------------------------------------
+
+           Android tasks
+           -------------
+           androidDependencies - Displays the Android dependencies of the project.
+           signingReport - Displays the signing info for the base and test modules
+           sourceSets - Prints out all the source sets defined in this project.
+
+           Build tasks
+           -----------
+           assemble - Assemble main outputs for all the variants.
+           assembleAndroidTest - Assembles all the Test applications.
+           build - Assembles and tests this project.
+           buildDependents - Assembles and tests this project and all projects that depend on it.
+           buildNeeded - Assembles and tests this project and all projects it depends on.
+           bundle - Assemble bundles for all the variants.
+           clean - Deletes the build directory.
+           cleanBuildCache - Deletes the build cache directory.
+           compileDebugAndroidTestSources
+           compileDebugSources
+           compileDebugUnitTestSources
+           compileDynamicProfileSources
+           compileDynamicProfileUnitTestSources
+           compileDynamicReleaseSources
+           compileDynamicReleaseUnitTestSources
+           compileProfileSources
+           compileProfileUnitTestSources
+           compileReleaseSources
+           compileReleaseUnitTestSources
+
+           Cleanup tasks
+           -------------
+           lintFix - Runs lint on all variants and applies any safe suggestions to the source code.
+
+           Help tasks
+           ----------
+           buildEnvironment - Displays all buildscript dependencies declared in project ':app'.
+           components - Displays the components produced by project ':app'. [incubating]
+           dependencies - Displays all dependencies declared in project ':app'.
+           dependencyInsight - Displays the insight into a specific dependency in project ':app'.
+           dependentComponents - Displays the dependent components of components in project ':app'. [incubating]
+           help - Displays a help message.
+           model - Displays the configuration model of project ':app'. [incubating]
+           projects - Displays the sub-projects of project ':app'.
+           properties - Displays the properties of project ':app'.
+           tasks - Displays the tasks runnable from project ':app'.
+
+           Install tasks
+           -------------
+           installDebug - Installs the Debug build.
+           installDebugAndroidTest - Installs the android (on device) tests for the Debug build.
+           installDynamicProfile - Installs the DynamicProfile build.
+           installDynamicRelease - Installs the DynamicRelease build.
+           installProfile - Installs the Profile build.
+           installRelease - Installs the Release build.
+           uninstallAll - Uninstall all applications.
+           uninstallDebug - Uninstalls the Debug build.
+           uninstallDebugAndroidTest - Uninstalls the android (on device) tests for the Debug build.
+           uninstallDynamicProfile - Uninstalls the DynamicProfile build.
+           uninstallDynamicRelease - Uninstalls the DynamicRelease build.
+           uninstallProfile - Uninstalls the Profile build.
+           uninstallRelease - Uninstalls the Release build.
+
+           Verification tasks
+           ------------------
+           check - Runs all checks.
+           connectedAndroidTest - Installs and runs instrumentation tests for all flavors on connected devices.
+           connectedCheck - Runs all device checks on currently connected devices.
+           connectedDebugAndroidTest - Installs and runs the tests for debug on connected devices.
+           deviceAndroidTest - Installs and runs instrumentation tests using all Device Providers.
+           deviceCheck - Runs all device checks using Device Providers and Test Servers.
+           lint - Runs lint on all variants.
+           lintDebug - Runs lint on the Debug build.
+           lintDynamicProfile - Runs lint on the DynamicProfile build.
+           lintDynamicRelease - Runs lint on the DynamicRelease build.
+           lintProfile - Runs lint on the Profile build.
+           lintRelease - Runs lint on the Release build.
+           lintVitalRelease - Runs lint on just the fatal issues in the release build.
+           test - Run unit tests for all variants.
+           testDebugUnitTest - Run unit tests for the debug build.
+           testDynamicProfileUnitTest - Run unit tests for the dynamicProfile build.
+           testDynamicReleaseUnitTest - Run unit tests for the dynamicRelease build.
+           testProfileUnitTest - Run unit tests for the profile build.
+           testReleaseUnitTest - Run unit tests for the release build.
+
+           Other tasks
+           -----------
+           assembleDebug - Assembles main output for variant debug
+           assembleDebugAndroidTest - Assembles main output for variant debugAndroidTest
+           assembleDebugUnitTest - Assembles main output for variant debugUnitTest
+           assembleDynamicProfile - Assembles main output for variant dynamicProfile
+           assembleDynamicProfileUnitTest - Assembles main output for variant dynamicProfileUnitTest
+           assembleDynamicRelease - Assembles main output for variant dynamicRelease
+           assembleDynamicReleaseUnitTest - Assembles main output for variant dynamicReleaseUnitTest
+           assembleProfile - Assembles main output for variant profile
+           assembleProfileUnitTest - Assembles main output for variant profileUnitTest
+           assembleRelease - Assembles main output for variant release
+           assembleReleaseUnitTest - Assembles main output for variant releaseUnitTest
+           buildDebugPreBundle
+           buildDynamicProfilePreBundle
+           buildDynamicReleasePreBundle
+           buildProfilePreBundle
+           buildReleasePreBundle
+           bundleDebug - Assembles bundle for variant debug
+           bundleDebugAndroidTestClasses
+           bundleDebugAndroidTestResources
+           bundleDebugClasses
+           bundleDebugResources
+           bundleDebugUnitTestClasses
+           bundleDynamicProfile - Assembles bundle for variant dynamicProfile
+           bundleDynamicProfileClasses
+           bundleDynamicProfileResources
+           bundleDynamicProfileUnitTestClasses
+           bundleDynamicRelease - Assembles bundle for variant dynamicRelease
+           bundleDynamicReleaseClasses
+           bundleDynamicReleaseResources
+           bundleDynamicReleaseUnitTestClasses
+           bundleProfile - Assembles bundle for variant profile
+           bundleProfileClasses
+           bundleProfileResources
+           bundleProfileUnitTestClasses
+           bundleRelease - Assembles bundle for variant release
+           bundleReleaseClasses
+           bundleReleaseResources
+           bundleReleaseUnitTestClasses
+           checkDebugManifest
+           checkDynamicProfileManifest
+           checkDynamicReleaseManifest
+           checkProfileManifest
+           checkReleaseManifest
+           compileDebugAidl
+           compileDebugAndroidTestAidl
+           compileDebugAndroidTestJavaWithJavac
+           compileDebugAndroidTestNdk
+           compileDebugAndroidTestRenderscript
+           compileDebugAndroidTestShaders
+           compileDebugJavaWithJavac
+           compileDebugNdk
+           compileDebugRenderscript
+           compileDebugShaders
+           compileDebugUnitTestJavaWithJavac
+           compileDynamicProfileAidl
+           compileDynamicProfileJavaWithJavac
+           compileDynamicProfileNdk
+           compileDynamicProfileRenderscript
+           compileDynamicProfileShaders
+           compileDynamicProfileUnitTestJavaWithJavac
+           compileDynamicReleaseAidl
+           compileDynamicReleaseJavaWithJavac
+           compileDynamicReleaseNdk
+           compileDynamicReleaseRenderscript
+           compileDynamicReleaseShaders
+           compileDynamicReleaseUnitTestJavaWithJavac
+           compileLint
+           compileProfileAidl
+           compileProfileJavaWithJavac
+           compileProfileNdk
+           compileProfileRenderscript
+           compileProfileShaders
+           compileProfileUnitTestJavaWithJavac
+           compileReleaseAidl
+           compileReleaseJavaWithJavac
+           compileReleaseNdk
+           compileReleaseRenderscript
+           compileReleaseShaders
+           compileReleaseUnitTestJavaWithJavac
+           consumeConfigAttr
+           copyFlutterAssetsDebug
+           copyFlutterAssetsDynamicProfile
+           copyFlutterAssetsDynamicRelease
+           copyFlutterAssetsProfile
+           copyFlutterAssetsRelease
+           createDebugCompatibleScreenManifests
+           createDynamicProfileCompatibleScreenManifests
+           createDynamicReleaseCompatibleScreenManifests
+           createMockableJar
+           createProfileCompatibleScreenManifests
+           createReleaseCompatibleScreenManifests
+           extractApksForDebug
+           extractApksForDynamicProfile
+           extractApksForDynamicRelease
+           extractApksForProfile
+           extractApksForRelease
+           extractProguardFiles
+           flutterBuildDebug
+           flutterBuildDynamicProfile
+           flutterBuildDynamicRelease
+           flutterBuildProfile
+           flutterBuildRelease
+           flutterBuildX86Jar
+           generateDebugAndroidTestAssets
+           generateDebugAndroidTestBuildConfig
+           generateDebugAndroidTestResources
+           generateDebugAndroidTestResValues
+           generateDebugAndroidTestSources
+           generateDebugAssets
+           generateDebugBuildConfig
+           generateDebugFeatureMetadata
+           generateDebugFeatureTransitiveDeps
+           generateDebugResources
+           generateDebugResValues
+           generateDebugSources
+           generateDebugUnitTestAssets
+           generateDebugUnitTestResources
+           generateDebugUnitTestSources
+           generateDynamicProfileAssets
+           generateDynamicProfileBuildConfig
+           generateDynamicProfileFeatureMetadata
+           generateDynamicProfileFeatureTransitiveDeps
+           generateDynamicProfileResources
+           generateDynamicProfileResValues
+           generateDynamicProfileSources
+           generateDynamicProfileUnitTestAssets
+           generateDynamicProfileUnitTestResources
+           generateDynamicProfileUnitTestSources
+           generateDynamicReleaseAssets
+           generateDynamicReleaseBuildConfig
+           generateDynamicReleaseFeatureMetadata
+           generateDynamicReleaseFeatureTransitiveDeps
+           generateDynamicReleaseResources
+           generateDynamicReleaseResValues
+           generateDynamicReleaseSources
+           generateDynamicReleaseUnitTestAssets
+           generateDynamicReleaseUnitTestResources
+           generateDynamicReleaseUnitTestSources
+           generateProfileAssets
+           generateProfileBuildConfig
+           generateProfileFeatureMetadata
+           generateProfileFeatureTransitiveDeps
+           generateProfileResources
+           generateProfileResValues
+           generateProfileSources
+           generateProfileUnitTestAssets
+           generateProfileUnitTestResources
+           generateProfileUnitTestSources
+           generateReleaseAssets
+           generateReleaseBuildConfig
+           generateReleaseFeatureMetadata
+           generateReleaseFeatureTransitiveDeps
+           generateReleaseResources
+           generateReleaseResValues
+           generateReleaseSources
+           generateReleaseUnitTestAssets
+           generateReleaseUnitTestResources
+           generateReleaseUnitTestSources
+           javaPreCompileDebug
+           javaPreCompileDebugAndroidTest
+           javaPreCompileDebugUnitTest
+           javaPreCompileDynamicProfile
+           javaPreCompileDynamicProfileUnitTest
+           javaPreCompileDynamicRelease
+           javaPreCompileDynamicReleaseUnitTest
+           javaPreCompileProfile
+           javaPreCompileProfileUnitTest
+           javaPreCompileRelease
+           javaPreCompileReleaseUnitTest
+           mainApkListPersistenceDebug
+           mainApkListPersistenceDebugAndroidTest
+           mainApkListPersistenceDynamicProfile
+           mainApkListPersistenceDynamicRelease
+           mainApkListPersistenceProfile
+           mainApkListPersistenceRelease
+           makeApkFromBundleForDebug
+           makeApkFromBundleForDynamicProfile
+           makeApkFromBundleForDynamicRelease
+           makeApkFromBundleForProfile
+           makeApkFromBundleForRelease
+           mergeDebugAndroidTestAssets
+           mergeDebugAndroidTestJniLibFolders
+           mergeDebugAndroidTestResources
+           mergeDebugAndroidTestShaders
+           mergeDebugAssets
+           mergeDebugJniLibFolders
+           mergeDebugResources
+           mergeDebugShaders
+           mergeDynamicProfileAssets
+           mergeDynamicProfileJniLibFolders
+           mergeDynamicProfileResources
+           mergeDynamicProfileShaders
+           mergeDynamicReleaseAssets
+           mergeDynamicReleaseJniLibFolders
+           mergeDynamicReleaseResources
+           mergeDynamicReleaseShaders
+           mergeProfileAssets
+           mergeProfileJniLibFolders
+           mergeProfileResources
+           mergeProfileShaders
+           mergeReleaseAssets
+           mergeReleaseJniLibFolders
+           mergeReleaseResources
+           mergeReleaseShaders
+           packageDebug
+           packageDebugAndroidTest
+           packageDebugBundle
+           packageDebugUniversalApk
+           packageDynamicProfile
+           packageDynamicProfileBundle
+           packageDynamicProfileUniversalApk
+           packageDynamicRelease
+           packageDynamicReleaseBundle
+           packageDynamicReleaseUniversalApk
+           packageProfile
+           packageProfileBundle
+           packageProfileUniversalApk
+           packageRelease
+           packageReleaseBundle
+           packageReleaseUniversalApk
+           preBuild
+           preDebugAndroidTestBuild
+           preDebugBuild
+           preDebugUnitTestBuild
+           preDynamicProfileBuild
+           preDynamicProfileUnitTestBuild
+           preDynamicReleaseBuild
+           preDynamicReleaseUnitTestBuild
+           prepareLintJar
+           preProfileBuild
+           preProfileUnitTestBuild
+           preReleaseBuild
+           preReleaseUnitTestBuild
+           processDebugAndroidTestJavaRes
+           processDebugAndroidTestManifest
+           processDebugAndroidTestResources
+           processDebugGoogleServices
+           processDebugJavaRes
+           processDebugManifest
+           processDebugResources
+           processDebugUnitTestJavaRes
+           processDynamicProfileGoogleServices
+           processDynamicProfileJavaRes
+           processDynamicProfileManifest
+           processDynamicProfileResources
+           processDynamicProfileUnitTestJavaRes
+           processDynamicReleaseGoogleServices
+           processDynamicReleaseJavaRes
+           processDynamicReleaseManifest
+           processDynamicReleaseResources
+           processDynamicReleaseUnitTestJavaRes
+           processProfileGoogleServices
+           processProfileJavaRes
+           processProfileManifest
+           processProfileResources
+           processProfileUnitTestJavaRes
+           processReleaseGoogleServices
+           processReleaseJavaRes
+           processReleaseManifest
+           processReleaseResources
+           processReleaseUnitTestJavaRes
+           reportBuildArtifactsDebug
+           reportBuildArtifactsDynamicProfile
+           reportBuildArtifactsDynamicRelease
+           reportBuildArtifactsProfile
+           reportBuildArtifactsRelease
+           reportSourceSetTransformAndroidTest
+           reportSourceSetTransformAndroidTestDebug
+           reportSourceSetTransformDebug
+           reportSourceSetTransformDynamicProfile
+           reportSourceSetTransformDynamicRelease
+           reportSourceSetTransformMain
+           reportSourceSetTransformProfile
+           reportSourceSetTransformRelease
+           reportSourceSetTransformTest
+           reportSourceSetTransformTestDebug
+           reportSourceSetTransformTestDynamicProfile
+           reportSourceSetTransformTestDynamicRelease
+           reportSourceSetTransformTestProfile
+           reportSourceSetTransformTestRelease
+           resolveConfigAttr
+           signingConfigWriterDebug
+           signingConfigWriterDebugAndroidTest
+           signingConfigWriterDynamicProfile
+           signingConfigWriterDynamicRelease
+           signingConfigWriterProfile
+           signingConfigWriterRelease
+           transformClassesWithDexBuilderForDebug
+           transformClassesWithDexBuilderForDebugAndroidTest
+           transformClassesWithDexBuilderForDynamicProfile
+           transformClassesWithDexBuilderForDynamicRelease
+           transformClassesWithDexBuilderForProfile
+           transformClassesWithDexBuilderForRelease
+           transformClassesWithMultidexlistForDebug
+           transformClassesWithMultidexlistForDebugAndroidTest
+           transformClassesWithMultidexlistForDynamicProfile
+           transformClassesWithMultidexlistForDynamicRelease
+           transformClassesWithMultidexlistForProfile
+           transformClassesWithMultidexlistForRelease
+           transformDexArchiveWithDexMergerForDebug
+           transformDexArchiveWithDexMergerForDebugAndroidTest
+           transformDexArchiveWithDexMergerForDynamicProfile
+           transformDexArchiveWithDexMergerForDynamicRelease
+           transformDexArchiveWithDexMergerForProfile
+           transformDexArchiveWithDexMergerForRelease
+           transformNativeLibsWithMergeJniLibsForDebug
+           transformNativeLibsWithMergeJniLibsForDebugAndroidTest
+           transformNativeLibsWithMergeJniLibsForDynamicProfile
+           transformNativeLibsWithMergeJniLibsForDynamicRelease
+           transformNativeLibsWithMergeJniLibsForProfile
+           transformNativeLibsWithMergeJniLibsForRelease
+           transformResourcesWithMergeJavaResForDebug
+           transformResourcesWithMergeJavaResForDebugAndroidTest
+           transformResourcesWithMergeJavaResForDebugUnitTest
+           transformResourcesWithMergeJavaResForDynamicProfile
+           transformResourcesWithMergeJavaResForDynamicProfileUnitTest
+           transformResourcesWithMergeJavaResForDynamicRelease
+           transformResourcesWithMergeJavaResForDynamicReleaseUnitTest
+           transformResourcesWithMergeJavaResForProfile
+           transformResourcesWithMergeJavaResForProfileUnitTest
+           transformResourcesWithMergeJavaResForRelease
+           transformResourcesWithMergeJavaResForReleaseUnitTest
+           validateSigningDebug
+           validateSigningDebugAndroidTest
+           validateSigningDynamicProfile
+           validateSigningDynamicRelease
+           validateSigningProfile
+           validateSigningRelease
+           writeDebugApplicationId
+           writeDebugModuleMetadata
+           writeDynamicProfileApplicationId
+           writeDynamicProfileModuleMetadata
+           writeDynamicReleaseApplicationId
+           writeDynamicReleaseModuleMetadata
+           writeProfileApplicationId
+           writeProfileModuleMetadata
+           writeReleaseApplicationId
+           writeReleaseModuleMetadata
+
+           Rules
+           -----
+           Pattern: clean<TaskName>: Cleans the output files of a task.
+           Pattern: build<ConfigurationName>: Assembles the artifacts of a configuration.
+           Pattern: upload<ConfigurationName>: Assembles and uploads the artifacts belonging to a configuration.
+           1 actionable task: 1 executed
+[  +11 ms] Resolving dependencies... (completed in 8,2s)
+[   +1 ms] executing: C:\Users\Stan\AppData\Local\Android\Sdk\build-tools\28.0.3\aapt dump xmltree C:\Users\Stan\Desktop\flutter_app_komeet\build\app\outputs\apk\app.apk AndroidManifest.xml
+[  +29 ms] Exit code 0 from: C:\Users\Stan\AppData\Local\Android\Sdk\build-tools\28.0.3\aapt dump xmltree C:\Users\Stan\Desktop\flutter_app_komeet\build\app\outputs\apk\app.apk AndroidManifest.xml
+[        ] N: android=http://schemas.android.com/apk/res/android
+             E: manifest (line=2)
+               A: android:versionCode(0x0101021b)=(type 0x10)0x1
+               A: android:versionName(0x0101021c)="1.0.0" (Raw: "1.0.0")
+               A: android:compileSdkVersion(0x01010572)=(type 0x10)0x1c
+               A: android:compileSdkVersionCodename(0x01010573)="9" (Raw: "9")
+               A: package="komeet_release.flutter_app_komeet" (Raw: "komeet_release.flutter_app_komeet")
+               A: platformBuildVersionCode=(type 0x10)0x1c
+               A: platformBuildVersionName=(type 0x10)0x9
+               E: uses-sdk (line=7)
+                 A: android:minSdkVersion(0x0101020c)=(type 0x10)0x10
+                 A: android:targetSdkVersion(0x01010270)=(type 0x10)0x1c
+               E: uses-permission (line=14)
+                 A: android:name(0x01010003)="android.permission.INTERNET" (Raw: "android.permission.INTERNET")
+               E: uses-permission (line=15)
+                 A: android:name(0x01010003)="android.permission.READ_EXTERNAL_STORAGE" (Raw: "android.permission.READ_EXTERNAL_STORAGE")
+               E: uses-permission (line=16)
+                 A: android:name(0x01010003)="android.permission.WRITE_EXTERNAL_STORAGE" (Raw: "android.permission.WRITE_EXTERNAL_STORAGE")
+               E: uses-permission (line=17)
+                 A: android:name(0x01010003)="android.permission.CAMERA" (Raw: "android.permission.CAMERA")
+               E: uses-permission (line=18)
+                 A: android:name(0x01010003)="android.permission.ACCESS_NETWORK_STATE" (Raw: "android.permission.ACCESS_NETWORK_STATE")
+               E: uses-permission (line=19)
+                 A: android:name(0x01010003)="android.permission.WAKE_LOCK" (Raw: "android.permission.WAKE_LOCK")
+               E: uses-permission (line=20)
+                 A: android:name(0x01010003)="com.google.android.c2dm.permission.RECEIVE" (Raw: "com.google.android.c2dm.permission.RECEIVE")
+               E: uses-permission (line=21)
+                 A: android:name(0x01010003)="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" (Raw: "com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE")
+               E: application (line=29)
+                 A: android:label(0x01010001)="Komeet" (Raw: "Komeet")
+                 A: android:icon(0x01010002)=@0x7f0a0000
+                 A: android:name(0x01010003)="io.flutter.app.FlutterApplication" (Raw: "io.flutter.app.FlutterApplication")
+                 A: android:debuggable(0x0101000f)=(type 0x12)0xffffffff
+                 E: activity (line=34)
+                   A: android:theme(0x01010000)=@0x7f0c00a3
+                   A: android:name(0x01010003)="komeet_release.flutter_app_komeet.MainActivity" (Raw: "komeet_release.flutter_app_komeet.MainActivity")
+                   A: android:launchMode(0x0101001d)=(type 0x10)0x1
+                   A: android:configChanges(0x0101001f)=(type 0x11)0x400037b4
+                   A: android:windowSoftInputMode(0x0101022b)=(type 0x11)0x10
+                   A: android:hardwareAccelerated(0x010102d3)=(type 0x12)0xffffffff
+                   E: meta-data (line=48)
+                     A: android:name(0x01010003)="io.flutter.app.android.SplashScreenUntilFirstFrame" (Raw: "io.flutter.app.android.SplashScreenUntilFirstFrame")
+                     A: android:value(0x01010024)=(type 0x12)0xffffffff
+                   E: intent-filter (line=52)
+                     E: action (line=53)
+                       A: android:name(0x01010003)="android.intent.action.MAIN" (Raw: "android.intent.action.MAIN")
+                     E: category (line=55)
+                       A: android:name(0x01010003)="android.intent.category.LAUNCHER" (Raw: "android.intent.category.LAUNCHER")
+                 E: provider (line=59)
+                   A: android:name(0x01010003)="io.flutter.plugins.imagepicker.ImagePickerFileProvider" (Raw: "io.flutter.plugins.imagepicker.ImagePickerFileProvider")
+                   A: android:exported(0x01010010)=(type 0x12)0x0
+                   A: android:authorities(0x01010018)="komeet_release.flutter_app_komeet.flutter.image_provider" (Raw: "komeet_release.flutter_app_komeet.flutter.image_provider")
+                   A: android:grantUriPermissions(0x0101001b)=(type 0x12)0xffffffff
+                   E: meta-data (line=64)
+                     A: android:name(0x01010003)="android.support.FILE_PROVIDER_PATHS" (Raw: "android.support.FILE_PROVIDER_PATHS")
+                     A: android:resource(0x01010025)=@0x7f0e0000
+                 E: activity (line=69)
+                   A: android:theme(0x01010000)=@0x1030010
+                   A: android:name(0x01010003)="com.google.firebase.auth.internal.FederatedSignInActivity" (Raw: "com.google.firebase.auth.internal.FederatedSignInActivity")
+                   A: android:permission(0x01010006)="com.google.firebase.auth.api.gms.permission.LAUNCH_FEDERATED_SIGN_IN" (Raw: "com.google.firebase.auth.api.gms.permission.LAUNCH_FEDERATED_SIGN_IN")
+                   A: android:exported(0x01010010)=(type 0x12)0xffffffff
+                   A: android:excludeFromRecents(0x01010017)=(type 0x12)0xffffffff
+                   A: android:launchMode(0x0101001d)=(type 0x10)0x2
+                 E: service (line=77)
+                   A: android:name(0x01010003)="com.google.firebase.components.ComponentDiscoveryService" (Raw: "com.google.firebase.components.ComponentDiscoveryService")
+                   A: android:exported(0x01010010)=(type 0x12)0x0
+                   E: meta-data (line=80)
+                     A: android:name(0x01010003)="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar" (Raw: "com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar")
+                     A: android:value(0x01010024)="com.google.firebase.components.ComponentRegistrar" (Raw: "com.google.firebase.components.ComponentRegistrar")
+                   E: meta-data (line=83)
+                     A: android:name(0x01010003)="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar" (Raw: "com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar")
+                     A: android:value(0x01010024)="com.google.firebase.components.ComponentRegistrar" (Raw: "com.google.firebase.components.ComponentRegistrar")
+                   E: meta-data (line=86)
+                     A: android:name(0x01010003)="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar" (Raw: "com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar")
+                     A: android:value(0x01010024)="com.google.firebase.components.ComponentRegistrar" (Raw: "com.google.firebase.components.ComponentRegistrar")
+                   E: meta-data (line=89)
+                     A: android:name(0x01010003)="com.google.firebase.components:com.google.firebase.iid.Registrar" (Raw: "com.google.firebase.components:com.google.firebase.iid.Registrar")
+                     A: android:value(0x01010024)="com.google.firebase.components.ComponentRegistrar" (Raw: "com.google.firebase.components.ComponentRegistrar")
+                 E: activity (line=94)
+                   A: android:theme(0x01010000)=@0x1030010
+                   A: android:name(0x01010003)="com.google.android.gms.auth.api.signin.internal.SignInHubActivity" (Raw: "com.google.android.gms.auth.api.signin.internal.SignInHubActivity")
+                   A: android:exported(0x01010010)=(type 0x12)0x0
+                   A: android:excludeFromRecents(0x01010017)=(type 0x12)0xffffffff
+                 E: service (line=103)
+                   A: android:name(0x01010003)="com.google.android.gms.auth.api.signin.RevocationBoundService" (Raw: "com.google.android.gms.auth.api.signin.RevocationBoundService")
+                   A: android:permission(0x01010006)="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION" (Raw: "com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION")
+                   A: android:exported(0x01010010)=(type 0x12)0xffffffff
+                 E: meta-data (line=108)
+                   A: android:name(0x01010003)="android.support.VERSION" (Raw: "android.support.VERSION")
+                   A: android:value(0x01010024)="26.1.0" (Raw: "26.1.0")
+                 E: receiver (line=112)
+                   A: android:name(0x01010003)="com.google.firebase.iid.FirebaseInstanceIdReceiver" (Raw: "com.google.firebase.iid.FirebaseInstanceIdReceiver")
+                   A: android:permission(0x01010006)="com.google.android.c2dm.permission.SEND" (Raw: "com.google.android.c2dm.permission.SEND")
+                   A: android:exported(0x01010010)=(type 0x12)0xffffffff
+                   E: intent-filter (line=116)
+                     E: action (line=117)
+                       A: android:name(0x01010003)="com.google.android.c2dm.intent.RECEIVE" (Raw: "com.google.android.c2dm.intent.RECEIVE")
+                 E: service (line=124)
+                   A: android:name(0x01010003)="com.google.firebase.iid.FirebaseInstanceIdService" (Raw: "com.google.firebase.iid.FirebaseInstanceIdService")
+                   A: android:exported(0x01010010)=(type 0x12)0xffffffff
+                   E: intent-filter (line=127)
+                     A: android:priority(0x0101001c)=(type 0x10)0xfffffe0c
+                     E: action (line=128)
+                       A: android:name(0x01010003)="com.google.firebase.INSTANCE_ID_EVENT" (Raw: "com.google.firebase.INSTANCE_ID_EVENT")
+                 E: activity (line=132)
+                   A: android:theme(0x01010000)=@0x1030010
+                   A: android:name(0x01010003)="com.google.android.gms.common.api.GoogleApiActivity" (Raw: "com.google.android.gms.common.api.GoogleApiActivity")
+                   A: android:exported(0x01010010)=(type 0x12)0x0
+                 E: provider (line=137)
+                   A: android:name(0x01010003)="com.google.firebase.provider.FirebaseInitProvider" (Raw: "com.google.firebase.provider.FirebaseInitProvider")
+                   A: android:exported(0x01010010)=(type 0x12)0x0
+                   A: android:authorities(0x01010018)="komeet_release.flutter_app_komeet.firebaseinitprovider" (Raw: "komeet_release.flutter_app_komeet.firebaseinitprovider")
+                   A: android:initOrder(0x0101001a)=(type 0x10)0x64
+                 E: receiver (line=143)
+                   A: android:name(0x01010003)="com.google.android.gms.measurement.AppMeasurementReceiver" (Raw: "com.google.android.gms.measurement.AppMeasurementReceiver")
+                   A: android:enabled(0x0101000e)=(type 0x12)0xffffffff
+                   A: android:exported(0x01010010)=(type 0x12)0x0
+                 E: receiver (line=148)
+                   A: android:name(0x01010003)="com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver" (Raw: "com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver")
+                   A: android:permission(0x01010006)="android.permission.INSTALL_PACKAGES" (Raw: "android.permission.INSTALL_PACKAGES")
+                   A: android:enabled(0x0101000e)=(type 0x12)0xffffffff
+                   A: android:exported(0x01010010)=(type 0x12)0xffffffff
+                   E: intent-filter (line=153)
+                     E: action (line=154)
+                       A: android:name(0x01010003)="com.android.vending.INSTALL_REFERRER" (Raw: "com.android.vending.INSTALL_REFERRER")
+                 E: service (line=158)
+                   A: android:name(0x01010003)="com.google.android.gms.measurement.AppMeasurementService" (Raw: "com.google.android.gms.measurement.AppMeasurementService")
+                   A: android:enabled(0x0101000e)=(type 0x12)0xffffffff
+                   A: android:exported(0x01010010)=(type 0x12)0x0
+                 E: service (line=162)
+                   A: android:name(0x01010003)="com.google.android.gms.measurement.AppMeasurementJobService" (Raw: "com.google.android.gms.measurement.AppMeasurementJobService")
+                   A: android:permission(0x01010006)="android.permission.BIND_JOB_SERVICE" (Raw: "android.permission.BIND_JOB_SERVICE")
+                   A: android:enabled(0x0101000e)=(type 0x12)0xffffffff
+                   A: android:exported(0x01010010)=(type 0x12)0x0
+                 E: meta-data (line=168)
+                   A: android:name(0x01010003)="com.google.android.gms.version" (Raw: "com.google.android.gms.version")
+                   A: android:value(0x01010024)=@0x7f080004
+[  +14 ms] executing: C:\Users\Stan\AppData\Local\Android\Sdk\platform-tools\adb.exe -s emulator-5554 shell -x logcat -v time -t 1
+[  +78 ms] Exit code 0 from: C:\Users\Stan\AppData\Local\Android\Sdk\platform-tools\adb.exe -s emulator-5554 shell -x logcat -v time -t 1
+[        ] --------- beginning of main
+           06-03 14:13:24.502 W/android.os.Debug( 1877): failed to get memory consumption info: -1
+[   +2 ms] executing: C:\Users\Stan\AppData\Local\Android\Sdk\platform-tools\adb.exe -s emulator-5554 shell -x logcat -v time
+[   +4 ms] executing: C:\Users\Stan\AppData\Local\Android\Sdk\platform-tools\adb.exe version
+[  +57 ms] Android Debug Bridge version 1.0.41
+           Version 28.0.3-5475833
+           Installed as C:\Users\Stan\AppData\Local\Android\Sdk\platform-tools\adb.exe
+[   +4 ms] executing: C:\Users\Stan\AppData\Local\Android\Sdk\platform-tools\adb.exe start-server
+[  +52 ms] Building APK
+[  +40 ms] Running Gradle task 'assembleDebug'...
+[   +3 ms] executing: [C:\Users\Stan\Desktop\flutter_app_komeet\android\] C:\Users\Stan\Desktop\flutter_app_komeet\android\gradlew.bat -Pverbose=true -Ptarget=C:\Users\Stan\Desktop\flutter_app_komeet\lib/main.dart -Ptrack-widget-creation=false -Pcompilation-trace-file=compilation.txt -Pfilesystem-scheme=org-dartlang-root assembleDebug
+[  +43 ms] C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey algo=cd C:\Users\Stan\Nextcloud\MON_REP_IUT\ALGO_PROG\C++\M1103  
+[   +9 ms] C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey iut=cd C:\Users\Stan\Nextcloud\MON_REP_IUT  
+[  +20 ms] C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey compile=g++ -std=c++14 *.cpp 
+[  +33 ms] C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey run=a.exe 
+[  +24 ms] C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey sudo=RUNAS /user:Stan cmd  
+[  +23 ms] C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey stan=cd C:\Users\Stan  
+[  +31 ms] C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey desk=cd C:\Users\Stan\Desktop  
+[  +22 ms] C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey codin=cd C:\Users\Stan\Nextcloud\MON_REP_IUT\CODIN 
+[  +21 ms] C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey sql=cd C:\Program Files\sqldeveloper 
+[  +44 ms] C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey ls=dir 
+[  +21 ms] C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey clear=cls 
+[  +19 ms] C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey x=exit 
+[  +25 ms] C:\Users\Stan\Desktop\flutter_app_komeet\android>doskey pc=C:\WINDOWS\explorer.exe ::{20D04FE0-3AEA-1069-A2D8-08002B30309D} 
+[  +15 ms] C:\Users\Stan\Desktop\flutter_app_komeet\android>cls
+[+4335 ms] > Configure project :app
+[        ] WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
+[        ] It will be removed at the end of 2018. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+[        ] registerResGeneratingTask is deprecated, use registerGeneratedResFolders(FileCollection)
+[        ] registerResGeneratingTask is deprecated, use registerGeneratedResFolders(FileCollection)
+[        ] registerResGeneratingTask is deprecated, use registerGeneratedResFolders(FileCollection)
+[        ] registerResGeneratingTask is deprecated, use registerGeneratedResFolders(FileCollection)
+[        ] registerResGeneratingTask is deprecated, use registerGeneratedResFolders(FileCollection)
+[        ] WARNING: API 'variant.getMergeAssets()' is obsolete and has been replaced with 'variant.getMergeAssetsProvider()'.
+[        ] It will be removed at the end of 2019.
+[        ] For more information, see https://d.android.com/r/tools/task-configuration-avoidance.
+[        ] To determine what is calling variant.getMergeAssets(), use -Pandroid.debug.obsoleteApi=true on the command line to display a stack trace.
+[        ] WARNING: API 'variantOutput.getProcessResources()' is obsolete and has been replaced with 'variantOutput.getProcessResourcesProvider()'.
+[        ] It will be removed at the end of 2019.
+[        ] For more information, see https://d.android.com/r/tools/task-configuration-avoidance.
+[        ] To determine what is calling variantOutput.getProcessResources(), use -Pandroid.debug.obsoleteApi=true on the command line to display a stack trace.
+[ +693 ms] > Task :app:flutterBuildX86Jar UP-TO-DATE
+[   +1 ms] > Task :app:preBuild UP-TO-DATE
+[        ] > Task :cloud_firestore:preBuild UP-TO-DATE
+[   +1 ms] > Task :cloud_firestore:preDebugBuild UP-TO-DATE
+[        ] > Task :cloud_firestore:checkDebugManifest UP-TO-DATE
+[        ] > Task :cloud_firestore:processDebugManifest UP-TO-DATE
+[        ] > Task :firebase_auth:preBuild UP-TO-DATE
+[   +3 ms] > Task :firebase_auth:preDebugBuild UP-TO-DATE
+[   +1 ms] > Task :firebase_auth:checkDebugManifest UP-TO-DATE
+[        ] > Task :firebase_auth:processDebugManifest UP-TO-DATE
+[        ] > Task :firebase_core:preBuild UP-TO-DATE
+[        ] > Task :firebase_core:preDebugBuild UP-TO-DATE
+[        ] > Task :firebase_core:checkDebugManifest UP-TO-DATE
+[        ] > Task :firebase_core:processDebugManifest UP-TO-DATE
+[        ] > Task :firebase_storage:preBuild UP-TO-DATE
+[        ] > Task :firebase_storage:preDebugBuild UP-TO-DATE
+[        ] > Task :firebase_storage:checkDebugManifest UP-TO-DATE
+[        ] > Task :firebase_storage:processDebugManifest UP-TO-DATE
+[        ] > Task :fluttertoast:preBuild UP-TO-DATE
+[        ] > Task :fluttertoast:preDebugBuild UP-TO-DATE
+[        ] > Task :fluttertoast:checkDebugManifest UP-TO-DATE
+[        ] > Task :fluttertoast:processDebugManifest UP-TO-DATE
+[        ] > Task :google_sign_in:preBuild UP-TO-DATE
+[        ] > Task :google_sign_in:preDebugBuild UP-TO-DATE
+[        ] > Task :google_sign_in:checkDebugManifest UP-TO-DATE
+[        ] > Task :google_sign_in:processDebugManifest UP-TO-DATE
+[        ] > Task :image_picker:preBuild UP-TO-DATE
+[   +1 ms] > Task :image_picker:preDebugBuild UP-TO-DATE
+[        ] > Task :image_picker:checkDebugManifest UP-TO-DATE
+[        ] > Task :image_picker:processDebugManifest UP-TO-DATE
+[        ] > Task :path_provider:preBuild UP-TO-DATE
+[        ] > Task :path_provider:preDebugBuild UP-TO-DATE
+[   +1 ms] > Task :path_provider:checkDebugManifest UP-TO-DATE
+[  +78 ms] > Task :path_provider:processDebugManifest UP-TO-DATE
+[   +1 ms] > Task :shared_preferences:preBuild UP-TO-DATE
+[        ] > Task :shared_preferences:preDebugBuild UP-TO-DATE
+[        ] > Task :shared_preferences:checkDebugManifest UP-TO-DATE
+[        ] > Task :shared_preferences:processDebugManifest UP-TO-DATE
+[        ] > Task :sqflite:preBuild UP-TO-DATE
+[        ] > Task :sqflite:preDebugBuild UP-TO-DATE
+[        ] > Task :sqflite:checkDebugManifest UP-TO-DATE
+[        ] > Task :sqflite:processDebugManifest UP-TO-DATE
+[ +296 ms] > Task :app:preDebugBuild UP-TO-DATE
+[        ] > Task :cloud_firestore:compileDebugAidl NO-SOURCE
+[        ] > Task :firebase_auth:compileDebugAidl NO-SOURCE
+[        ] > Task :firebase_core:compileDebugAidl NO-SOURCE
+[        ] > Task :firebase_storage:compileDebugAidl NO-SOURCE
+[        ] > Task :fluttertoast:compileDebugAidl NO-SOURCE
+[        ] > Task :google_sign_in:compileDebugAidl NO-SOURCE
+[        ] > Task :image_picker:compileDebugAidl NO-SOURCE
+[        ] > Task :path_provider:compileDebugAidl NO-SOURCE
+[        ] > Task :shared_preferences:compileDebugAidl NO-SOURCE
+[        ] > Task :sqflite:compileDebugAidl NO-SOURCE
+[        ] > Task :app:compileDebugAidl NO-SOURCE
+[        ] > Task :cloud_firestore:packageDebugRenderscript NO-SOURCE
+[        ] > Task :firebase_auth:packageDebugRenderscript NO-SOURCE
+[        ] > Task :firebase_core:packageDebugRenderscript NO-SOURCE
+[        ] > Task :firebase_storage:packageDebugRenderscript NO-SOURCE
+[        ] > Task :fluttertoast:packageDebugRenderscript NO-SOURCE
+[        ] > Task :google_sign_in:packageDebugRenderscript NO-SOURCE
+[        ] > Task :image_picker:packageDebugRenderscript NO-SOURCE
+[        ] > Task :path_provider:packageDebugRenderscript NO-SOURCE
+[        ] > Task :shared_preferences:packageDebugRenderscript NO-SOURCE
+[        ] > Task :sqflite:packageDebugRenderscript NO-SOURCE
+[        ] > Task :app:compileDebugRenderscript UP-TO-DATE
+[        ] > Task :app:checkDebugManifest UP-TO-DATE
+[        ] > Task :app:generateDebugBuildConfig UP-TO-DATE
+[        ] > Task :app:prepareLintJar UP-TO-DATE
+[        ] > Task :app:writeDebugApplicationId UP-TO-DATE
+[        ] > Task :app:processDebugGoogleServices
+[        ] Parsing json file: C:\Users\Stan\Desktop\flutter_app_komeet\android\app\google-services.json
+[        ] > Task :app:generateDebugSources
+[  +93 ms] > Task :cloud_firestore:compileDebugRenderscript UP-TO-DATE
+[        ] > Task :cloud_firestore:generateDebugBuildConfig UP-TO-DATE
+[        ] > Task :cloud_firestore:generateDebugResValues UP-TO-DATE
+[        ] > Task :cloud_firestore:generateDebugResources UP-TO-DATE
+[        ] > Task :cloud_firestore:packageDebugResources UP-TO-DATE
+[        ] > Task :cloud_firestore:generateDebugRFile UP-TO-DATE
+[        ] > Task :cloud_firestore:prepareLintJar UP-TO-DATE
+[        ] > Task :cloud_firestore:generateDebugSources UP-TO-DATE
+[        ] > Task :cloud_firestore:javaPreCompileDebug UP-TO-DATE
+[        ] > Task :cloud_firestore:compileDebugJavaWithJavac UP-TO-DATE
+[        ] > Task :cloud_firestore:processDebugJavaRes NO-SOURCE
+[        ] > Task :cloud_firestore:transformClassesAndResourcesWithPrepareIntermediateJarsForDebug UP-TO-DATE
+[  +96 ms] > Task :firebase_auth:compileDebugRenderscript UP-TO-DATE
+[        ] > Task :firebase_auth:generateDebugBuildConfig UP-TO-DATE
+[        ] > Task :firebase_auth:generateDebugResValues UP-TO-DATE
+[        ] > Task :firebase_auth:generateDebugResources UP-TO-DATE
+[        ] > Task :firebase_auth:packageDebugResources UP-TO-DATE
+[        ] > Task :firebase_auth:generateDebugRFile UP-TO-DATE
+[        ] > Task :firebase_auth:prepareLintJar UP-TO-DATE
+[        ] > Task :firebase_auth:generateDebugSources UP-TO-DATE
+[        ] > Task :firebase_auth:javaPreCompileDebug UP-TO-DATE
+[        ] > Task :firebase_auth:compileDebugJavaWithJavac UP-TO-DATE
+[        ] > Task :firebase_auth:processDebugJavaRes NO-SOURCE
+[        ] > Task :firebase_auth:transformClassesAndResourcesWithPrepareIntermediateJarsForDebug UP-TO-DATE
+[  +97 ms] > Task :firebase_core:compileDebugRenderscript UP-TO-DATE
+[        ] > Task :firebase_core:generateDebugBuildConfig UP-TO-DATE
+[        ] > Task :firebase_core:generateDebugResValues UP-TO-DATE
+[        ] > Task :firebase_core:generateDebugResources UP-TO-DATE
+[        ] > Task :firebase_core:packageDebugResources UP-TO-DATE
+[        ] > Task :firebase_core:generateDebugRFile UP-TO-DATE
+[        ] > Task :firebase_core:prepareLintJar UP-TO-DATE
+[        ] > Task :firebase_core:generateDebugSources UP-TO-DATE
+[        ] > Task :firebase_core:javaPreCompileDebug UP-TO-DATE
+[ +103 ms] > Task :firebase_core:compileDebugJavaWithJavac UP-TO-DATE
+[        ] > Task :firebase_core:processDebugJavaRes NO-SOURCE
+[   +1 ms] > Task :firebase_core:transformClassesAndResourcesWithPrepareIntermediateJarsForDebug UP-TO-DATE
+[   +2 ms] > Task :firebase_storage:compileDebugRenderscript UP-TO-DATE
+[        ] > Task :firebase_storage:generateDebugBuildConfig UP-TO-DATE
+[        ] > Task :firebase_storage:generateDebugResValues UP-TO-DATE
+[        ] > Task :firebase_storage:generateDebugResources UP-TO-DATE
+[        ] > Task :firebase_storage:packageDebugResources UP-TO-DATE
+[        ] > Task :firebase_storage:generateDebugRFile UP-TO-DATE
+[        ] > Task :firebase_storage:prepareLintJar UP-TO-DATE
+[        ] > Task :firebase_storage:generateDebugSources UP-TO-DATE
+[        ] > Task :firebase_storage:javaPreCompileDebug UP-TO-DATE
+[   +1 ms] > Task :firebase_storage:compileDebugJavaWithJavac UP-TO-DATE
+[        ] > Task :firebase_storage:processDebugJavaRes NO-SOURCE
+[  +87 ms] > Task :firebase_storage:transformClassesAndResourcesWithPrepareIntermediateJarsForDebug UP-TO-DATE
+[        ] > Task :fluttertoast:compileDebugRenderscript UP-TO-DATE
+[        ] > Task :fluttertoast:generateDebugBuildConfig UP-TO-DATE
+[        ] > Task :fluttertoast:generateDebugResValues UP-TO-DATE
+[        ] > Task :fluttertoast:generateDebugResources UP-TO-DATE
+[        ] > Task :fluttertoast:packageDebugResources UP-TO-DATE
+[        ] > Task :fluttertoast:generateDebugRFile UP-TO-DATE
+[        ] > Task :fluttertoast:prepareLintJar UP-TO-DATE
+[        ] > Task :fluttertoast:generateDebugSources UP-TO-DATE
+[        ] > Task :fluttertoast:javaPreCompileDebug UP-TO-DATE
+[        ] > Task :fluttertoast:compileDebugJavaWithJavac UP-TO-DATE
+[        ] > Task :fluttertoast:processDebugJavaRes NO-SOURCE
+[        ] > Task :fluttertoast:transformClassesAndResourcesWithPrepareIntermediateJarsForDebug UP-TO-DATE
+[        ] > Task :google_sign_in:compileDebugRenderscript UP-TO-DATE
+[        ] > Task :google_sign_in:generateDebugBuildConfig UP-TO-DATE
+[  +97 ms] > Task :google_sign_in:generateDebugResValues UP-TO-DATE
+[        ] > Task :google_sign_in:generateDebugResources UP-TO-DATE
+[        ] > Task :google_sign_in:packageDebugResources UP-TO-DATE
+[        ] > Task :google_sign_in:generateDebugRFile UP-TO-DATE
+[        ] > Task :google_sign_in:prepareLintJar UP-TO-DATE
+[        ] > Task :google_sign_in:generateDebugSources UP-TO-DATE
+[        ] > Task :google_sign_in:javaPreCompileDebug UP-TO-DATE
+[        ] > Task :google_sign_in:compileDebugJavaWithJavac UP-TO-DATE
+[        ] > Task :google_sign_in:processDebugJavaRes NO-SOURCE
+[        ] > Task :google_sign_in:transformClassesAndResourcesWithPrepareIntermediateJarsForDebug UP-TO-DATE
+[        ] > Task :image_picker:compileDebugRenderscript UP-TO-DATE
+[        ] > Task :image_picker:generateDebugBuildConfig UP-TO-DATE
+[        ] > Task :image_picker:generateDebugResValues UP-TO-DATE
+[        ] > Task :image_picker:generateDebugResources UP-TO-DATE
+[        ] > Task :image_picker:packageDebugResources UP-TO-DATE
+[        ] > Task :image_picker:generateDebugRFile UP-TO-DATE
+[        ] > Task :image_picker:prepareLintJar UP-TO-DATE
+[        ] > Task :image_picker:generateDebugSources UP-TO-DATE
+[        ] > Task :image_picker:javaPreCompileDebug UP-TO-DATE
+[  +96 ms] > Task :image_picker:compileDebugJavaWithJavac UP-TO-DATE
+[        ] > Task :image_picker:processDebugJavaRes NO-SOURCE
+[        ] > Task :image_picker:transformClassesAndResourcesWithPrepareIntermediateJarsForDebug UP-TO-DATE
+[        ] > Task :path_provider:compileDebugRenderscript UP-TO-DATE
+[        ] > Task :path_provider:generateDebugBuildConfig UP-TO-DATE
+[        ] > Task :path_provider:generateDebugResValues UP-TO-DATE
+[        ] > Task :path_provider:generateDebugResources UP-TO-DATE
+[        ] > Task :path_provider:packageDebugResources UP-TO-DATE
+[        ] > Task :path_provider:generateDebugRFile UP-TO-DATE
+[        ] > Task :path_provider:prepareLintJar UP-TO-DATE
+[        ] > Task :path_provider:generateDebugSources UP-TO-DATE
+[        ] > Task :path_provider:javaPreCompileDebug UP-TO-DATE
+[        ] > Task :path_provider:compileDebugJavaWithJavac UP-TO-DATE
+[        ] > Task :path_provider:processDebugJavaRes NO-SOURCE
+[        ] > Task :path_provider:transformClassesAndResourcesWithPrepareIntermediateJarsForDebug UP-TO-DATE
+[        ] > Task :shared_preferences:compileDebugRenderscript UP-TO-DATE
+[        ] > Task :shared_preferences:generateDebugBuildConfig UP-TO-DATE
+[        ] > Task :shared_preferences:generateDebugResValues UP-TO-DATE
+[        ] > Task :shared_preferences:generateDebugResources UP-TO-DATE
+[  +98 ms] > Task :shared_preferences:packageDebugResources UP-TO-DATE
+[        ] > Task :shared_preferences:generateDebugRFile UP-TO-DATE
+[        ] > Task :shared_preferences:prepareLintJar UP-TO-DATE
+[        ] > Task :shared_preferences:generateDebugSources UP-TO-DATE
+[        ] > Task :shared_preferences:javaPreCompileDebug UP-TO-DATE
+[        ] > Task :shared_preferences:compileDebugJavaWithJavac UP-TO-DATE
+[        ] > Task :shared_preferences:processDebugJavaRes NO-SOURCE
+[        ] > Task :shared_preferences:transformClassesAndResourcesWithPrepareIntermediateJarsForDebug UP-TO-DATE
+[        ] > Task :sqflite:compileDebugRenderscript UP-TO-DATE
+[        ] > Task :sqflite:generateDebugBuildConfig UP-TO-DATE
+[        ] > Task :sqflite:generateDebugResValues UP-TO-DATE
+[        ] > Task :sqflite:generateDebugResources UP-TO-DATE
+[        ] > Task :sqflite:packageDebugResources UP-TO-DATE
+[        ] > Task :sqflite:generateDebugRFile UP-TO-DATE
+[        ] > Task :sqflite:prepareLintJar UP-TO-DATE
+[        ] > Task :sqflite:generateDebugSources UP-TO-DATE
+[        ] > Task :sqflite:javaPreCompileDebug UP-TO-DATE
+[        ] > Task :sqflite:compileDebugJavaWithJavac UP-TO-DATE
+[        ] > Task :sqflite:processDebugJavaRes NO-SOURCE
+[        ] > Task :sqflite:transformClassesAndResourcesWithPrepareIntermediateJarsForDebug UP-TO-DATE
+[        ] > Task :app:javaPreCompileDebug UP-TO-DATE
+[        ] > Task :app:cleanMergeDebugAssets
+[  +93 ms] > Task :app:flutterBuildDebug UP-TO-DATE
+[        ] > Task :app:mergeDebugShaders UP-TO-DATE
+[        ] > Task :app:compileDebugShaders UP-TO-DATE
+[        ] > Task :app:generateDebugAssets UP-TO-DATE
+[        ] > Task :cloud_firestore:mergeDebugShaders UP-TO-DATE
+[        ] > Task :cloud_firestore:compileDebugShaders UP-TO-DATE
+[        ] > Task :cloud_firestore:generateDebugAssets UP-TO-DATE
+[  +99 ms] > Task :cloud_firestore:packageDebugAssets UP-TO-DATE
+[        ] > Task :firebase_auth:mergeDebugShaders UP-TO-DATE
+[   +2 ms] > Task :firebase_auth:compileDebugShaders UP-TO-DATE
+[        ] > Task :firebase_auth:generateDebugAssets UP-TO-DATE
+[        ] > Task :firebase_auth:packageDebugAssets UP-TO-DATE
+[        ] > Task :firebase_core:mergeDebugShaders UP-TO-DATE
+[        ] > Task :firebase_core:compileDebugShaders UP-TO-DATE
+[        ] > Task :firebase_core:generateDebugAssets UP-TO-DATE
+[        ] > Task :firebase_core:packageDebugAssets UP-TO-DATE
+[        ] > Task :firebase_storage:mergeDebugShaders UP-TO-DATE
+[        ] > Task :firebase_storage:compileDebugShaders UP-TO-DATE
+[        ] > Task :firebase_storage:generateDebugAssets UP-TO-DATE
+[        ] > Task :firebase_storage:packageDebugAssets UP-TO-DATE
+[        ] > Task :fluttertoast:mergeDebugShaders UP-TO-DATE
+[        ] > Task :fluttertoast:compileDebugShaders UP-TO-DATE
+[        ] > Task :fluttertoast:generateDebugAssets UP-TO-DATE
+[        ] > Task :fluttertoast:packageDebugAssets UP-TO-DATE
+[        ] > Task :google_sign_in:mergeDebugShaders UP-TO-DATE
+[        ] > Task :google_sign_in:compileDebugShaders UP-TO-DATE
+[        ] > Task :google_sign_in:generateDebugAssets UP-TO-DATE
+[        ] > Task :google_sign_in:packageDebugAssets UP-TO-DATE
+[        ] > Task :image_picker:mergeDebugShaders UP-TO-DATE
+[        ] > Task :image_picker:compileDebugShaders UP-TO-DATE
+[        ] > Task :image_picker:generateDebugAssets UP-TO-DATE
+[        ] > Task :image_picker:packageDebugAssets UP-TO-DATE
+[        ] > Task :path_provider:mergeDebugShaders UP-TO-DATE
+[        ] > Task :path_provider:compileDebugShaders UP-TO-DATE
+[        ] > Task :path_provider:generateDebugAssets UP-TO-DATE
+[        ] > Task :path_provider:packageDebugAssets UP-TO-DATE
+[        ] > Task :shared_preferences:mergeDebugShaders UP-TO-DATE
+[        ] > Task :shared_preferences:compileDebugShaders UP-TO-DATE
+[        ] > Task :shared_preferences:generateDebugAssets UP-TO-DATE
+[        ] > Task :shared_preferences:packageDebugAssets UP-TO-DATE
+[        ] > Task :sqflite:mergeDebugShaders UP-TO-DATE
+[        ] > Task :sqflite:compileDebugShaders UP-TO-DATE
+[        ] > Task :sqflite:generateDebugAssets UP-TO-DATE
+[        ] > Task :sqflite:packageDebugAssets UP-TO-DATE
+[  +89 ms] > Task :app:mergeDebugAssets
+[ +200 ms] > Task :app:copyFlutterAssetsDebug
+[        ] > Task :app:mainApkListPersistenceDebug UP-TO-DATE
+[        ] > Task :app:generateDebugResValues UP-TO-DATE
+[        ] > Task :app:generateDebugResources UP-TO-DATE
+[ +102 ms] > Task :app:mergeDebugResources UP-TO-DATE
+[        ] > Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+[        ] > Task :app:processDebugManifest UP-TO-DATE
+[  +96 ms] > Task :app:processDebugResources UP-TO-DATE
+[        ] > Task :app:compileDebugJavaWithJavac UP-TO-DATE
+[        ] > Task :app:compileDebugNdk NO-SOURCE
+[        ] > Task :app:compileDebugSources UP-TO-DATE
+[  +99 ms] > Task :app:validateSigningDebug UP-TO-DATE
+[        ] > Task :app:signingConfigWriterDebug UP-TO-DATE
+[        ] > Task :app:transformClassesWithDexBuilderForDebug UP-TO-DATE
+[        ] > Task :app:transformClassesWithMultidexlistForDebug UP-TO-DATE
+[        ] > Task :app:transformDexArchiveWithDexMergerForDebug UP-TO-DATE
+[        ] > Task :app:mergeDebugJniLibFolders UP-TO-DATE
+[        ] > Task :cloud_firestore:compileDebugNdk NO-SOURCE
+[        ] > Task :cloud_firestore:mergeDebugJniLibFolders UP-TO-DATE
+[        ] > Task :cloud_firestore:transformNativeLibsWithMergeJniLibsForDebug UP-TO-DATE
+[  +97 ms] > Task :cloud_firestore:transformNativeLibsWithIntermediateJniLibsForDebug UP-TO-DATE
+[   +1 ms] > Task :firebase_auth:compileDebugNdk NO-SOURCE
+[   +1 ms] > Task :firebase_auth:mergeDebugJniLibFolders UP-TO-DATE
+[        ] > Task :firebase_auth:transformNativeLibsWithMergeJniLibsForDebug UP-TO-DATE
+[        ] > Task :firebase_auth:transformNativeLibsWithIntermediateJniLibsForDebug UP-TO-DATE
+[        ] > Task :firebase_core:compileDebugNdk NO-SOURCE
+[        ] > Task :firebase_core:mergeDebugJniLibFolders UP-TO-DATE
+[        ] > Task :firebase_core:transformNativeLibsWithMergeJniLibsForDebug UP-TO-DATE
+[        ] > Task :firebase_core:transformNativeLibsWithIntermediateJniLibsForDebug UP-TO-DATE
+[        ] > Task :firebase_storage:compileDebugNdk NO-SOURCE
+[        ] > Task :firebase_storage:mergeDebugJniLibFolders UP-TO-DATE
+[        ] > Task :firebase_storage:transformNativeLibsWithMergeJniLibsForDebug UP-TO-DATE
+[        ] > Task :firebase_storage:transformNativeLibsWithIntermediateJniLibsForDebug UP-TO-DATE
+[        ] > Task :fluttertoast:compileDebugNdk NO-SOURCE
+[        ] > Task :fluttertoast:mergeDebugJniLibFolders UP-TO-DATE
+[        ] > Task :fluttertoast:transformNativeLibsWithMergeJniLibsForDebug UP-TO-DATE
+[        ] > Task :fluttertoast:transformNativeLibsWithIntermediateJniLibsForDebug UP-TO-DATE
+[        ] > Task :google_sign_in:compileDebugNdk NO-SOURCE
+[        ] > Task :google_sign_in:mergeDebugJniLibFolders UP-TO-DATE
+[        ] > Task :google_sign_in:transformNativeLibsWithMergeJniLibsForDebug UP-TO-DATE
+[        ] > Task :google_sign_in:transformNativeLibsWithIntermediateJniLibsForDebug UP-TO-DATE
+[        ] > Task :image_picker:compileDebugNdk NO-SOURCE
+[        ] > Task :image_picker:mergeDebugJniLibFolders UP-TO-DATE
+[        ] > Task :image_picker:transformNativeLibsWithMergeJniLibsForDebug UP-TO-DATE
+[        ] > Task :image_picker:transformNativeLibsWithIntermediateJniLibsForDebug UP-TO-DATE
+[        ] > Task :path_provider:compileDebugNdk NO-SOURCE
+[        ] > Task :path_provider:mergeDebugJniLibFolders UP-TO-DATE
+[        ] > Task :path_provider:transformNativeLibsWithMergeJniLibsForDebug UP-TO-DATE
+[        ] > Task :path_provider:transformNativeLibsWithIntermediateJniLibsForDebug UP-TO-DATE
+[        ] > Task :shared_preferences:compileDebugNdk NO-SOURCE
+[        ] > Task :shared_preferences:mergeDebugJniLibFolders UP-TO-DATE
+[        ] > Task :shared_preferences:transformNativeLibsWithMergeJniLibsForDebug UP-TO-DATE
+[        ] > Task :shared_preferences:transformNativeLibsWithIntermediateJniLibsForDebug UP-TO-DATE
+[        ] > Task :sqflite:compileDebugNdk NO-SOURCE
+[        ] > Task :sqflite:mergeDebugJniLibFolders UP-TO-DATE
+[        ] > Task :sqflite:transformNativeLibsWithMergeJniLibsForDebug UP-TO-DATE
+[  +91 ms] > Task :sqflite:transformNativeLibsWithIntermediateJniLibsForDebug UP-TO-DATE
+[        ] > Task :app:transformNativeLibsWithMergeJniLibsForDebug UP-TO-DATE
+[        ] > Task :app:processDebugJavaRes NO-SOURCE
+[        ] > Task :app:transformResourcesWithMergeJavaResForDebug UP-TO-DATE
+[        ] > Task :app:packageDebug UP-TO-DATE
+[        ] > Task :app:assembleDebug UP-TO-DATE
+[  +97 ms] > Task :cloud_firestore:extractDebugAnnotations UP-TO-DATE
+[        ] > Task :cloud_firestore:mergeDebugConsumerProguardFiles UP-TO-DATE
+[        ] > Task :cloud_firestore:transformResourcesWithMergeJavaResForDebug UP-TO-DATE
+[        ] > Task :cloud_firestore:transformClassesAndResourcesWithSyncLibJarsForDebug UP-TO-DATE
+[        ] > Task :cloud_firestore:transformNativeLibsWithSyncJniLibsForDebug UP-TO-DATE
+[        ] > Task :cloud_firestore:bundleDebugAar UP-TO-DATE
+[        ] > Task :cloud_firestore:compileDebugSources UP-TO-DATE
+[        ] > Task :cloud_firestore:assembleDebug UP-TO-DATE
+[        ] > Task :firebase_auth:extractDebugAnnotations UP-TO-DATE
+[        ] > Task :firebase_auth:mergeDebugConsumerProguardFiles UP-TO-DATE
+[  +10 ms] > Task :firebase_auth:transformResourcesWithMergeJavaResForDebug UP-TO-DATE
+[  +90 ms] > Task :firebase_auth:transformClassesAndResourcesWithSyncLibJarsForDebug UP-TO-DATE
+[        ] > Task :firebase_auth:transformNativeLibsWithSyncJniLibsForDebug UP-TO-DATE
+[        ] > Task :firebase_auth:bundleDebugAar UP-TO-DATE
+[        ] > Task :firebase_auth:compileDebugSources UP-TO-DATE
+[        ] > Task :firebase_auth:assembleDebug UP-TO-DATE
+[        ] > Task :firebase_core:extractDebugAnnotations UP-TO-DATE
+[   +2 ms] > Task :firebase_core:mergeDebugConsumerProguardFiles UP-TO-DATE
+[        ] > Task :firebase_core:transformResourcesWithMergeJavaResForDebug UP-TO-DATE
+[        ] > Task :firebase_core:transformClassesAndResourcesWithSyncLibJarsForDebug UP-TO-DATE
+[        ] > Task :firebase_core:transformNativeLibsWithSyncJniLibsForDebug UP-TO-DATE
+[        ] > Task :firebase_core:bundleDebugAar UP-TO-DATE
+[        ] > Task :firebase_core:compileDebugSources UP-TO-DATE
+[        ] > Task :firebase_core:assembleDebug UP-TO-DATE
+[        ] > Task :firebase_storage:extractDebugAnnotations UP-TO-DATE
+[   +1 ms] > Task :firebase_storage:mergeDebugConsumerProguardFiles UP-TO-DATE
+[        ] > Task :firebase_storage:transformResourcesWithMergeJavaResForDebug UP-TO-DATE
+[        ] > Task :firebase_storage:transformClassesAndResourcesWithSyncLibJarsForDebug UP-TO-DATE
+[        ] > Task :firebase_storage:transformNativeLibsWithSyncJniLibsForDebug UP-TO-DATE
+[        ] > Task :firebase_storage:bundleDebugAar UP-TO-DATE
+[        ] > Task :firebase_storage:compileDebugSources UP-TO-DATE
+[        ] > Task :firebase_storage:assembleDebug UP-TO-DATE
+[  +90 ms] > Task :fluttertoast:extractDebugAnnotations UP-TO-DATE
+[   +2 ms] > Task :fluttertoast:mergeDebugConsumerProguardFiles UP-TO-DATE
+[        ] > Task :fluttertoast:transformResourcesWithMergeJavaResForDebug UP-TO-DATE
+[        ] > Task :fluttertoast:transformClassesAndResourcesWithSyncLibJarsForDebug UP-TO-DATE
+[        ] > Task :fluttertoast:transformNativeLibsWithSyncJniLibsForDebug UP-TO-DATE
+[        ] > Task :fluttertoast:bundleDebugAar UP-TO-DATE
+[        ] > Task :fluttertoast:compileDebugSources UP-TO-DATE
+[        ] > Task :fluttertoast:assembleDebug UP-TO-DATE
+[        ] > Task :google_sign_in:extractDebugAnnotations UP-TO-DATE
+[        ] > Task :google_sign_in:mergeDebugConsumerProguardFiles UP-TO-DATE
+[        ] > Task :google_sign_in:transformResourcesWithMergeJavaResForDebug UP-TO-DATE
+[        ] > Task :google_sign_in:transformClassesAndResourcesWithSyncLibJarsForDebug UP-TO-DATE
+[        ] > Task :google_sign_in:transformNativeLibsWithSyncJniLibsForDebug UP-TO-DATE
+[        ] > Task :google_sign_in:bundleDebugAar UP-TO-DATE
+[        ] > Task :google_sign_in:compileDebugSources UP-TO-DATE
+[        ] > Task :google_sign_in:assembleDebug UP-TO-DATE
+[  +91 ms] > Task :image_picker:extractDebugAnnotations UP-TO-DATE
+[        ] > Task :image_picker:mergeDebugConsumerProguardFiles UP-TO-DATE
+[        ] > Task :image_picker:transformResourcesWithMergeJavaResForDebug UP-TO-DATE
+[   +1 ms] > Task :image_picker:transformClassesAndResourcesWithSyncLibJarsForDebug UP-TO-DATE
+[        ] > Task :image_picker:transformNativeLibsWithSyncJniLibsForDebug UP-TO-DATE
+[        ] > Task :image_picker:bundleDebugAar UP-TO-DATE
+[        ] > Task :image_picker:compileDebugSources UP-TO-DATE
+[   +2 ms] > Task :image_picker:assembleDebug UP-TO-DATE
+[   +2 ms] > Task :path_provider:extractDebugAnnotations UP-TO-DATE
+[        ] > Task :path_provider:mergeDebugConsumerProguardFiles UP-TO-DATE
+[        ] > Task :path_provider:transformResourcesWithMergeJavaResForDebug UP-TO-DATE
+[        ] > Task :path_provider:transformClassesAndResourcesWithSyncLibJarsForDebug UP-TO-DATE
+[        ] > Task :path_provider:transformNativeLibsWithSyncJniLibsForDebug UP-TO-DATE
+[   +1 ms] > Task :path_provider:bundleDebugAar UP-TO-DATE
+[        ] > Task :path_provider:compileDebugSources UP-TO-DATE
+[        ] > Task :path_provider:assembleDebug UP-TO-DATE
+[        ] > Task :shared_preferences:extractDebugAnnotations UP-TO-DATE
+[  +75 ms] > Task :shared_preferences:mergeDebugConsumerProguardFiles UP-TO-DATE
+[        ] > Task :shared_preferences:transformResourcesWithMergeJavaResForDebug UP-TO-DATE
+[        ] > Task :shared_preferences:transformClassesAndResourcesWithSyncLibJarsForDebug UP-TO-DATE
+[        ] > Task :shared_preferences:transformNativeLibsWithSyncJniLibsForDebug UP-TO-DATE
+[        ] > Task :shared_preferences:bundleDebugAar UP-TO-DATE
+[        ] > Task :shared_preferences:compileDebugSources UP-TO-DATE
+[        ] > Task :shared_preferences:assembleDebug UP-TO-DATE
+[        ] > Task :sqflite:extractDebugAnnotations UP-TO-DATE
+[        ] > Task :sqflite:mergeDebugConsumerProguardFiles UP-TO-DATE
+[        ] > Task :sqflite:transformResourcesWithMergeJavaResForDebug UP-TO-DATE
+[        ] > Task :sqflite:transformClassesAndResourcesWithSyncLibJarsForDebug UP-TO-DATE
+[        ] > Task :sqflite:transformNativeLibsWithSyncJniLibsForDebug UP-TO-DATE
+[        ] > Task :sqflite:bundleDebugAar UP-TO-DATE
+[        ] > Task :sqflite:compileDebugSources UP-TO-DATE
+[        ] > Task :sqflite:assembleDebug UP-TO-DATE
+[        ] 261 actionable tasks: 4 executed, 257 up-to-date
+[ +350 ms] Running Gradle task 'assembleDebug'... (completed in 8,4s)
+[  +37 ms] calculateSha: LocalDirectory: 'C:\Users\Stan\Desktop\flutter_app_komeet\build\app\outputs\apk'/app.apk
+[ +853 ms] Built build\app\outputs\apk\debug\app-debug.apk.
+[   +2 ms] executing: C:\Users\Stan\AppData\Local\Android\Sdk\build-tools\28.0.3\aapt dump xmltree C:\Users\Stan\Desktop\flutter_app_komeet\build\app\outputs\apk\app.apk AndroidManifest.xml
+[  +43 ms] Exit code 0 from: C:\Users\Stan\AppData\Local\Android\Sdk\build-tools\28.0.3\aapt dump xmltree C:\Users\Stan\Desktop\flutter_app_komeet\build\app\outputs\apk\app.apk AndroidManifest.xml
+[        ] N: android=http://schemas.android.com/apk/res/android
+             E: manifest (line=2)
+               A: android:versionCode(0x0101021b)=(type 0x10)0x1
+               A: android:versionName(0x0101021c)="1.0.0" (Raw: "1.0.0")
+               A: android:compileSdkVersion(0x01010572)=(type 0x10)0x1c
+               A: android:compileSdkVersionCodename(0x01010573)="9" (Raw: "9")
+               A: package="komeet_release.flutter_app_komeet" (Raw: "komeet_release.flutter_app_komeet")
+               A: platformBuildVersionCode=(type 0x10)0x1c
+               A: platformBuildVersionName=(type 0x10)0x9
+               E: uses-sdk (line=7)
+                 A: android:minSdkVersion(0x0101020c)=(type 0x10)0x10
+                 A: android:targetSdkVersion(0x01010270)=(type 0x10)0x1c
+               E: uses-permission (line=14)
+                 A: android:name(0x01010003)="android.permission.INTERNET" (Raw: "android.permission.INTERNET")
+               E: uses-permission (line=15)
+                 A: android:name(0x01010003)="android.permission.READ_EXTERNAL_STORAGE" (Raw: "android.permission.READ_EXTERNAL_STORAGE")
+               E: uses-permission (line=16)
+                 A: android:name(0x01010003)="android.permission.WRITE_EXTERNAL_STORAGE" (Raw: "android.permission.WRITE_EXTERNAL_STORAGE")
+               E: uses-permission (line=17)
+                 A: android:name(0x01010003)="android.permission.CAMERA" (Raw: "android.permission.CAMERA")
+               E: uses-permission (line=18)
+                 A: android:name(0x01010003)="android.permission.ACCESS_NETWORK_STATE" (Raw: "android.permission.ACCESS_NETWORK_STATE")
+               E: uses-permission (line=19)
+                 A: android:name(0x01010003)="android.permission.WAKE_LOCK" (Raw: "android.permission.WAKE_LOCK")
+               E: uses-permission (line=20)
+                 A: android:name(0x01010003)="com.google.android.c2dm.permission.RECEIVE" (Raw: "com.google.android.c2dm.permission.RECEIVE")
+               E: uses-permission (line=21)
+                 A: android:name(0x01010003)="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" (Raw: "com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE")
+               E: application (line=29)
+                 A: android:label(0x01010001)="Komeet" (Raw: "Komeet")
+                 A: android:icon(0x01010002)=@0x7f0a0000
+                 A: android:name(0x01010003)="io.flutter.app.FlutterApplication" (Raw: "io.flutter.app.FlutterApplication")
+                 A: android:debuggable(0x0101000f)=(type 0x12)0xffffffff
+                 E: activity (line=34)
+                   A: android:theme(0x01010000)=@0x7f0c00a3
+                   A: android:name(0x01010003)="komeet_release.flutter_app_komeet.MainActivity" (Raw: "komeet_release.flutter_app_komeet.MainActivity")
+                   A: android:launchMode(0x0101001d)=(type 0x10)0x1
+                   A: android:configChanges(0x0101001f)=(type 0x11)0x400037b4
+                   A: android:windowSoftInputMode(0x0101022b)=(type 0x11)0x10
+                   A: android:hardwareAccelerated(0x010102d3)=(type 0x12)0xffffffff
+                   E: meta-data (line=48)
+                     A: android:name(0x01010003)="io.flutter.app.android.SplashScreenUntilFirstFrame" (Raw: "io.flutter.app.android.SplashScreenUntilFirstFrame")
+                     A: android:value(0x01010024)=(type 0x12)0xffffffff
+                   E: intent-filter (line=52)
+                     E: action (line=53)
+                       A: android:name(0x01010003)="android.intent.action.MAIN" (Raw: "android.intent.action.MAIN")
+                     E: category (line=55)
+                       A: android:name(0x01010003)="android.intent.category.LAUNCHER" (Raw: "android.intent.category.LAUNCHER")
+                 E: provider (line=59)
+                   A: android:name(0x01010003)="io.flutter.plugins.imagepicker.ImagePickerFileProvider" (Raw: "io.flutter.plugins.imagepicker.ImagePickerFileProvider")
+                   A: android:exported(0x01010010)=(type 0x12)0x0
+                   A: android:authorities(0x01010018)="komeet_release.flutter_app_komeet.flutter.image_provider" (Raw: "komeet_release.flutter_app_komeet.flutter.image_provider")
+                   A: android:grantUriPermissions(0x0101001b)=(type 0x12)0xffffffff
+                   E: meta-data (line=64)
+                     A: android:name(0x01010003)="android.support.FILE_PROVIDER_PATHS" (Raw: "android.support.FILE_PROVIDER_PATHS")
+                     A: android:resource(0x01010025)=@0x7f0e0000
+                 E: activity (line=69)
+                   A: android:theme(0x01010000)=@0x1030010
+                   A: android:name(0x01010003)="com.google.firebase.auth.internal.FederatedSignInActivity" (Raw: "com.google.firebase.auth.internal.FederatedSignInActivity")
+                   A: android:permission(0x01010006)="com.google.firebase.auth.api.gms.permission.LAUNCH_FEDERATED_SIGN_IN" (Raw: "com.google.firebase.auth.api.gms.permission.LAUNCH_FEDERATED_SIGN_IN")
+                   A: android:exported(0x01010010)=(type 0x12)0xffffffff
+                   A: android:excludeFromRecents(0x01010017)=(type 0x12)0xffffffff
+                   A: android:launchMode(0x0101001d)=(type 0x10)0x2
+                 E: service (line=77)
+                   A: android:name(0x01010003)="com.google.firebase.components.ComponentDiscoveryService" (Raw: "com.google.firebase.components.ComponentDiscoveryService")
+                   A: android:exported(0x01010010)=(type 0x12)0x0
+                   E: meta-data (line=80)
+                     A: android:name(0x01010003)="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar" (Raw: "com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar")
+                     A: android:value(0x01010024)="com.google.firebase.components.ComponentRegistrar" (Raw: "com.google.firebase.components.ComponentRegistrar")
+                   E: meta-data (line=83)
+                     A: android:name(0x01010003)="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar" (Raw: "com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar")
+                     A: android:value(0x01010024)="com.google.firebase.components.ComponentRegistrar" (Raw: "com.google.firebase.components.ComponentRegistrar")
+                   E: meta-data (line=86)
+                     A: android:name(0x01010003)="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar" (Raw: "com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar")
+                     A: android:value(0x01010024)="com.google.firebase.components.ComponentRegistrar" (Raw: "com.google.firebase.components.ComponentRegistrar")
+                   E: meta-data (line=89)
+                     A: android:name(0x01010003)="com.google.firebase.components:com.google.firebase.iid.Registrar" (Raw: "com.google.firebase.components:com.google.firebase.iid.Registrar")
+                     A: android:value(0x01010024)="com.google.firebase.components.ComponentRegistrar" (Raw: "com.google.firebase.components.ComponentRegistrar")
+                 E: activity (line=94)
+                   A: android:theme(0x01010000)=@0x1030010
+                   A: android:name(0x01010003)="com.google.android.gms.auth.api.signin.internal.SignInHubActivity" (Raw: "com.google.android.gms.auth.api.signin.internal.SignInHubActivity")
+                   A: android:exported(0x01010010)=(type 0x12)0x0
+                   A: android:excludeFromRecents(0x01010017)=(type 0x12)0xffffffff
+                 E: service (line=103)
+                   A: android:name(0x01010003)="com.google.android.gms.auth.api.signin.RevocationBoundService" (Raw: "com.google.android.gms.auth.api.signin.RevocationBoundService")
+                   A: android:permission(0x01010006)="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION" (Raw: "com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION")
+                   A: android:exported(0x01010010)=(type 0x12)0xffffffff
+                 E: meta-data (line=108)
+                   A: android:name(0x01010003)="android.support.VERSION" (Raw: "android.support.VERSION")
+                   A: android:value(0x01010024)="26.1.0" (Raw: "26.1.0")
+                 E: receiver (line=112)
+                   A: android:name(0x01010003)="com.google.firebase.iid.FirebaseInstanceIdReceiver" (Raw: "com.google.firebase.iid.FirebaseInstanceIdReceiver")
+                   A: android:permission(0x01010006)="com.google.android.c2dm.permission.SEND" (Raw: "com.google.android.c2dm.permission.SEND")
+                   A: android:exported(0x01010010)=(type 0x12)0xffffffff
+                   E: intent-filter (line=116)
+                     E: action (line=117)
+                       A: android:name(0x01010003)="com.google.android.c2dm.intent.RECEIVE" (Raw: "com.google.android.c2dm.intent.RECEIVE")
+                 E: service (line=124)
+                   A: android:name(0x01010003)="com.google.firebase.iid.FirebaseInstanceIdService" (Raw: "com.google.firebase.iid.FirebaseInstanceIdService")
+                   A: android:exported(0x01010010)=(type 0x12)0xffffffff
+                   E: intent-filter (line=127)
+                     A: android:priority(0x0101001c)=(type 0x10)0xfffffe0c
+                     E: action (line=128)
+                       A: android:name(0x01010003)="com.google.firebase.INSTANCE_ID_EVENT" (Raw: "com.google.firebase.INSTANCE_ID_EVENT")
+                 E: activity (line=132)
+                   A: android:theme(0x01010000)=@0x1030010
+                   A: android:name(0x01010003)="com.google.android.gms.common.api.GoogleApiActivity" (Raw: "com.google.android.gms.common.api.GoogleApiActivity")
+                   A: android:exported(0x01010010)=(type 0x12)0x0
+                 E: provider (line=137)
+                   A: android:name(0x01010003)="com.google.firebase.provider.FirebaseInitProvider" (Raw: "com.google.firebase.provider.FirebaseInitProvider")
+                   A: android:exported(0x01010010)=(type 0x12)0x0
+                   A: android:authorities(0x01010018)="komeet_release.flutter_app_komeet.firebaseinitprovider" (Raw: "komeet_release.flutter_app_komeet.firebaseinitprovider")
+                   A: android:initOrder(0x0101001a)=(type 0x10)0x64
+                 E: receiver (line=143)
+                   A: android:name(0x01010003)="com.google.android.gms.measurement.AppMeasurementReceiver" (Raw: "com.google.android.gms.measurement.AppMeasurementReceiver")
+                   A: android:enabled(0x0101000e)=(type 0x12)0xffffffff
+                   A: android:exported(0x01010010)=(type 0x12)0x0
+                 E: receiver (line=148)
+                   A: android:name(0x01010003)="com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver" (Raw: "com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver")
+                   A: android:permission(0x01010006)="android.permission.INSTALL_PACKAGES" (Raw: "android.permission.INSTALL_PACKAGES")
+                   A: android:enabled(0x0101000e)=(type 0x12)0xffffffff
+                   A: android:exported(0x01010010)=(type 0x12)0xffffffff
+                   E: intent-filter (line=153)
+                     E: action (line=154)
+                       A: android:name(0x01010003)="com.android.vending.INSTALL_REFERRER" (Raw: "com.android.vending.INSTALL_REFERRER")
+                 E: service (line=158)
+                   A: android:name(0x01010003)="com.google.android.gms.measurement.AppMeasurementService" (Raw: "com.google.android.gms.measurement.AppMeasurementService")
+                   A: android:enabled(0x0101000e)=(type 0x12)0xffffffff
+                   A: android:exported(0x01010010)=(type 0x12)0x0
+                 E: service (line=162)
+                   A: android:name(0x01010003)="com.google.android.gms.measurement.AppMeasurementJobService" (Raw: "com.google.android.gms.measurement.AppMeasurementJobService")
+                   A: android:permission(0x01010006)="android.permission.BIND_JOB_SERVICE" (Raw: "android.permission.BIND_JOB_SERVICE")
+                   A: android:enabled(0x0101000e)=(type 0x12)0xffffffff
+                   A: android:exported(0x01010010)=(type 0x12)0x0
+                 E: meta-data (line=168)
+                   A: android:name(0x01010003)="com.google.android.gms.version" (Raw: "com.google.android.gms.version")
+                   A: android:value(0x01010024)=@0x7f080004
+[   +1 ms] Stopping app 'app.apk' on Android SDK built for x86.
+[   +1 ms] executing: C:\Users\Stan\AppData\Local\Android\Sdk\platform-tools\adb.exe -s emulator-5554 shell am force-stop komeet_release.flutter_app_komeet
+[ +157 ms] executing: C:\Users\Stan\AppData\Local\Android\Sdk\platform-tools\adb.exe -s emulator-5554 shell pm list packages komeet_release.flutter_app_komeet
+[ +270 ms] package:komeet_release.flutter_app_komeet
+[   +3 ms] executing: C:\Users\Stan\AppData\Local\Android\Sdk\platform-tools\adb.exe -s emulator-5554 shell cat /data/local/tmp/sky.komeet_release.flutter_app_komeet.sha1
+[ +138 ms] aac406b094949c2d35b5d2784c85d9681e9c971b
+[   +1 ms] Latest build already installed.
+[        ] Android SDK built for x86 startApp
+[   +2 ms] executing: C:\Users\Stan\AppData\Local\Android\Sdk\platform-tools\adb.exe -s emulator-5554 shell am start -a android.intent.action.RUN -f 0x20000000 --ez enable-background-compilation true --ez enable-dart-profiling true --ez enable-checked-mode true --ez verify-entry-points true komeet_release.flutter_app_komeet/komeet_release.flutter_app_komeet.MainActivity
+[ +140 ms] Starting: Intent { act=android.intent.action.RUN flg=0x20000000 cmp=komeet_release.flutter_app_komeet/.MainActivity (has extras) }
+[        ] Waiting for observatory port to be available...
+[+2010 ms] Observatory URL on device: http://127.0.0.1:44713/5NfpLa2SFdw=/
+[   +2 ms] executing: C:\Users\Stan\AppData\Local\Android\Sdk\platform-tools\adb.exe -s emulator-5554 forward tcp:0 tcp:44713
+[  +37 ms] 53605
+[        ] Forwarded host port 53605 to device port 44713 for Observatory
+[   +7 ms] Connecting to service protocol: http://127.0.0.1:53605/5NfpLa2SFdw=/
+[   +8 ms] "flutter run" took 23 342ms.
+[        ] "flutter run" took 23 342ms.

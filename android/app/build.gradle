@@ -33,7 +33,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "komeet_release.flutter_app_komeet"
+        applicationId "komeet.flutter_komeet_perso"
         minSdkVersion 16
         targetSdkVersion 28
         multiDexEnabled true
