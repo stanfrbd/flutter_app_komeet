@@ -1,6 +1,15 @@
+// ----------------------------------------------------
+// Projet Tutoré Komeet -------------------------------
+// Josquin IMBERT, Rémi TEYSSIEUX,---------------------
+// Antoine DE GRYSE, Stanislas MEDRANO ----------------
+//-----------------------------------------------------
+
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
+// -----------------------------------------------------------------------
+// -------------- Classe Statique de thèmes de l'application -------------
+// -----------------------------------------------------------------------
 class ThemeKomeet {
   static bool darkTheme = false;
 
@@ -21,6 +30,10 @@ class ThemeKomeet {
     }
 
   }
+// ----------------------------------------
+// --------- Activer le mode sombre -------
+// ----------------------------------------
+
 
   static void enableDarkMode(bool state) {
     darkTheme = false;

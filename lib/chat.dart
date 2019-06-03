@@ -1,3 +1,9 @@
+// ----------------------------------------------------
+// Projet Tutoré Komeet -------------------------------
+// Josquin IMBERT, Rémi TEYSSIEUX,---------------------
+// Antoine DE GRYSE, Stanislas MEDRANO ----------------
+//-----------------------------------------------------
+
 import 'dart:async';
 import 'dart:io';
 
@@ -11,7 +17,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// dans le chat il va falloir récupérer les bonnes collections
 
 
 class Chat extends StatelessWidget {
@@ -31,6 +36,7 @@ class Chat extends StatelessWidget {
         ),
         centerTitle: true,
       ),
+      // Nouvel écran de chat
       body: new ChatScreen(
         peerId: peerId,
         peerAvatar: peerAvatar,
@@ -123,6 +129,7 @@ class ChatScreenState extends State<ChatScreen> {
     });
   }
 
+  // Procédures back-end d'envoi d'images
   Future uploadFile() async {
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
     StorageReference reference = FirebaseStorage.instance.ref().child(fileName);
@@ -143,7 +150,7 @@ class ChatScreenState extends State<ChatScreen> {
   }
 
   void onSendMessage(String content, int type) {
-    // type: 0 = text, 1 = image, 2 = sticker
+    // type : 0 = texte, 1 = image, 2 = sticker
     if (content.trim() != '') {
       textEditingController.clear();
       var documentReference = Firestore.instance
@@ -172,11 +179,11 @@ class ChatScreenState extends State<ChatScreen> {
 
   Widget buildItem(int index, DocumentSnapshot document) {
     if (document['idFrom'] == id) {
-      // Right (my message)
+      // Le message personnel
       return Row(
         children: <Widget>[
           document['type'] == 0
-              // Text
+              // Texte
               ? Container(
                   child: Text(
                     document['content'],
@@ -242,7 +249,6 @@ class ChatScreenState extends State<ChatScreen> {
         mainAxisAlignment: MainAxisAlignment.end,
       );
     } else {
-      // Left (peer message)
       return Container(
         child: Column(
           children: <Widget>[
@@ -334,7 +340,7 @@ class ChatScreenState extends State<ChatScreen> {
               ],
             ),
 
-            // Time
+            // Date du message
             isLastMessageLeft(index)
                 ? Container(
                     child: Text(
@@ -369,6 +375,7 @@ class ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  // Lors de l'appui sur la flèche de retour arrière
   Future<bool> onBackPress() {
     if (isShowSticker) {
       setState(() {
@@ -388,13 +395,13 @@ class ChatScreenState extends State<ChatScreen> {
         children: <Widget>[
           Column(
             children: <Widget>[
-              // List of messages
+              // Liste des messages
               buildListMessage(),
 
               // Sticker
               (isShowSticker ? buildSticker() : Container()),
 
-              // Input content
+              // Entrée
               buildInput(),
             ],
           ),
@@ -534,7 +541,7 @@ class ChatScreenState extends State<ChatScreen> {
     return Container(
       child: Row(
         children: <Widget>[
-          // Button send image
+          // Bouton envoyer une image
           Material(
             child: new Container(
               margin: new EdgeInsets.symmetric(horizontal: 1.0),
@@ -558,7 +565,7 @@ class ChatScreenState extends State<ChatScreen> {
             color: Colors.white,
           ),
 
-          // Edit text
+          // Changer le texte
           Flexible(
             child: Container(
               child: TextField(
@@ -573,7 +580,7 @@ class ChatScreenState extends State<ChatScreen> {
             ),
           ),
 
-          // Button send message
+          // Bouton envoyer
           Material(
             child: new Container(
               margin: new EdgeInsets.symmetric(horizontal: 8.0),

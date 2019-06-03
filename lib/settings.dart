@@ -1,3 +1,9 @@
+// ----------------------------------------------------
+// Projet Tutoré Komeet -------------------------------
+// Josquin IMBERT, Rémi TEYSSIEUX,---------------------
+// Antoine DE GRYSE, Stanislas MEDRANO ----------------
+//-----------------------------------------------------
+
 import 'dart:async';
 import 'dart:io';
 
@@ -25,6 +31,7 @@ class Settings extends StatelessWidget {
         ),
         centerTitle: true,
       ),
+      // Nouvel écran de Réglages
       body: new SettingsScreen(),
     );
 
@@ -40,6 +47,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   TextEditingController controllerNickname;
   TextEditingController controllerAboutMe;
 
+  // Préférences partagées :  stockage des données en local
   SharedPreferences prefs;
 
   String id = '';
@@ -67,6 +75,7 @@ class SettingsScreenState extends State<SettingsScreen> {
         context,
         MaterialPageRoute(builder: (context) {
           return MyApp();
+          // Retour à l'écran de main si l'utilisateur est connecté
         }),
       );
     },
@@ -89,10 +98,11 @@ class SettingsScreenState extends State<SettingsScreen> {
     controllerNickname = new TextEditingController(text: nickname);
     controllerAboutMe = new TextEditingController(text: aboutMe);
 
-    // Force refresh input
+    // Obligation de rafraichir
     setState(() {});
   }
 
+  // Procédures back-end d'envoi de la photo de profil
   Future getImage() async {
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
@@ -180,6 +190,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
+  // Changement du texte du bouton si changement de thème
   void checkTheme() {
     if (ThemeKomeet.darkTheme) {
       themeTxt = "MODE CLAIR";
@@ -188,6 +199,8 @@ class SettingsScreenState extends State<SettingsScreen> {
       themeTxt = "MODE SOMBRE";
     }
   }
+
+  // Choix de la couleur dans le color picker
   void handleChangeTheme() {
     focusNodeNickname.unfocus();
     focusNodeAboutMe.unfocus();
@@ -210,6 +223,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
+  // Application du thème sombre
   void handleDarkTheme() {
     if (!ThemeKomeet.darkTheme) {
       setState(() {
@@ -299,10 +313,10 @@ class SettingsScreenState extends State<SettingsScreen> {
                 margin: EdgeInsets.all(20.0),
               ),
 
-              // Input
+              // Changement d'informations utilisateur
               Column(
                 children: <Widget>[
-                  // Username
+                  // Nom
                   Container(
                     child: Text(
                       'Pseudo',
@@ -329,7 +343,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                     margin: EdgeInsets.only(left: 30.0, right: 30.0),
                   ),
 
-                  // About me
+                  // Langue
                   Container(
                     child: Text(
                       'Langue',
@@ -359,7 +373,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
               ),
 
-              // Button
+              // Boutons d'actions
               Container(
                 child: FlatButton(
                   onPressed: handleUpdateData,

@@ -1,3 +1,9 @@
+// ----------------------------------------------------
+// Projet Tutoré Komeet -------------------------------
+// Josquin IMBERT, Rémi TEYSSIEUX,---------------------
+// Antoine DE GRYSE, Stanislas MEDRANO ----------------
+//-----------------------------------------------------
+
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +15,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// ------------------------------------------------------
+// MyApp est toujours la première classe lancée en flutter
+// -------------------------------------------------------
 
 class MyApp extends StatelessWidget {
   @override
@@ -21,6 +30,7 @@ class MyApp extends StatelessWidget {
 
         ),
         home: LoginScreen(title: 'Komeet'),
+        // enlève la bannière "debug"
         debugShowCheckedModeBanner: false,
       );
     }
@@ -45,6 +55,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> {
+
+  // Back-end de l'authentification
 
   final GoogleSignIn googleSignIn = GoogleSignIn(); // déclaration d'un nouveau client google
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance; // nouvelle instance de firebase auth
@@ -80,6 +92,7 @@ class LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  // Procédure back-end de connexion
   Future<Null> handleSignIn() async {
     prefs = await SharedPreferences.getInstance();
 
@@ -98,7 +111,6 @@ class LoginScreenState extends State<LoginScreen> {
     FirebaseUser firebaseUser = await firebaseAuth.signInWithCredential(credential);
 
     if (firebaseUser != null) { // si les tokens ont bien été récupérés
-      // Check is already sign up
       final QuerySnapshot result =
           await Firestore.instance.collection('users').where('id', isEqualTo: firebaseUser.uid).getDocuments();
       final List<DocumentSnapshot> documents = result.documents;
