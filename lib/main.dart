@@ -292,7 +292,7 @@ class MainScreenState extends State<MainScreen> {
   void onItemMenuPress(Choice choice) {
     if (choice.title == 'Réglages') {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => SettingsScreen ()));
+          context, MaterialPageRoute(builder: (context) => Settings ()));
     } else if (choice.title == 'Supprimer mon profil') {
       handleDeleteProfile();
     } else if (choice.title == 'Supprimer la conversation') {
