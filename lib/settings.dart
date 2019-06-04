@@ -63,7 +63,7 @@ class SettingsScreenState extends State<SettingsScreen> {
 
   //color picker
 
-  Color currentColor = Colors.grey;
+  Color currentColor = ThemeKomeet.themeColor;
   static String themeTxt;
 
   void changeColor(Color color) {

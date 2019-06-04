@@ -46,24 +46,6 @@ class MainScreenState extends State<MainScreen> {
 
   // Lancement du widget chargement commandé par ce booléen
   bool isLoading = false;
-  bool isPressed = false;
-  bool enableNotif = true;
-
-  // Liste de choix du menu de droite
-  List<Choice> choices = const <Choice>[
-    const Choice(title: 'Réglages', icon: Icons.settings),
-    const Choice(title: 'Supprimer mon profil', icon: Icons.delete)
-  ];
-
-  List<Choice> friendsOptionsNotifOn = const <Choice>[
-    const Choice(title: 'Supprimer cet ami', icon: Icons.highlight_off),
-    const Choice(title: 'Désactiver les notifications', icon: Icons.notifications_none),
-  ];
-
-  List<Choice> friendsOptionsNotifOff = const <Choice>[
-    const Choice(title: 'Supprimer cet ami', icon: Icons.highlight_off),
-    const Choice(title: 'Activer les notifications', icon: Icons.notifications_none),
-  ];
 
   // Quand appuie sur retour (icône déconnexion)
 
@@ -77,7 +59,8 @@ class MainScreenState extends State<MainScreen> {
         context: context,
         builder: (BuildContext context) {
           return SimpleDialog(
-            contentPadding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
+            contentPadding:
+                EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
             children: <Widget>[
               Container(
                 color: ThemeKomeet.themeColor,
@@ -96,7 +79,10 @@ class MainScreenState extends State<MainScreen> {
                     ),
                     Text(
                       'Déconnexion',
-                      style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold),
                     ),
                     Text(
                       'Confirmation ?',
@@ -122,7 +108,9 @@ class MainScreenState extends State<MainScreen> {
                     ),
                     Text(
                       'Annuler',
-                      style: TextStyle(color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: ThemeKomeet.primaryColor,
+                          fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
@@ -142,7 +130,9 @@ class MainScreenState extends State<MainScreen> {
                     ),
                     Text(
                       'Oui',
-                      style: TextStyle(color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: ThemeKomeet.primaryColor,
+                          fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
@@ -159,7 +149,7 @@ class MainScreenState extends State<MainScreen> {
   }
 
   // Méthode pour rechercher un contact
-  Future<Null> handleSearchContact () {
+  Future<Null> handleSearchContact() {
     Fluttertoast.showToast(msg: "A implémenter");
   }
 
@@ -169,7 +159,6 @@ class MainScreenState extends State<MainScreen> {
     return Future.value(true);
   }
 
-
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
     if (document['id'] == currentUserId) {
       return Container();
@@ -177,60 +166,63 @@ class MainScreenState extends State<MainScreen> {
       return Container(
         child: GestureDetector(
           onLongPress: () {
-
             Fluttertoast.showToast(msg: "onlongPress à implémenter");
           },
-        child: FlatButton(
-          child: Row(
-            children: <Widget>[
-              Material(
-                child: CachedNetworkImage(
-                  placeholder: (context, url) => Container(
-                        child: CircularProgressIndicator(
-                          strokeWidth: 1.0,
-                          valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor),
+          child: FlatButton(
+            child: Row(
+              children: <Widget>[
+                Material(
+                  child: CachedNetworkImage(
+                    placeholder: (context, url) => Container(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 1.0,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                ThemeKomeet.themeColor),
+                          ),
+                          width: 50.0,
+                          height: 50.0,
+                          padding: EdgeInsets.all(15.0),
                         ),
-                        width: 50.0,
-                        height: 50.0,
-                        padding: EdgeInsets.all(15.0),
-                      ),
-                  imageUrl: document['photoUrl'],
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                clipBehavior: Clip.hardEdge,
-              ),
-              // Widget contenant le nom et le statut
-              Flexible(
-                child: Container(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          '${document['nickname']}',
-                          style: TextStyle(color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold, fontSize: 18),
-
-                        ),
-                        alignment: Alignment.centerLeft,
-                        margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5),
-                      ),
-                      Container(
-                        child: Text(
-                          'Statut : ${document['aboutMe'] ?? 'Je suis cool'}', // il faudra mettre le dernier message à la place
-                          style: TextStyle(color: ThemeKomeet.primaryColor),
-                        ),
-                        alignment: Alignment.centerLeft,
-                        margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                      ),
-                    ],
+                    imageUrl: document['photoUrl'],
+                    width: 50.0,
+                    height: 50.0,
+                    fit: BoxFit.cover,
                   ),
-                  margin: EdgeInsets.only(left: 20.0),
+                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                  clipBehavior: Clip.hardEdge,
                 ),
-              ),
-              Container(
-                /*child: IconButton( // Bouton + pour ajouter des amis
+                // Widget contenant le nom et le statut
+                Flexible(
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          child: Text(
+                            '${document['nickname']}',
+                            style: TextStyle(
+                                color: ThemeKomeet.primaryColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                          ),
+                          alignment: Alignment.centerLeft,
+                          margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5),
+                        ),
+                        Container(
+                          child: Text(
+                            'Statut : ${document['aboutMe'] ?? 'Je suis cool'}',
+                            // il faudra mettre le dernier message à la place
+                            style: TextStyle(color: ThemeKomeet.primaryColor),
+                          ),
+                          alignment: Alignment.centerLeft,
+                          margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+                        ),
+                      ],
+                    ),
+                    margin: EdgeInsets.only(left: 20.0),
+                  ),
+                ),
+                Container(
+                  /*child: IconButton( // Bouton + pour ajouter des amis
 
                   onPressed: () {
                     setState(() {
@@ -242,34 +234,11 @@ class MainScreenState extends State<MainScreen> {
                 alignment: Alignment.centerRight,
                 margin: EdgeInsets.fromLTRB(30,0, 2, 0),*/
 
-                child: PopupMenuButton<Choice>(
-                  icon: Icon(Icons.menu),
-                  onSelected: onItemMenuPress,
-                  itemBuilder: (BuildContext context) {
-                    if (enableNotif) {
-                    return friendsOptionsNotifOn.map((Choice choice) {
-                      return PopupMenuItem<Choice>(
-                          value: choice,
-                          child: Row(
-                            children: <Widget>[
-                              Icon(
-                                choice.icon,
-                                color: ThemeKomeet.primaryColor,
-                              ),
-                              Container(
-                                width: 10.0,
-                              ),
-                              Text(
-                                choice.title,
-                                style: TextStyle(
-                                    color: ThemeKomeet.primaryColor),
-                              ),
-                            ],
-                          ));
-                    }).toList();
-                    }
-                    else {
-                      return friendsOptionsNotifOff.map((Choice choice) {
+                  child: PopupMenuButton<Choice>(
+                    icon: Icon(Icons.menu),
+                    onSelected: onItemMenuPress,
+                    itemBuilder: (BuildContext context) {
+                      return Static.friendsOptions.map((Choice choice) {
                         return PopupMenuItem<Choice>(
                             value: choice,
                             child: Row(
@@ -289,63 +258,58 @@ class MainScreenState extends State<MainScreen> {
                               ],
                             ));
                       }).toList();
-                    }
-                  },
-
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
+            // Lorsque l'on appuie sur le widget Flexible
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      // Lancement d'un nouvel écran de chat
+                      builder: (context) => Chat(
+                            peerId: document.documentID,
+                            peerAvatar: document['photoUrl'],
+                            chatMate: document['nickname'],
+                          )));
+            },
+            color: ThemeKomeet.greyColor2,
+            padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
           ),
-          // Lorsque l'on appuie sur le widget Flexible
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  // Lancement d'un nouvel écran de chat
-                    builder: (context) => Chat(
-                          peerId: document.documentID,
-                          peerAvatar: document['photoUrl'],
-                          chatMate: document['nickname'],
-                        )));
-          },
-          color: ThemeKomeet.greyColor2,
-          padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        ),
         ),
         margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
       );
     }
-
   }
 
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   // Evenements lors du l'appui sur le menu de droite
   void onItemMenuPress(Choice choice) {
-   if (choice.title == 'Réglages') {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
-    }
-    else if (choice.title == 'Supprimer mon profil') {
+    if (choice.title == 'Réglages') {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => SettingsScreen ()));
+    } else if (choice.title == 'Supprimer mon profil') {
       handleDeleteProfile();
+    } else if (choice.title == 'Supprimer la conversation') {
+      Fluttertoast.showToast(msg: 'Conversation supprimée (implémenter)');
+    } else if (choice.title == 'Désactiver les notifications') {
+      Fluttertoast.showToast(msg: 'Notifications désactivées (implémenter)');
+      setState(() {
+        Static.enableNotif = false;
+      });
+    } else if (choice.title == 'Supprimer cet ami') {
+      Fluttertoast.showToast(msg: 'Ami supprimé (implémenter)');
+    } else if (choice.title == 'Activer les notifications') {
+      Fluttertoast.showToast(msg: 'Notifications activées (implémenter)');
+      setState(() {
+        Static.enableNotif = true;
+      });
     }
-    else if (choice.title == 'Désactiver les notifications') {
-     Fluttertoast.showToast(msg: 'Notifications désactivées (implémenter)');
-     setState(() {
-       enableNotif = false;
-     });
-
-   }
-    else if (choice.title == 'Supprimer cet ami') {
-     Fluttertoast.showToast(msg: 'Ami supprimé (implémenter)');
-   }
-    else if (choice.title == 'Activer les notifications') {
-     Fluttertoast.showToast(msg: 'Notifications activées (implémenter)');
-     setState(() {
-       enableNotif = true;
-     });
-
-   }
   }
 
   // Méthode back-end de déconnexion du profil
@@ -363,8 +327,9 @@ class MainScreenState extends State<MainScreen> {
     });
 
     // Navigation vers la page de Login
-    Navigator.of(context)
-        .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false);
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => MyApp()),
+        (Route<dynamic> route) => false);
   }
 
   // Méthode back-end de suppression du profil de la base de données
@@ -383,11 +348,14 @@ class MainScreenState extends State<MainScreen> {
     });
 
     // Navigation vers un écran de Login
-    Navigator.of(context)
-        .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false);
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => MyApp()),
+        (Route<dynamic> route) => false);
 
-  Firestore.instance.collection("users").document(currentUserId).delete();  // méthode pour supprimer de firebase le currentUser 
-
+    Firestore.instance
+        .collection("users")
+        .document(currentUserId)
+        .delete(); // méthode pour supprimer de firebase le currentUser
   }
 
   @override
@@ -397,57 +365,84 @@ class MainScreenState extends State<MainScreen> {
         iconTheme: IconThemeData(
           color: ThemeKomeet.primaryColor,
         ),
-        leading: new IconButton(
-          icon: new Icon(Icons.exit_to_app),
+        leading: IconButton(
+          icon: Icon(Icons.exit_to_app),
           onPressed: openDialog,
         ),
         title: Text(
           'Messages',
-          style: TextStyle(color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
-
+          style: TextStyle(
+              color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         actions: <Widget>[
+          // Bouton ajouter amis
+          IconButton(
+            onPressed: handleAddFriends,
+            icon: Icon(Icons.add),
+          ),
 
           //Bouton rechercher des contacts
           IconButton(
             onPressed: handleSearchContact,
             icon: Icon(Icons.search),
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            //padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
           ),
           PopupMenuButton<Choice>(
             onSelected: onItemMenuPress,
             itemBuilder: (BuildContext context) {
-              return choices.map((Choice choice) {
-                return PopupMenuItem<Choice>(
-                    value: choice,
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          choice.icon,
-                          color: ThemeKomeet.primaryColor,
-                        ),
-                        Container(
-                          width: 10.0,
-                        ),
-                        Text(
-                          choice.title,
-                          style: TextStyle(color: ThemeKomeet.primaryColor),
-                        ),
-                      ],
-                    ));
-              }).toList();
+              if (Static.enableNotif) {
+                return Static.choicesNotifOn.map((Choice choice) {
+                  return PopupMenuItem<Choice>(
+                      value: choice,
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            choice.icon,
+                            color: ThemeKomeet.primaryColor,
+                          ),
+                          Container(
+                            width: 10.0,
+                          ),
+                          Text(
+                            choice.title,
+                            style: TextStyle(color: ThemeKomeet.primaryColor),
+                          ),
+                        ],
+                      ));
+                }).toList();
+              } else {
+                return Static.choicesNotifOff.map((Choice choice) {
+                  return PopupMenuItem<Choice>(
+                      value: choice,
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            choice.icon,
+                            color: ThemeKomeet.primaryColor,
+                          ),
+                          Container(
+                            width: 10.0,
+                          ),
+                          Text(
+                            choice.title,
+                            style: TextStyle(color: ThemeKomeet.primaryColor),
+                          ),
+                        ],
+                      ));
+                }).toList();
+              }
             },
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         onPressed: handleAddFriends,
-        tooltip: 'Nouvelle conversation',
+        tooltip: 'Nouvel ami',
         child: Icon(Icons.add),
 
         backgroundColor: ThemeKomeet.floatingBtnColor,
-      ),
+      ),*/
       body: WillPopScope(
         child: Stack(
           children: <Widget>[
@@ -459,14 +454,16 @@ class MainScreenState extends State<MainScreen> {
                   if (!snapshot.hasData) {
                     return Center(
                       child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            ThemeKomeet.themeColor),
                       ),
                     );
                   } else {
                     // construction de la listView
                     return ListView.builder(
                       padding: EdgeInsets.all(10.0),
-                      itemBuilder: (context, index) => buildItem(context, snapshot.data.documents[index]),
+                      itemBuilder: (context, index) =>
+                          buildItem(context, snapshot.data.documents[index]),
                       itemCount: snapshot.data.documents.length,
                     );
                   }
@@ -479,7 +476,9 @@ class MainScreenState extends State<MainScreen> {
               child: isLoading
                   ? Container(
                       child: Center(
-                        child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor)),
+                        child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                ThemeKomeet.themeColor)),
                       ),
                       color: Colors.white.withOpacity(0.8),
                     )
@@ -492,11 +491,3 @@ class MainScreenState extends State<MainScreen> {
     );
   }
 }
-
-class Choice {
-  const Choice({this.title, this.icon});
-
-  final String title;
-  final IconData icon;
-}
-
