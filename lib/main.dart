@@ -46,11 +46,23 @@ class MainScreenState extends State<MainScreen> {
 
   // Lancement du widget chargement commandé par ce booléen
   bool isLoading = false;
+  bool isPressed = false;
+  bool enableNotif = true;
 
   // Liste de choix du menu de droite
   List<Choice> choices = const <Choice>[
     const Choice(title: 'Réglages', icon: Icons.settings),
     const Choice(title: 'Supprimer mon profil', icon: Icons.delete)
+  ];
+
+  List<Choice> friendsOptionsNotifOn = const <Choice>[
+    const Choice(title: 'Supprimer cet ami', icon: Icons.highlight_off),
+    const Choice(title: 'Désactiver les notifications', icon: Icons.notifications_none),
+  ];
+
+  List<Choice> friendsOptionsNotifOff = const <Choice>[
+    const Choice(title: 'Supprimer cet ami', icon: Icons.highlight_off),
+    const Choice(title: 'Activer les notifications', icon: Icons.notifications_none),
   ];
 
   // Quand appuie sur retour (icône déconnexion)
@@ -152,8 +164,8 @@ class MainScreenState extends State<MainScreen> {
   }
 
   // Méthode pour ajouter des favoris
-  Future<bool> handleAddFavorites() {
-    Fluttertoast.showToast(msg: "A implémenter");
+  Future<bool> handleAddFriends() {
+    Fluttertoast.showToast(msg: "Ami ajouté (implémenter)");
     return Future.value(true);
   }
 
@@ -163,6 +175,11 @@ class MainScreenState extends State<MainScreen> {
       return Container();
     } else {
       return Container(
+        child: GestureDetector(
+          onLongPress: () {
+
+            Fluttertoast.showToast(msg: "onlongPress à implémenter");
+          },
         child: FlatButton(
           child: Row(
             children: <Widget>[
@@ -197,7 +214,7 @@ class MainScreenState extends State<MainScreen> {
 
                         ),
                         alignment: Alignment.centerLeft,
-                        margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
+                        margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5),
                       ),
                       Container(
                         child: Text(
@@ -206,10 +223,75 @@ class MainScreenState extends State<MainScreen> {
                         ),
                         alignment: Alignment.centerLeft,
                         margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                      )
+                      ),
                     ],
                   ),
                   margin: EdgeInsets.only(left: 20.0),
+                ),
+              ),
+              Container(
+                /*child: IconButton( // Bouton + pour ajouter des amis
+
+                  onPressed: () {
+                    setState(() {
+                      isPressed = true;
+                    });
+                  },
+                  icon: (isPressed) ? Icon(Icons.done) : Icon(Icons.add),
+                ),
+                alignment: Alignment.centerRight,
+                margin: EdgeInsets.fromLTRB(30,0, 2, 0),*/
+
+                child: PopupMenuButton<Choice>(
+                  icon: Icon(Icons.menu),
+                  onSelected: onItemMenuPress,
+                  itemBuilder: (BuildContext context) {
+                    if (enableNotif) {
+                    return friendsOptionsNotifOn.map((Choice choice) {
+                      return PopupMenuItem<Choice>(
+                          value: choice,
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                choice.icon,
+                                color: ThemeKomeet.primaryColor,
+                              ),
+                              Container(
+                                width: 10.0,
+                              ),
+                              Text(
+                                choice.title,
+                                style: TextStyle(
+                                    color: ThemeKomeet.primaryColor),
+                              ),
+                            ],
+                          ));
+                    }).toList();
+                    }
+                    else {
+                      return friendsOptionsNotifOff.map((Choice choice) {
+                        return PopupMenuItem<Choice>(
+                            value: choice,
+                            child: Row(
+                              children: <Widget>[
+                                Icon(
+                                  choice.icon,
+                                  color: ThemeKomeet.primaryColor,
+                                ),
+                                Container(
+                                  width: 10.0,
+                                ),
+                                Text(
+                                  choice.title,
+                                  style: TextStyle(
+                                      color: ThemeKomeet.primaryColor),
+                                ),
+                              ],
+                            ));
+                      }).toList();
+                    }
+                  },
+
                 ),
               ),
             ],
@@ -230,9 +312,11 @@ class MainScreenState extends State<MainScreen> {
           padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         ),
+        ),
         margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
       );
     }
+
   }
 
   final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -245,6 +329,23 @@ class MainScreenState extends State<MainScreen> {
     else if (choice.title == 'Supprimer mon profil') {
       handleDeleteProfile();
     }
+    else if (choice.title == 'Désactiver les notifications') {
+     Fluttertoast.showToast(msg: 'Notifications désactivées (implémenter)');
+     setState(() {
+       enableNotif = false;
+     });
+
+   }
+    else if (choice.title == 'Supprimer cet ami') {
+     Fluttertoast.showToast(msg: 'Ami supprimé (implémenter)');
+   }
+    else if (choice.title == 'Activer les notifications') {
+     Fluttertoast.showToast(msg: 'Notifications activées (implémenter)');
+     setState(() {
+       enableNotif = true;
+     });
+
+   }
   }
 
   // Méthode back-end de déconnexion du profil
@@ -314,13 +415,6 @@ class MainScreenState extends State<MainScreen> {
             icon: Icon(Icons.search),
             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
           ),
-
-          // Bouton favoris
-          IconButton(
-            onPressed: handleAddFavorites,
-            icon: Icon(Icons.star),
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-          ),
           PopupMenuButton<Choice>(
             onSelected: onItemMenuPress,
             itemBuilder: (BuildContext context) {
@@ -346,6 +440,13 @@ class MainScreenState extends State<MainScreen> {
             },
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: handleAddFriends,
+        tooltip: 'Nouvelle conversation',
+        child: Icon(Icons.add),
+
+        backgroundColor: ThemeKomeet.floatingBtnColor,
       ),
       body: WillPopScope(
         child: Stack(
