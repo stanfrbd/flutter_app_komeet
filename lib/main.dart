@@ -160,7 +160,7 @@ class MainScreenState extends State<MainScreen> {
   }
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
-    if (document['id'] == currentUserId) {
+    if (document['codeUtilisateur'] == currentUserId) {
       return Container();
     } else {
       return Container(
@@ -198,7 +198,7 @@ class MainScreenState extends State<MainScreen> {
                       children: <Widget>[
                         Container(
                           child: Text(
-                            '${document['nickname']}',
+                            '${document['pseudoUtilisateur']}',
                             style: TextStyle(
                                 color: ThemeKomeet.primaryColor,
                                 fontWeight: FontWeight.bold,
@@ -272,7 +272,7 @@ class MainScreenState extends State<MainScreen> {
                       builder: (context) => Chat(
                             peerId: document.documentID,
                             peerAvatar: document['photoUrl'],
-                            chatMate: document['nickname'],
+                            chatMate: document['pseudoUtilisateur'],
                           )));
             },
             color: ThemeKomeet.greyColor2,
@@ -353,7 +353,7 @@ class MainScreenState extends State<MainScreen> {
         (Route<dynamic> route) => false);
 
     Firestore.instance
-        .collection("users")
+        .collection("Utilisateur")
         .document(currentUserId)
         .delete(); // méthode pour supprimer de firebase le currentUser
   }
@@ -449,7 +449,7 @@ class MainScreenState extends State<MainScreen> {
             // Liste de conversation
             Container(
               child: StreamBuilder(
-                stream: Firestore.instance.collection('users').snapshots(),
+                stream: Firestore.instance.collection('Utilisateur').snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(
