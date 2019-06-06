@@ -44,21 +44,21 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class SettingsScreenState extends State<SettingsScreen> {
-  TextEditingController controllerNickname;
+  TextEditingController controllerpseudoUtilisateur;
   TextEditingController controllerAboutMe;
 
   // Préférences partagées :  stockage des données en local
   SharedPreferences prefs;
 
-  String id = '';
-  String nickname = '';
+  String codeUtilisateur = '';
+  String pseudoUtilisateur = '';
   String aboutMe = '';
   String photoUrl = '';
 
   bool isLoading = false;
   File avatarImageFile;
 
-  final FocusNode focusNodeNickname = new FocusNode();
+  final FocusNode focusNodepseudoUtilisateur = new FocusNode();
   final FocusNode focusNodeAboutMe = new FocusNode();
 
   //color picker
@@ -67,6 +67,9 @@ class SettingsScreenState extends State<SettingsScreen> {
   static String themeTxt;
 
   void changeColor(Color color) {
+    if (color == Colors.black) {
+      handleDarkTheme();
+    }
     currentColor = color;
     setState(() {
       ThemeKomeet.themeColor = currentColor;
@@ -90,12 +93,12 @@ class SettingsScreenState extends State<SettingsScreen> {
 
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
-    id = prefs.getString('id') ?? '';
-    nickname = prefs.getString('nickname') ?? '';
+    codeUtilisateur = prefs.getString('codeUtilisateur') ?? '';
+    pseudoUtilisateur = prefs.getString('pseudoUtilisateur') ?? '';
     aboutMe = prefs.getString('aboutMe') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
 
-    controllerNickname = new TextEditingController(text: nickname);
+    controllerpseudoUtilisateur = new TextEditingController(text: pseudoUtilisateur);
     controllerAboutMe = new TextEditingController(text: aboutMe);
 
     // Obligation de rafraichir
@@ -116,7 +119,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future uploadFile() async {
-    String fileName = id;
+    String fileName = codeUtilisateur;
     StorageReference reference = FirebaseStorage.instance.ref().child(fileName);
     StorageUploadTask uploadTask = reference.putFile(avatarImageFile);
     StorageTaskSnapshot storageTaskSnapshot;
@@ -126,9 +129,9 @@ class SettingsScreenState extends State<SettingsScreen> {
         storageTaskSnapshot.ref.getDownloadURL().then((downloadUrl) {
           photoUrl = downloadUrl;
           Firestore.instance
-              .collection('users')
-              .document(id)
-              .updateData({'nickname': nickname, 'aboutMe': aboutMe, 'photoUrl': photoUrl}).then((data) async {
+              .collection('Utilisateur')
+              .document(codeUtilisateur)
+              .updateData({'pseudoUtilisateur': pseudoUtilisateur, 'aboutMe': aboutMe, 'photoUrl': photoUrl}).then((data) async {
             await prefs.setString('photoUrl', photoUrl);
             setState(() {
               isLoading = false;
@@ -161,7 +164,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   }
 
   void handleUpdateData() {
-    focusNodeNickname.unfocus();
+    focusNodepseudoUtilisateur.unfocus();
     focusNodeAboutMe.unfocus();
 
     setState(() {
@@ -169,10 +172,10 @@ class SettingsScreenState extends State<SettingsScreen> {
     });
 
     Firestore.instance
-        .collection('users')
-        .document(id)
-        .updateData({'nickname': nickname, 'aboutMe': aboutMe, 'photoUrl': photoUrl}).then((data) async {
-      await prefs.setString('nickname', nickname);
+        .collection('Utilisateur')
+        .document(codeUtilisateur)
+        .updateData({'pseudoUtilisateur': pseudoUtilisateur, 'aboutMe': aboutMe, 'photoUrl': photoUrl}).then((data) async {
+      await prefs.setString('pseudoUtilisateur', pseudoUtilisateur);
       await prefs.setString('aboutMe', aboutMe);
       await prefs.setString('photoUrl', photoUrl);
 
@@ -202,7 +205,7 @@ class SettingsScreenState extends State<SettingsScreen> {
 
   // Choix de la couleur dans le color picker
   void handleChangeTheme() {
-    focusNodeNickname.unfocus();
+    focusNodepseudoUtilisateur.unfocus();
     focusNodeAboutMe.unfocus();
     if (!ThemeKomeet.darkTheme) {
       // launch theme changer...
@@ -220,6 +223,9 @@ class SettingsScreenState extends State<SettingsScreen> {
           );
         },
       );
+    }
+    else {
+      Fluttertoast.showToast(msg: "Pas de changement en mode sombre");
     }
   }
 
@@ -333,11 +339,11 @@ class SettingsScreenState extends State<SettingsScreen> {
                           contentPadding: new EdgeInsets.all(5.0),
                           hintStyle: TextStyle(color: ThemeKomeet.greyColor),
                         ),
-                        controller: controllerNickname,
+                        controller: controllerpseudoUtilisateur,
                         onChanged: (value) {
-                          nickname = value;
+                          pseudoUtilisateur = value;
                         },
-                        focusNode: focusNodeNickname,
+                        focusNode: focusNodepseudoUtilisateur,
                       ),
                     ),
                     margin: EdgeInsets.only(left: 30.0, right: 30.0),
