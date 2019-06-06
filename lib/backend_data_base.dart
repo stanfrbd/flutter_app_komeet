@@ -24,58 +24,68 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class BackendDataBase {
 
-  bool addFriend(String codeAmi, String codeUtilisateur) {
+  Future<bool> addFriend(String codeAmi, String codeUtilisateur) async {
+    try
+    {
+      //Ajout d'un ami dans la BD
+      Firestore.instance
+          .collection('Connaissance')
+          .document()
+          .setData({
+        'codeAmi': codeAmi,
+        'codeUtilisateur': codeUtilisateur
+      });
 
-    // ajout d'un ami en back-end
-    Firestore.instance
-        .collection('Connaissance')
-        .document()
-        .setData({
-      'codeAmi': codeAmi,
-      'codeUtilisateur': codeUtilisateur
-    });
+      //L'Ajout se fait aussi dans l'autre sens
+      Firestore.instance
+          .collection('Connaissance')
+          .document()
+          .setData({
+        'codeAmi': codeUtilisateur,
+        'codeUtilisateur': codeAmi
+      });
 
-    Firestore.instance
-        .collection('Connaissance')
-        .document()
-        .setData({
-      'codeAmi': codeUtilisateur,
-      'codeUtilisateur': codeAmi
-    });
+      //Création de la discussion entre les deux utilisateurs
+      Firestore.instance
+          .collection('Discussion')
+          .document()
+          .setData({
+        'codeDiscussion': '$codeUtilisateur-$codeAmi',
+        'titreDiscussion': 'Une discussion',
+      });
 
-
-    //Création discussion
-    Firestore.instance
-        .collection('Discussion')
-        .document()
-        .setData({
-      'codeDiscussion': '$codeUtilisateur-$codeAmi',
-      'codeUtilisateur': 'Une discussion',
-    });
-
-
-    //Ajout des personnes à la discussion
-    addUserToDiscussion('$codeUtilisateur-$codeAmi', codeUtilisateur);
-    addUserToDiscussion('$codeUtilisateur-$codeAmi', codeAmi);
-
+      //Ajout des personnes à la discussion
+      addUserToDiscussion('$codeUtilisateur-$codeAmi', codeUtilisateur);
+      addUserToDiscussion('$codeUtilisateur-$codeAmi', codeAmi);
+    }
+    on Exception
+    {
+      return false;
+    }
     return true;
-  }
-
-  void addUserToDiscussion(String codeDiscussion, String codeUtilisateur){
-    Firestore.instance
-        .collection('Discussion_Utilisateur')
-        .document()
-        .setData({
-      'codeDiscussion': codeDiscussion,
-      'codeUtilisateur': codeUtilisateur,
-    });
-  }
+  } //Fin addFriend
 
 
 
-  String getcodeUtilisateur(String pseudoUtilisateur) {
-    String codeUtilisateur = '';
-    // requête à implémenter
-    return codeUtilisateur;
-  }
+  Future<bool> addUserToDiscussion(String codeDiscussion, String codeUtilisateur) async {
+    try
+    {
+      //Ajout de l'utilisateur à la conversation dans la BD
+      Firestore.instance
+          .collection('Discussion_Utilisateur')
+          .document()
+          .setData({
+        'codeDiscussion': codeDiscussion,
+        'codeUtilisateur': codeUtilisateur,
+      });
+    }
+    on Exception
+    {
+      return false;
+    }
+    return true;
+  } //Fin addUserToDiscussion
+
+
+
 }
