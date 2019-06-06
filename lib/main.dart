@@ -163,7 +163,7 @@ class MainScreenState extends State<MainScreen> {
     // Pseudo qui est récupéré avec l'interface graphique...
     String pseudoUtilisateur = '';
 
-    String codeAmi = backendDataBase.getcodeUtilisateur(pseudoUtilisateur);
+    String codeAmi;
 
     // Ajout d'un ami en back-end
     backendDataBase.addFriend(codeAmi, currentUserId);
