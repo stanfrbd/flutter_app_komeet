@@ -4,10 +4,8 @@ Projet tutoré S2 - Application en réseau - Dart - Flutter - Firebase
 
 Rémi T. - Josquin I. - Antoine D-G. - Stanislas M.
 
-<img src="https://user-images.githubusercontent.com/44167150/58954529-b9e43e80-8799-11e9-8cbd-1bd4d8ceccab.png" alt="drawing" width="200"/>
-
 ## Avant toute chose
-* `flutter`doit être à jour !
+
 * `git clone https://github.com/stanfrbd/flutter_app_komeet` ou `download zip`
 
 * **Dans le cas où on `download zip` il faut renommer `flutter_app_komeet-master` en `flutter_app_komeet`**

@@ -31,7 +31,6 @@ dependencies:
   cached_network_image: ^0.7.0
   intl: ^0.15.7
   flutter_colorpicker: any
-  flutter_launcher_icons: "^0.7.2"
 
 dev_dependencies:
   flutter_test:
@@ -39,11 +38,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
-flutter_icons:
-    ios: false
-    android: true
-    image_path_ios: "assets/launcher/icon.png"
-    image_path_android: "assets/launcher/icon.png"
-    adaptive_icon_background: "assets/launcher/background.png"
-    adaptive_icon_foreground: "assets/launcher/foreground.png"
