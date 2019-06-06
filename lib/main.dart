@@ -251,7 +251,7 @@ class MainScreenState extends State<MainScreen> {
                 margin: EdgeInsets.fromLTRB(30,0, 2, 0),*/
 
                   child: PopupMenuButton<Choice>(
-                    icon: Icon(Icons.menu),
+                    icon: Icon(Icons.menu, color: ThemeKomeet.primaryColor),
                     onSelected: onItemMenuPress,
                     itemBuilder: (BuildContext context) {
                       return Static.friendsOptions.map((Choice choice) {

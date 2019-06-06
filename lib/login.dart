@@ -27,7 +27,6 @@ class MyApp extends StatelessWidget {
         title: 'Komeet',
         theme: new ThemeData(
           primarySwatch: ThemeKomeet.themeColor,
-
         ),
         home: LoginScreen(title: 'Komeet'),
         // enlève la bannière "debug"
