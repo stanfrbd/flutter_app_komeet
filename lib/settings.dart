@@ -68,6 +68,9 @@ class SettingsScreenState extends State<SettingsScreen> {
   static String themeTxt;
 
   void changeColor(Color color) {
+    if (color == Colors.black) {
+      handleDarkTheme();
+    }
     currentColor = color;
     setState(() {
       ThemeKomeet.themeColor = currentColor;
@@ -221,6 +224,9 @@ class SettingsScreenState extends State<SettingsScreen> {
           );
         },
       );
+    }
+    else {
+      Fluttertoast.showToast(msg: "Pas de changement en mode sombre");
     }
   }
 
