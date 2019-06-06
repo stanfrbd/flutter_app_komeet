@@ -12,6 +12,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_komeet/const.dart';
+import 'package:flutter_app_komeet/backend_data_base.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -60,7 +61,7 @@ class ChatScreenState extends State<ChatScreen> {
 
   String peerId;
   String peerAvatar;
-  String id;
+  String codeUtilisateur;
 
   var listMessage;
   String groupChatId;
@@ -100,11 +101,11 @@ class ChatScreenState extends State<ChatScreen> {
 
   readLocal() async {
     prefs = await SharedPreferences.getInstance();
-    id = prefs.getString('id') ?? '';
-    if (id.hashCode <= peerId.hashCode) {
-      groupChatId = '$id-$peerId';
+    codeUtilisateur = prefs.getString('codeUtilisateur') ?? '';
+    if (codeUtilisateur.hashCode <= peerId.hashCode) {
+      groupChatId = '$codeUtilisateur-$peerId';
     } else {
-      groupChatId = '$peerId-$id';
+      groupChatId = '$peerId-$codeUtilisateur';
     }
 
     setState(() {});
@@ -163,7 +164,7 @@ class ChatScreenState extends State<ChatScreen> {
         await transaction.set(
           documentReference,
           {
-            'idFrom': id,
+            'idFrom': codeUtilisateur,
             'idTo': peerId,
             'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
             'content': content,
@@ -178,7 +179,7 @@ class ChatScreenState extends State<ChatScreen> {
   }
 
   Widget buildItem(int index, DocumentSnapshot document) {
-    if (document['idFrom'] == id) {
+    if (document['idFrom'] == codeUtilisateur) {
       // Le message personnel
       return Row(
         children: <Widget>[
@@ -360,7 +361,7 @@ class ChatScreenState extends State<ChatScreen> {
   }
 
   bool isLastMessageLeft(int index) {
-    if ((index > 0 && listMessage != null && listMessage[index - 1]['idFrom'] == id) || index == 0) {
+    if ((index > 0 && listMessage != null && listMessage[index - 1]['idFrom'] == codeUtilisateur) || index == 0) {
       return true;
     } else {
       return false;
@@ -368,7 +369,7 @@ class ChatScreenState extends State<ChatScreen> {
   }
 
   bool isLastMessageRight(int index) {
-    if ((index > 0 && listMessage != null && listMessage[index - 1]['idFrom'] != id) || index == 0) {
+    if ((index > 0 && listMessage != null && listMessage[index - 1]['idFrom'] != codeUtilisateur) || index == 0) {
       return true;
     } else {
       return false;

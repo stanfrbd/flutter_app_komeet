@@ -16,6 +16,7 @@ import 'package:flutter_app_komeet/chat.dart';
 import 'package:flutter_app_komeet/const.dart';
 import 'package:flutter_app_komeet/login.dart';
 import 'package:flutter_app_komeet/settings.dart';
+import 'package:flutter_app_komeet/backend_data_base.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 // -----------------------------------------
@@ -31,6 +32,7 @@ class MainScreen extends StatefulWidget {
   // Utilisateur courant
   final String currentUserId;
 
+
   // Constructeur
   MainScreen({Key key, @required this.currentUserId}) : super(key: key);
 
@@ -43,6 +45,9 @@ class MainScreenState extends State<MainScreen> {
   MainScreenState({Key key, @required this.currentUserId});
 
   final String currentUserId;
+
+  // Instance de BackendDataBase
+  BackendDataBase backendDataBase = new BackendDataBase();
 
   // Lancement du widget chargement commandé par ce booléen
   bool isLoading = false;
@@ -151,6 +156,17 @@ class MainScreenState extends State<MainScreen> {
   // Méthode pour rechercher un contact
   Future<Null> handleSearchContact() {
     Fluttertoast.showToast(msg: "A implémenter");
+    //1 demande saisir string
+    //2 affiche tous les utilisateur qui on ce pseudo
+    //3 appel fonction ajout amis
+
+    // Pseudo qui est récupéré avec l'interface graphique...
+    String pseudoUtilisateur = '';
+
+    String codeAmi;
+
+    // Ajout d'un ami en back-end
+    backendDataBase.addFriend(codeAmi, currentUserId);
   }
 
   // Méthode pour ajouter des favoris
@@ -160,7 +176,7 @@ class MainScreenState extends State<MainScreen> {
   }
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
-    if (document['id'] == currentUserId) {
+    if (document['codeUtilisateur'] == currentUserId) {
       return Container();
     } else {
       return Container(
@@ -198,7 +214,7 @@ class MainScreenState extends State<MainScreen> {
                       children: <Widget>[
                         Container(
                           child: Text(
-                            '${document['nickname']}',
+                            '${document['pseudoUtilisateur']}',
                             style: TextStyle(
                                 color: ThemeKomeet.primaryColor,
                                 fontWeight: FontWeight.bold,
@@ -209,7 +225,7 @@ class MainScreenState extends State<MainScreen> {
                         ),
                         Container(
                           child: Text(
-                            'Statut : ${document['aboutMe'] ?? 'Je suis cool'}',
+                            '${document['aboutMe'] ?? 'Je suis cool'}',
                             // il faudra mettre le dernier message à la place
                             style: TextStyle(color: ThemeKomeet.primaryColor),
                           ),
@@ -272,7 +288,7 @@ class MainScreenState extends State<MainScreen> {
                       builder: (context) => Chat(
                             peerId: document.documentID,
                             peerAvatar: document['photoUrl'],
-                            chatMate: document['nickname'],
+                            chatMate: document['pseudoUtilisateur'],
                           )));
             },
             color: ThemeKomeet.greyColor2,
@@ -353,7 +369,7 @@ class MainScreenState extends State<MainScreen> {
         (Route<dynamic> route) => false);
 
     Firestore.instance
-        .collection("users")
+        .collection("Utilisateur")
         .document(currentUserId)
         .delete(); // méthode pour supprimer de firebase le currentUser
   }
@@ -449,7 +465,7 @@ class MainScreenState extends State<MainScreen> {
             // Liste de conversation
             Container(
               child: StreamBuilder(
-                stream: Firestore.instance.collection('users').snapshots(),
+                stream: Firestore.instance.collection('Utilisateur').snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(
