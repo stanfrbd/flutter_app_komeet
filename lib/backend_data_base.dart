@@ -34,8 +34,44 @@ class BackendDataBase {
       'codeAmi': codeAmi,
       'codeUtilisateur': codeUtilisateur
     });
+
+    Firestore.instance
+        .collection('Connaissance')
+        .document()
+        .setData({
+      'codeAmi': codeUtilisateur,
+      'codeUtilisateur': codeAmi
+    });
+
+
+    //Création discussion
+    Firestore.instance
+        .collection('Discussion')
+        .document()
+        .setData({
+      'codeDiscussion': '$codeUtilisateur-$codeAmi',
+      'codeUtilisateur': 'Une discussion',
+    });
+
+
+    //Ajout des personnes à la discussion
+    addUserToDiscussion('$codeUtilisateur-$codeAmi', codeUtilisateur);
+    addUserToDiscussion('$codeUtilisateur-$codeAmi', codeAmi);
+
     return true;
   }
+
+  void addUserToDiscussion(String codeDiscussion, String codeUtilisateur){
+    Firestore.instance
+        .collection('Discussion_Utilisateur')
+        .document()
+        .setData({
+      'codeDiscussion': codeDiscussion,
+      'codeUtilisateur': codeUtilisateur,
+    });
+  }
+
+
 
   String getcodeUtilisateur(String pseudoUtilisateur) {
     String codeUtilisateur = '';
