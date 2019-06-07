@@ -11,11 +11,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app_komeet/const.dart';
+import 'package:flutter_app_komeet/main.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/cupertino.dart';
 
 class Chat extends StatelessWidget {
   final String peerId;
@@ -48,7 +51,6 @@ class Chat extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class ChatScreen extends StatefulWidget {
@@ -154,7 +156,7 @@ class ChatScreenState extends State<ChatScreen> {
       setState(() {
         isLoading = false;
       });
-      Fluttertoast.showToast(msg: 'This file is not an image');
+      Fluttertoast.showToast(msg: 'Erreur inconnue');
     });
   }
 
@@ -194,20 +196,27 @@ class ChatScreenState extends State<ChatScreen> {
         children: <Widget>[
           document['type'] == 0
               // Texte
-              ? Container(
-                  child: Text(
-                    document['content'],
-                    style: TextStyle(color: ThemeKomeet.primaryColor),
-                  ),
-                  padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-                  width: 200.0,
-                  decoration: BoxDecoration(
-                      color: ThemeKomeet.greyColor2,
-                      borderRadius: BorderRadius.circular(8.0)),
-                  margin: EdgeInsets.only(
-                      bottom: isLastMessageRight(index) ? 20.0 : 10.0,
-                      right: 10.0),
-                )
+              ? GestureDetector(
+                  onLongPress: () {
+                    Fluttertoast.showToast(
+                        msg: 'Message copié, implémenter : supprimer');
+                    Clipboard.setData(
+                        new ClipboardData(text: document['content']));
+                  },
+                  child: Container(
+                    child: Text(
+                      document['content'],
+                      style: TextStyle(color: ThemeKomeet.primaryColor),
+                    ),
+                    padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                    width: 200.0,
+                    decoration: BoxDecoration(
+                        color: ThemeKomeet.greyColor2,
+                        borderRadius: BorderRadius.circular(8.0)),
+                    margin: EdgeInsets.only(
+                        bottom: isLastMessageRight(index) ? 20.0 : 10.0,
+                        right: 10.0),
+                  ))
               : document['type'] == 1
                   // Image
                   ? Container(
@@ -298,18 +307,25 @@ class ChatScreenState extends State<ChatScreen> {
                       )
                     : Container(width: 35.0),
                 document['type'] == 0
-                    ? Container(
-                        child: Text(
-                          document['content'],
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-                        width: 200.0,
-                        decoration: BoxDecoration(
-                            color: ThemeKomeet.primaryColor,
-                            borderRadius: BorderRadius.circular(8.0)),
-                        margin: EdgeInsets.only(left: 10.0),
-                      )
+                    ? GestureDetector(
+                        onLongPress: () {
+                          Fluttertoast.showToast(
+                              msg: 'Message copié, Implémenter : supprimer');
+                          Clipboard.setData(
+                              new ClipboardData(text: document['content']));
+                        },
+                        child: Container(
+                          child: Text(
+                            document['content'],
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                          width: 200.0,
+                          decoration: BoxDecoration(
+                              color: ThemeKomeet.primaryColor,
+                              borderRadius: BorderRadius.circular(8.0)),
+                          margin: EdgeInsets.only(left: 10.0),
+                        ))
                     : document['type'] == 1
                         ? Container(
                             child: Material(
@@ -425,11 +441,24 @@ class ChatScreenState extends State<ChatScreen> {
     return Future.value(false);
   }
 
+  Future<Null> goToUsers() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) =>
+              MainScreen(currentUserId: prefs.getString('id'))),
+    );
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       child: Stack(
         children: <Widget>[
+          GestureDetector(
+              // implémenter pour le swipe-to-go-back
+          ),
           Column(
             children: <Widget>[
               // Liste des messages

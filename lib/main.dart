@@ -18,6 +18,7 @@ import 'package:flutter_app_komeet/login.dart';
 import 'package:flutter_app_komeet/search_user.dart';
 import 'package:flutter_app_komeet/settings.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter/cupertino.dart';
 
 // -----------------------------------------
 // Lancement de l'écran de Login au démarrage
@@ -49,6 +50,8 @@ class MainScreenState extends State<MainScreen> {
   bool isLoading = false;
 
   // Quand appuie sur retour (icône déconnexion)
+
+  var selectedUser;
 
   Future<bool> onBackPress() {
     openDialog();
@@ -149,18 +152,110 @@ class MainScreenState extends State<MainScreen> {
     }
   }
 
-  // Méthode pour rechercher un contact
-  Future<Null> handleSearchContact() {
-    Fluttertoast.showToast(msg: "A implémenter");
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => SearchUser()),
-            (Route<dynamic> route) => true);
-
+  Future<Null> handleDeleteFriend() async {
+    switch (await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            contentPadding:
+                EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
+            children: <Widget>[
+              Container(
+                color: ThemeKomeet.themeColor,
+                margin: EdgeInsets.all(0.0),
+                padding: EdgeInsets.only(bottom: 10.0, top: 10.0),
+                height: 100.0,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      child: Icon(
+                        Icons.warning,
+                        size: 30.0,
+                        color: ThemeKomeet.primaryColor,
+                      ),
+                      margin: EdgeInsets.only(bottom: 10.0),
+                    ),
+                    Text(
+                      'Supprimer $selectedUser ?',
+                      style: TextStyle(
+                          color: ThemeKomeet.primaryColor,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Confirmation ?',
+                      style: TextStyle(
+                          color: ThemeKomeet.primaryColor, fontSize: 14.0),
+                    ),
+                  ],
+                ),
+              ),
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, 0);
+                },
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      child: Icon(
+                        Icons.cancel,
+                        color: ThemeKomeet.primaryColor,
+                      ),
+                      margin: EdgeInsets.only(right: 10.0),
+                    ),
+                    Text(
+                      'Annuler',
+                      style: TextStyle(
+                          color: ThemeKomeet.primaryColor,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, 1);
+                },
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      child: Icon(
+                        Icons.check_circle,
+                        color: ThemeKomeet.primaryColor,
+                      ),
+                      margin: EdgeInsets.only(right: 10.0),
+                    ),
+                    Text(
+                      'Oui',
+                      style: TextStyle(
+                          color: ThemeKomeet.primaryColor,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          );
+        })) {
+      case 0:
+        break;
+      case 1:
+        Fluttertoast.showToast(
+            msg: '$selectedUser Supprimé des amis (implémenter)');
+        break;
+    }
   }
 
-  // Méthode pour ajouter des favoris
-  Future<bool> handleAddFriends() {
-    Fluttertoast.showToast(msg: "Ami ajouté (implémenter)");
+  // Méthode pour rechercher un contact
+  Future<Null> handleSearchContact() {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => SearchUser()),
+        (Route<dynamic> route) => true);
+  }
+
+  // Méthode pour avoir des personnes aléatoirement (principe Komeet)
+  Future<bool> handleRandomFriends() {
+    Fluttertoast.showToast(msg: 'Aléatoire (implémenter)');
     return Future.value(true);
   }
 
@@ -171,7 +266,12 @@ class MainScreenState extends State<MainScreen> {
       return Container(
         child: GestureDetector(
           onLongPress: () {
-            Fluttertoast.showToast(msg: "onlongPress à implémenter");
+            Fluttertoast.showToast(
+                msg: 'selectionné : ${document['nickname']}');
+            setState(() {
+              selectedUser = document['nickname'];
+            });
+            handleDeleteFriend();
           },
           child: FlatButton(
             child: Row(
@@ -214,7 +314,7 @@ class MainScreenState extends State<MainScreen> {
                         ),
                         Container(
                           child: Text(
-                            'Statut : ${document['aboutMe'] ?? 'Je suis cool'}',
+                            '${document['aboutMe'] ?? 'Dernier message...'}',
                             // il faudra mettre le dernier message à la place
                             style: TextStyle(color: ThemeKomeet.primaryColor),
                           ),
@@ -227,59 +327,52 @@ class MainScreenState extends State<MainScreen> {
                   ),
                 ),
                 Container(
-                  /*child: IconButton( // Bouton + pour ajouter des amis
-
-                  onPressed: () {
-                    setState(() {
-                      isPressed = true;
-                    });
-                  },
-                  icon: (isPressed) ? Icon(Icons.done) : Icon(Icons.add),
-                ),
-                alignment: Alignment.centerRight,
-                margin: EdgeInsets.fromLTRB(30,0, 2, 0),*/
-
-                  child: PopupMenuButton<Choice>(
-                    icon: Icon(Icons.menu,
-                    color: ThemeKomeet.primaryColor),
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    color: ThemeKomeet.primaryColor,
+                  ), /*PopupMenuButton<Choice>(
+                    icon: Icon(Icons.menu, color: ThemeKomeet.primaryColor),
                     onSelected: onItemMenuPress,
                     itemBuilder: (BuildContext context) {
                       return Static.friendsOptions.map((Choice choice) {
                         return PopupMenuItem<Choice>(
-                            value: choice,
-                            child: Row(
-                              children: <Widget>[
-                                Icon(
-                                  choice.icon,
-                                  color: ThemeKomeet.primaryColor,
-                                ),
-                                Container(
-                                  width: 10.0,
-                                ),
-                                Text(
-                                  choice.title,
-                                  style: TextStyle(
-                                      color: ThemeKomeet.primaryColor),
-                                ),
-                              ],
-                            ));
+                          value: choice,
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                choice.icon,
+                                color: ThemeKomeet.primaryColor,
+                              ),
+                              Container(
+                                width: 10.0,
+                              ),
+                              Text(
+                                choice.title,
+                                style:
+                                    TextStyle(color: ThemeKomeet.primaryColor),
+                              ),
+                            ],
+                          ),
+                        );
                       }).toList();
                     },
-                  ),
+                  ),  */
                 ),
               ],
             ),
             // Lorsque l'on appuie sur le widget Flexible
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      // Lancement d'un nouvel écran de chat
-                      builder: (context) => Chat(
-                            peerId: document.documentID,
-                            peerAvatar: document['photoUrl'],
-                            chatMate: document['nickname'],
-                          )));
+                context,
+                MaterialPageRoute(
+                  // Lancement d'un nouvel écran de chat
+                  builder: (context) => Chat(
+                        peerId: document.documentID,
+                        peerAvatar: document['photoUrl'],
+                        chatMate: document['nickname'],
+                      ),
+                ),
+              );
             },
             color: ThemeKomeet.greyColor2,
             padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
@@ -298,20 +391,25 @@ class MainScreenState extends State<MainScreen> {
   void onItemMenuPress(Choice choice) {
     if (choice.title == 'Réglages') {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Settings ()));
+          context, MaterialPageRoute(builder: (context) => Settings()));
     } else if (choice.title == 'Supprimer mon profil') {
       handleDeleteProfile();
     } else if (choice.title == 'Supprimer la conversation') {
-      Fluttertoast.showToast(msg: 'Conversation supprimée (implémenter)');
+      Fluttertoast.showToast(
+          msg: 'Conversation supprimée avec $selectedUser (implémenter)');
     } else if (choice.title == 'Désactiver les notifications') {
-      Fluttertoast.showToast(msg: 'Notifications désactivées (implémenter)');
+      Fluttertoast.showToast(
+          msg: 'Notifications désactivées (implémenter)',
+          gravity: ToastGravity.TOP);
       setState(() {
         Static.enableNotif = false;
       });
     } else if (choice.title == 'Supprimer cet ami') {
-      Fluttertoast.showToast(msg: 'Ami supprimé (implémenter)');
+      Fluttertoast.showToast(msg: '$selectedUser supprimé (implémenter)');
     } else if (choice.title == 'Activer les notifications') {
-      Fluttertoast.showToast(msg: 'Notifications activées (implémenter)');
+      Fluttertoast.showToast(
+          msg: 'Notifications activées (implémenter)',
+          gravity: ToastGravity.TOP);
       setState(() {
         Static.enableNotif = true;
       });
@@ -384,7 +482,7 @@ class MainScreenState extends State<MainScreen> {
         actions: <Widget>[
           // Bouton ajouter amis
           IconButton(
-            onPressed: handleAddFriends,
+            onPressed: handleRandomFriends,
             icon: Icon(Icons.people),
           ),
 

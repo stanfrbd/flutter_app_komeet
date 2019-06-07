@@ -7,6 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_komeet/const.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/cupertino.dart';
 
 class SearchUser extends StatelessWidget {
   @override
@@ -15,14 +16,14 @@ class SearchUser extends StatelessWidget {
       appBar: new AppBar(
         title: new Text(
           'Ajouter un ami',
-          style: TextStyle(color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
       // Nouvel écran de Recherche Utilisateur
       body: new SearchUserScreen(),
     );
-
   }
 }
 
@@ -35,7 +36,6 @@ class SearchUserScreen extends StatefulWidget {
 }
 
 class SearchUserScreenState extends State<SearchUserScreen> {
-
   TextEditingController editingController = TextEditingController();
 
   // Liste des utilisteurs à ajouter au lieu de ça
@@ -53,10 +53,11 @@ class SearchUserScreenState extends State<SearchUserScreen> {
   void findUser(String query) {
     List<String> searchList = List<String>();
     searchList.addAll(users);
-    if(query.isNotEmpty) {
+    if (query.isNotEmpty) {
       List<String> listData = List<String>();
       searchList.forEach((item) {
-        if(item.contains(query)) {
+        if (item.contains(query)) {
+          // recherche très facile en dart
           listData.add(item);
         }
       });
@@ -71,57 +72,68 @@ class SearchUserScreenState extends State<SearchUserScreen> {
         items.addAll(users);
       });
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
     return new Container(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                onChanged: (value) {
-                  findUser(value);
-                },
-                controller: editingController,
-                decoration: InputDecoration(
-                    labelText: "Rechercher",
-                    hintText: "Rechercher",
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25.0)))),
-              ),
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: (value) {
+                findUser(value);
+              },
+              controller: editingController,
+              decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: ThemeKomeet.primaryColor),
+                    borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                  ),
+                  labelText: "Rechercher",
+                  hintText: "Rechercher",
+                  labelStyle: TextStyle(color: ThemeKomeet.primaryColor),
+                  prefixIcon:
+                      Icon(Icons.search, color: ThemeKomeet.primaryColor),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: ThemeKomeet.primaryColor),
+                      borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+              cursorColor: ThemeKomeet.primaryColor,
             ),
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  return FlatButton(onPressed: () {
-                    Fluttertoast.showToast(msg: '${items[index]} appuyé (implémenter)');
-                  }, child:
-                    ListTile(
-                      leading: GestureDetector(
+          ),
+          Expanded(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: items
+                  .length, // il faudra mettre le nombre de documents de firebase
+              itemBuilder: (context, index) {
+                return FlatButton(
+                  onPressed: () {
+                    Fluttertoast.showToast(
+                        msg: '${items[index]} ajouté aux amis (implémenter)',
+                        gravity: ToastGravity.TOP);
+                  },
+                  child: ListTile(
+                    leading: GestureDetector(
                       behavior: HitTestBehavior.translucent,
-                        child: Container(
+                      child: Container(
                         width: 48,
                         height: 48,
                         padding: EdgeInsets.symmetric(vertical: 4.0),
                         alignment: Alignment.center,
-                        child: CircleAvatar(), // photo de l'utilisateur à ajouter
+                        child:
+                            CircleAvatar(), // photo de l'utilisateur à ajouter
                       ),
-
-                      ),
+                    ),
                     title: Text('${items[index]}'),
                   ),
-                  );
-                },
-              ),
+                );
+              },
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
   }
 }

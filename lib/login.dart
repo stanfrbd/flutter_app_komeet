@@ -27,14 +27,12 @@ class MyApp extends StatelessWidget {
         title: 'Komeet',
         theme: new ThemeData(
           primarySwatch: ThemeKomeet.themeColor,
-
         ),
         home: LoginScreen(title: 'Komeet'),
         // enlève la bannière "debug"
         debugShowCheckedModeBanner: false,
       );
-    }
-  else {
+    } else {
       return MaterialApp(
         title: 'Komeet',
         theme: new ThemeData.dark(), // Mode sombre
@@ -55,11 +53,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> {
-
   // Back-end de l'authentification
 
-  final GoogleSignIn googleSignIn = GoogleSignIn(); // déclaration d'un nouveau client google
-  final FirebaseAuth firebaseAuth = FirebaseAuth.instance; // nouvelle instance de firebase auth
+  final GoogleSignIn googleSignIn =
+      GoogleSignIn(); // déclaration d'un nouveau client google
+  final FirebaseAuth firebaseAuth =
+      FirebaseAuth.instance; // nouvelle instance de firebase auth
   SharedPreferences prefs;
 
   bool isLoading = false;
@@ -83,7 +82,9 @@ class LoginScreenState extends State<LoginScreen> {
     if (isLoggedIn) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => MainScreen(currentUserId: prefs.getString('id'))),
+        MaterialPageRoute(
+            builder: (context) =>
+                MainScreen(currentUserId: prefs.getString('id'))),
       );
     }
 
@@ -100,28 +101,38 @@ class LoginScreenState extends State<LoginScreen> {
       isLoading = true;
     });
 
-    GoogleSignInAccount googleUser = await googleSignIn.signIn(); // compte de connexion google
-    GoogleSignInAuthentication googleAuth = await googleUser.authentication; // évènement de connexion
+    GoogleSignInAccount googleUser =
+        await googleSignIn.signIn(); // compte de connexion google
+    GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication; // évènement de connexion
 
     final AuthCredential credential = GoogleAuthProvider.getCredential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken, // identifiant de l'utilisateur compte google
     );
 
-    FirebaseUser firebaseUser = await firebaseAuth.signInWithCredential(credential);
+    FirebaseUser firebaseUser =
+        await firebaseAuth.signInWithCredential(credential);
 
-    if (firebaseUser != null) { // si les tokens ont bien été récupérés
-      final QuerySnapshot result =
-          await Firestore.instance.collection('users').where('id', isEqualTo: firebaseUser.uid).getDocuments();
+    if (firebaseUser != null) {
+      // si les tokens ont bien été récupérés
+      final QuerySnapshot result = await Firestore.instance
+          .collection('users')
+          .where('id', isEqualTo: firebaseUser.uid)
+          .getDocuments();
       final List<DocumentSnapshot> documents = result.documents;
-       Fluttertoast.showToast(msg: "Utilisateur existant");
+      Fluttertoast.showToast(msg: "Utilisateur existant");
       if (documents.length == 0) {
         Fluttertoast.showToast(msg: "Premier utilisateur");
         // Update data to server if new user
         Firestore.instance
             .collection('users')
             .document(firebaseUser.uid)
-            .setData({'nickname': firebaseUser.displayName, 'photoUrl': firebaseUser.photoUrl, 'id': firebaseUser.uid});
+            .setData({
+          'nickname': firebaseUser.displayName,
+          'photoUrl': firebaseUser.photoUrl,
+          'id': firebaseUser.uid
+        });
 
         // Write data to local
         currentUser = firebaseUser;
@@ -162,7 +173,8 @@ class LoginScreenState extends State<LoginScreen> {
         appBar: AppBar(
           title: Text(
             widget.title,
-            style: TextStyle(color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
         ),
@@ -184,12 +196,12 @@ class LoginScreenState extends State<LoginScreen> {
 
             // Loading
             Positioned(
-
               child: isLoading // if true
                   ? Container(
                       child: Center(
                         child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              ThemeKomeet.themeColor),
                         ),
                       ),
                       color: Colors.white.withOpacity(0.8),
