@@ -17,14 +17,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-
 class Chat extends StatelessWidget {
   final String peerId;
   final String peerAvatar;
   final String chatMate; // le nom d'utilisateur de la personne à qui on parle
 
-  Chat({Key key, @required this.peerId, @required this.peerAvatar, @required this.chatMate}) : super(key: key);
+  Chat(
+      {Key key,
+      @required this.peerId,
+      @required this.peerAvatar,
+      @required this.chatMate})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +35,12 @@ class Chat extends StatelessWidget {
       appBar: new AppBar(
         title: new Text(
           chatMate, // à qui on envoie le message
-          style: TextStyle(color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
+
       // Nouvel écran de chat
       body: new ChatScreen(
         peerId: peerId,
@@ -43,16 +48,19 @@ class Chat extends StatelessWidget {
       ),
     );
   }
+
 }
 
 class ChatScreen extends StatefulWidget {
   final String peerId;
   final String peerAvatar;
 
-  ChatScreen({Key key, @required this.peerId, @required this.peerAvatar}) : super(key: key);
+  ChatScreen({Key key, @required this.peerId, @required this.peerAvatar})
+      : super(key: key);
 
   @override
-  State createState() => new ChatScreenState(peerId: peerId, peerAvatar: peerAvatar);
+  State createState() =>
+      new ChatScreenState(peerId: peerId, peerAvatar: peerAvatar);
 }
 
 class ChatScreenState extends State<ChatScreen> {
@@ -71,7 +79,8 @@ class ChatScreenState extends State<ChatScreen> {
   bool isShowSticker;
   String imageUrl;
 
-  final TextEditingController textEditingController = new TextEditingController();
+  final TextEditingController textEditingController =
+      new TextEditingController();
   final ScrollController listScrollController = new ScrollController();
   final FocusNode focusNode = new FocusNode();
 
@@ -171,7 +180,8 @@ class ChatScreenState extends State<ChatScreen> {
           },
         );
       });
-      listScrollController.animateTo(0.0, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+      listScrollController.animateTo(0.0,
+          duration: Duration(milliseconds: 300), curve: Curves.easeOut);
     } else {
       Fluttertoast.showToast(msg: 'Rien à envoyer');
     }
@@ -191,8 +201,12 @@ class ChatScreenState extends State<ChatScreen> {
                   ),
                   padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
                   width: 200.0,
-                  decoration: BoxDecoration(color: ThemeKomeet.greyColor2, borderRadius: BorderRadius.circular(8.0)),
-                  margin: EdgeInsets.only(bottom: isLastMessageRight(index) ? 20.0 : 10.0, right: 10.0),
+                  decoration: BoxDecoration(
+                      color: ThemeKomeet.greyColor2,
+                      borderRadius: BorderRadius.circular(8.0)),
+                  margin: EdgeInsets.only(
+                      bottom: isLastMessageRight(index) ? 20.0 : 10.0,
+                      right: 10.0),
                 )
               : document['type'] == 1
                   // Image
@@ -201,7 +215,8 @@ class ChatScreenState extends State<ChatScreen> {
                         child: CachedNetworkImage(
                           placeholder: (context, url) => Container(
                                 child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor),
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      ThemeKomeet.themeColor),
                                 ),
                                 width: 200.0,
                                 height: 200.0,
@@ -233,7 +248,9 @@ class ChatScreenState extends State<ChatScreen> {
                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
                         clipBehavior: Clip.hardEdge,
                       ),
-                      margin: EdgeInsets.only(bottom: isLastMessageRight(index) ? 20.0 : 10.0, right: 10.0),
+                      margin: EdgeInsets.only(
+                          bottom: isLastMessageRight(index) ? 20.0 : 10.0,
+                          right: 10.0),
                     )
                   // Sticker
                   : Container(
@@ -243,7 +260,9 @@ class ChatScreenState extends State<ChatScreen> {
                         height: 100.0,
                         fit: BoxFit.cover,
                       ),
-                      margin: EdgeInsets.only(bottom: isLastMessageRight(index) ? 20.0 : 10.0, right: 10.0),
+                      margin: EdgeInsets.only(
+                          bottom: isLastMessageRight(index) ? 20.0 : 10.0,
+                          right: 10.0),
                     ),
         ],
         mainAxisAlignment: MainAxisAlignment.end,
@@ -260,7 +279,8 @@ class ChatScreenState extends State<ChatScreen> {
                           placeholder: (context, url) => Container(
                                 child: CircularProgressIndicator(
                                   strokeWidth: 1.0,
-                                  valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor),
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      ThemeKomeet.themeColor),
                                 ),
                                 width: 35.0,
                                 height: 35.0,
@@ -285,7 +305,9 @@ class ChatScreenState extends State<ChatScreen> {
                         ),
                         padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
                         width: 200.0,
-                        decoration: BoxDecoration(color: ThemeKomeet.primaryColor, borderRadius: BorderRadius.circular(8.0)),
+                        decoration: BoxDecoration(
+                            color: ThemeKomeet.primaryColor,
+                            borderRadius: BorderRadius.circular(8.0)),
                         margin: EdgeInsets.only(left: 10.0),
                       )
                     : document['type'] == 1
@@ -294,7 +316,9 @@ class ChatScreenState extends State<ChatScreen> {
                               child: CachedNetworkImage(
                                 placeholder: (context, url) => Container(
                                       child: CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor),
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                ThemeKomeet.themeColor),
                                       ),
                                       width: 200.0,
                                       height: 200.0,
@@ -323,7 +347,8 @@ class ChatScreenState extends State<ChatScreen> {
                                 height: 200.0,
                                 fit: BoxFit.cover,
                               ),
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
                               clipBehavior: Clip.hardEdge,
                             ),
                             margin: EdgeInsets.only(left: 10.0),
@@ -335,7 +360,9 @@ class ChatScreenState extends State<ChatScreen> {
                               height: 100.0,
                               fit: BoxFit.cover,
                             ),
-                            margin: EdgeInsets.only(bottom: isLastMessageRight(index) ? 20.0 : 10.0, right: 10.0),
+                            margin: EdgeInsets.only(
+                                bottom: isLastMessageRight(index) ? 20.0 : 10.0,
+                                right: 10.0),
                           ),
               ],
             ),
@@ -344,9 +371,13 @@ class ChatScreenState extends State<ChatScreen> {
             isLastMessageLeft(index)
                 ? Container(
                     child: Text(
-                      DateFormat('dd MMM kk:mm')
-                          .format(DateTime.fromMillisecondsSinceEpoch(int.parse(document['timestamp']))),
-                      style: TextStyle(color: ThemeKomeet.greyColor, fontSize: 12.0, fontStyle: FontStyle.italic),
+                      DateFormat('dd MMM kk:mm').format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                              int.parse(document['timestamp']))),
+                      style: TextStyle(
+                          color: ThemeKomeet.greyColor,
+                          fontSize: 12.0,
+                          fontStyle: FontStyle.italic),
                     ),
                     margin: EdgeInsets.only(left: 50.0, top: 5.0, bottom: 5.0),
                   )
@@ -360,7 +391,10 @@ class ChatScreenState extends State<ChatScreen> {
   }
 
   bool isLastMessageLeft(int index) {
-    if ((index > 0 && listMessage != null && listMessage[index - 1]['idFrom'] == id) || index == 0) {
+    if ((index > 0 &&
+            listMessage != null &&
+            listMessage[index - 1]['idFrom'] == id) ||
+        index == 0) {
       return true;
     } else {
       return false;
@@ -368,7 +402,10 @@ class ChatScreenState extends State<ChatScreen> {
   }
 
   bool isLastMessageRight(int index) {
-    if ((index > 0 && listMessage != null && listMessage[index - 1]['idFrom'] != id) || index == 0) {
+    if ((index > 0 &&
+            listMessage != null &&
+            listMessage[index - 1]['idFrom'] != id) ||
+        index == 0) {
       return true;
     } else {
       return false;
@@ -518,7 +555,9 @@ class ChatScreenState extends State<ChatScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       ),
       decoration: new BoxDecoration(
-          border: new Border(top: new BorderSide(color: ThemeKomeet.greyColor2, width: 0.5)), color: Colors.white),
+          border: new Border(
+              top: new BorderSide(color: ThemeKomeet.greyColor2, width: 0.5)),
+          color: Colors.white),
       padding: EdgeInsets.all(5.0),
       height: 180.0,
     );
@@ -529,7 +568,9 @@ class ChatScreenState extends State<ChatScreen> {
       child: isLoading
           ? Container(
               child: Center(
-                child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor)),
+                child: CircularProgressIndicator(
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor)),
               ),
               color: Colors.white.withOpacity(0.8),
             )
@@ -569,7 +610,8 @@ class ChatScreenState extends State<ChatScreen> {
           Flexible(
             child: Container(
               child: TextField(
-                style: TextStyle(color: ThemeKomeet.primaryColor, fontSize: 15.0),
+                style:
+                    TextStyle(color: ThemeKomeet.primaryColor, fontSize: 15.0),
                 controller: textEditingController,
                 decoration: InputDecoration.collapsed(
                   hintText: 'Tapez ici...',
@@ -597,14 +639,19 @@ class ChatScreenState extends State<ChatScreen> {
       width: double.infinity,
       height: 50.0,
       decoration: new BoxDecoration(
-          border: new Border(top: new BorderSide(color: ThemeKomeet.greyColor2, width: 0.5)), color: Colors.white),
+          border: new Border(
+              top: new BorderSide(color: ThemeKomeet.greyColor2, width: 0.5)),
+          color: Colors.white),
     );
   }
 
   Widget buildListMessage() {
     return Flexible(
       child: groupChatId == ''
-          ? Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor)))
+          ? Center(
+              child: CircularProgressIndicator(
+                  valueColor:
+                      AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor)))
           : StreamBuilder(
               stream: Firestore.instance
                   .collection('messages')
@@ -616,12 +663,15 @@ class ChatScreenState extends State<ChatScreen> {
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return Center(
-                      child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor)));
+                      child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              ThemeKomeet.themeColor)));
                 } else {
                   listMessage = snapshot.data.documents;
                   return ListView.builder(
                     padding: EdgeInsets.all(10.0),
-                    itemBuilder: (context, index) => buildItem(index, snapshot.data.documents[index]),
+                    itemBuilder: (context, index) =>
+                        buildItem(index, snapshot.data.documents[index]),
                     itemCount: snapshot.data.documents.length,
                     reverse: true,
                     controller: listScrollController,

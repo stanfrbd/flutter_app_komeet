@@ -15,6 +15,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_app_komeet/chat.dart';
 import 'package:flutter_app_komeet/const.dart';
 import 'package:flutter_app_komeet/login.dart';
+import 'package:flutter_app_komeet/search_user.dart';
 import 'package:flutter_app_komeet/settings.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -151,6 +152,10 @@ class MainScreenState extends State<MainScreen> {
   // Méthode pour rechercher un contact
   Future<Null> handleSearchContact() {
     Fluttertoast.showToast(msg: "A implémenter");
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => SearchUser()),
+            (Route<dynamic> route) => true);
+
   }
 
   // Méthode pour ajouter des favoris
@@ -380,7 +385,7 @@ class MainScreenState extends State<MainScreen> {
           // Bouton ajouter amis
           IconButton(
             onPressed: handleAddFriends,
-            icon: Icon(Icons.add),
+            icon: Icon(Icons.people),
           ),
 
           //Bouton rechercher des contacts
