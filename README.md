@@ -4,8 +4,6 @@ Projet tutoré S2 - Application en réseau - Dart - Flutter - Firebase
 
 Rémi T. - Josquin I. - Antoine D-G. - Stanislas M.
 
-<img src="https://user-images.githubusercontent.com/44167150/58954529-b9e43e80-8799-11e9-8cbd-1bd4d8ceccab.png" alt="drawing" width="200"/>
-
 <img src="https://user-images.githubusercontent.com/44167150/59147905-bfdc5880-8a01-11e9-9151-7425f80d2143.png" alt="drawing" width="200"/>
 
 ## Avant toute chose
