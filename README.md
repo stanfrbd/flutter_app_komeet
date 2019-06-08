@@ -7,7 +7,9 @@ Rémi T. - Josquin I. - Antoine D-G. - Stanislas M.
 <img src="https://user-images.githubusercontent.com/44167150/59147905-bfdc5880-8a01-11e9-9151-7425f80d2143.png" alt="drawing" width="200"/>
 
 ## Avant toute chose
-* `flutter`doit être à jour !
+* `flutter`doit être à jour et sans erreur !
+<img src="https://user-images.githubusercontent.com/44167150/59148837-e30d0500-8a0d-11e9-9f1d-63894e55ff57.png" alt="drawing" width="500"/>
+
 * `git clone https://github.com/stanfrbd/flutter_app_komeet` ou `download zip`
 
 * **Dans le cas où on `download zip` il faut renommer `flutter_app_komeet-master` en `flutter_app_komeet`**
