@@ -2,7 +2,9 @@
 
 Projet tutoré S2 - Application en réseau - Dart - Flutter - Firebase
 
-Rémi T. - Josquin I. - Antoine D-G. - Stanislas M.
+Rémi T. - Josquin I. - Antoine D-G. - Stanislas M. 
+
+[**Wiki !!!** 👍 ](https://github.com/stanfrbd/flutter_app_komeet/wiki)
 
 <img src="https://user-images.githubusercontent.com/44167150/59147905-bfdc5880-8a01-11e9-9151-7425f80d2143.png" alt="drawing" width="200"/>
 
