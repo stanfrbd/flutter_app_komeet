@@ -8,6 +8,10 @@ Rémi T. - Josquin I. - Antoine D-G. - Stanislas M.
 
 <img src="https://user-images.githubusercontent.com/44167150/59147905-bfdc5880-8a01-11e9-9151-7425f80d2143.png" alt="drawing" width="200"/>
 
+<img src="https://user-images.githubusercontent.com/44167150/59149702-494b5500-8a19-11e9-870a-c040668dc66a.png" width="200"/><img src="https://user-images.githubusercontent.com/44167150/59149703-4b151880-8a19-11e9-9c14-6b11d620406a.png" width="200"/><img src="https://user-images.githubusercontent.com/44167150/59149705-4d777280-8a19-11e9-9974-3ada86e81c2e.png" width="200"/><img src="https://user-images.githubusercontent.com/44167150/59149706-4fd9cc80-8a19-11e9-9bf2-4705c074b7a0.png" width="200"/><img src="https://user-images.githubusercontent.com/44167150/59149707-52d4bd00-8a19-11e9-9673-27836fc718e2.png" width="200"/><img src="https://user-images.githubusercontent.com/44167150/59149710-55cfad80-8a19-11e9-92b2-3e4261f85195.png" width="200"/><img src="https://user-images.githubusercontent.com/44167150/59149713-58ca9e00-8a19-11e9-9ccf-daa836ecbc09.png" width="200"/>
+
+<img src="https://user-images.githubusercontent.com/44167150/59149715-5a946180-8a19-11e9-9ca1-b88b20e74b27.png" width="200"/><img src="https://user-images.githubusercontent.com/44167150/59149716-5e27e880-8a19-11e9-9e87-c77d1952ca1d.png" width="200"/><img src="https://user-images.githubusercontent.com/44167150/59149719-62540600-8a19-11e9-86b8-8c7c1d226b83.png" width="200"/><img src="https://user-images.githubusercontent.com/44167150/59149725-6da73180-8a19-11e9-8d9e-367637be3c66.png" width="200"/><img src="https://user-images.githubusercontent.com/44167150/59149720-64b66000-8a19-11e9-8162-22a95931e49d.png" width="200"/><img src="https://user-images.githubusercontent.com/44167150/59149723-6aac4100-8a19-11e9-9fc7-3a2c9843543b.png" width="200"/><img src="https://user-images.githubusercontent.com/44167150/59149726-6f70f500-8a19-11e9-9a7e-8c1d4643ae5c.png" width="200"/>
+
 ## Avant toute chose
 * `flutter`doit être à jour et sans erreur !
 * `flutter doctor -v`
