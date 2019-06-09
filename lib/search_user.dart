@@ -5,7 +5,9 @@
 //-----------------------------------------------------
 
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_app_komeet/const.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -38,42 +40,9 @@ class SearchUserScreen extends StatefulWidget {
 class SearchUserScreenState extends State<SearchUserScreen> {
   TextEditingController editingController = TextEditingController();
 
-  // Liste des utilisteurs à ajouter au lieu de ça
-  final users = List<String>.generate(100, (i) => "Ami $i");
+  String query = ' ';
 
-  //items
-  var items = List<String>();
-
-  @override
-  void initState() {
-    items.addAll(users);
-    super.initState();
-  }
-
-  void findUser(String query) {
-    List<String> searchList = List<String>();
-    searchList.addAll(users);
-    if (query.isNotEmpty) {
-      List<String> listData = List<String>();
-      searchList.forEach((item) {
-        if (item.contains(query)) {
-          // recherche très facile en dart
-          listData.add(item);
-        }
-      });
-      setState(() {
-        items.clear();
-        items.addAll(listData);
-      });
-      return;
-    } else {
-      setState(() {
-        items.clear();
-        items.addAll(users);
-      });
-    }
-  }
-
+  // création du widget (départ)
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -83,7 +52,9 @@ class SearchUserScreenState extends State<SearchUserScreen> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               onChanged: (value) {
-                findUser(value);
+                setState(() {
+                  query = value; // On change la requête dans la base
+                }); //findUser(value);
               },
               controller: editingController,
               decoration: InputDecoration(
@@ -92,7 +63,7 @@ class SearchUserScreenState extends State<SearchUserScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(25.0)),
                   ),
                   labelText: "Rechercher",
-                  hintText: "Rechercher",
+                  hintText: "Donnez le pseudo exact",
                   labelStyle: TextStyle(color: ThemeKomeet.primaryColor),
                   prefixIcon:
                       Icon(Icons.search, color: ThemeKomeet.primaryColor),
@@ -103,31 +74,65 @@ class SearchUserScreenState extends State<SearchUserScreen> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: items
-                  .length, // il faudra mettre le nombre de documents de firebase
-              itemBuilder: (context, index) {
-                return FlatButton(
-                  onPressed: () {
-                    Fluttertoast.showToast(
-                        msg: '${items[index]} ajouté aux amis (implémenter)',
-                        gravity: ToastGravity.TOP);
-                  },
-                  child: ListTile(
-                    leading: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      child: Container(
-                        width: 48,
-                        height: 48,
-                        padding: EdgeInsets.symmetric(vertical: 4.0),
-                        alignment: Alignment.center,
-                        child:
-                            CircleAvatar(), // photo de l'utilisateur à ajouter
+            child: StreamBuilder(
+              // Construction d'un stream : on récupère tous les utilisateurs de la BD
+              stream: Firestore.instance
+                  .collection('users')
+                  .where('nickname',
+                      isGreaterThanOrEqualTo:
+                          query) // isEqualTO (moins permissif)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot
+                      .data.documents.length, //snapshot.data.documents.length,
+                  itemBuilder: (context, index) {
+                    return FlatButton(
+                      onPressed: () {
+                        Fluttertoast.showToast(
+                            msg:
+                                '${snapshot.data.documents[index]['nickname']} ajouté aux amis (implémenter)',
+                            gravity: ToastGravity.TOP);
+                      },
+                      child: ListTile(
+                        leading: GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          child: Container(
+                            width: 65.0,
+                            height: 65.0,
+                            padding: EdgeInsets.symmetric(vertical: 4.0),
+                            alignment: Alignment.center,
+                            child: Material(
+                              child: CachedNetworkImage(
+                                placeholder: (context, url) => Container(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 1.0,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                ThemeKomeet.themeColor),
+                                      ),
+                                      width: 50.0,
+                                      height: 50.0,
+                                      padding: EdgeInsets.all(15.0),
+                                    ),
+                                imageUrl: snapshot.data.documents[index]
+                                    ['photoUrl'],
+                                width: 50.0,
+                                height: 50.0,
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25.0)),
+                              clipBehavior: Clip.hardEdge,
+                            ),
+                          ),
+                        ),
+                        title: Text(
+                            '${snapshot.data.documents[index]['nickname']}'),
                       ),
-                    ),
-                    title: Text('${items[index]}'),
-                  ),
+                    );
+                  },
                 );
               },
             ),

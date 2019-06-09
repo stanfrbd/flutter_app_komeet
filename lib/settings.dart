@@ -45,21 +45,21 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class SettingsScreenState extends State<SettingsScreen> {
-  TextEditingController controllerpseudoUtilisateur;
+  TextEditingController controllernickname;
   TextEditingController controllerAboutMe;
 
   // Préférences partagées :  stockage des données en local
   SharedPreferences prefs;
 
-  String codeUtilisateur = '';
-  String pseudoUtilisateur = '';
+  String id = '';
+  String nickname = '';
   String aboutMe = '';
   String photoUrl = '';
 
   bool isLoading = false;
   File avatarImageFile;
 
-  final FocusNode focusNodepseudoUtilisateur = new FocusNode();
+  final FocusNode focusNodenickname = new FocusNode();
   final FocusNode focusNodeAboutMe = new FocusNode();
 
   //color picker
@@ -95,13 +95,13 @@ class SettingsScreenState extends State<SettingsScreen> {
 
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
-    codeUtilisateur = prefs.getString('codeUtilisateur') ?? '';
-    pseudoUtilisateur = prefs.getString('pseudoUtilisateur') ?? '';
+    id = prefs.getString('id') ?? '';
+    nickname = prefs.getString('nickname') ?? '';
     aboutMe = prefs.getString('aboutMe') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
 
-    controllerpseudoUtilisateur =
-        new TextEditingController(text: pseudoUtilisateur);
+    controllernickname =
+        new TextEditingController(text: nickname);
     controllerAboutMe = new TextEditingController(text: aboutMe);
 
     // Obligation de rafraichir
@@ -122,7 +122,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future uploadFile() async {
-    String fileName = codeUtilisateur;
+    String fileName = id;
     StorageReference reference = FirebaseStorage.instance.ref().child(fileName);
     StorageUploadTask uploadTask = reference.putFile(avatarImageFile);
     StorageTaskSnapshot storageTaskSnapshot;
@@ -132,10 +132,10 @@ class SettingsScreenState extends State<SettingsScreen> {
         storageTaskSnapshot.ref.getDownloadURL().then((downloadUrl) {
           photoUrl = downloadUrl;
           Firestore.instance
-              .collection('Utilisateur')
-              .document(codeUtilisateur)
+              .collection('users')
+              .document(id)
               .updateData({
-            'pseudoUtilisateur': pseudoUtilisateur,
+            'nickname': nickname,
             'aboutMe': aboutMe,
             'photoUrl': photoUrl
           }).then((data) async {
@@ -171,7 +171,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   }
 
   void handleUpdateData() {
-    focusNodepseudoUtilisateur.unfocus();
+    focusNodenickname.unfocus();
     focusNodeAboutMe.unfocus();
 
     setState(() {
@@ -179,14 +179,14 @@ class SettingsScreenState extends State<SettingsScreen> {
     });
 
     Firestore.instance
-        .collection('Utilisateur')
-        .document(codeUtilisateur)
+        .collection('users')
+        .document(id)
         .updateData({
-      'pseudoUtilisateur': pseudoUtilisateur,
+      'nickname': nickname,
       'aboutMe': aboutMe,
       'photoUrl': photoUrl
     }).then((data) async {
-      await prefs.setString('pseudoUtilisateur', pseudoUtilisateur);
+      await prefs.setString('nickname', nickname);
       await prefs.setString('aboutMe', aboutMe);
       await prefs.setString('photoUrl', photoUrl);
 
@@ -215,7 +215,7 @@ class SettingsScreenState extends State<SettingsScreen> {
 
   // Choix de la couleur dans le color picker
   void handleChangeTheme() {
-    focusNodepseudoUtilisateur.unfocus();
+    focusNodenickname.unfocus();
     focusNodeAboutMe.unfocus();
     if (!ThemeKomeet.darkTheme) {
       // launch theme changer...
@@ -354,11 +354,11 @@ class SettingsScreenState extends State<SettingsScreen> {
                           contentPadding: new EdgeInsets.all(5.0),
                           hintStyle: TextStyle(color: ThemeKomeet.greyColor),
                         ),
-                        controller: controllerpseudoUtilisateur,
+                        controller: controllernickname,
                         onChanged: (value) {
-                          pseudoUtilisateur = value;
+                          nickname = value;
                         },
-                        focusNode: focusNodepseudoUtilisateur,
+                        focusNode: focusNodenickname,
                       ),
                     ),
                     margin: EdgeInsets.only(left: 30.0, right: 30.0),
