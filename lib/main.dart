@@ -30,6 +30,8 @@ void main() => runApp(MyApp());
 // -------------------------------------
 
 class MainScreen extends StatefulWidget {
+  // Attributs
+
   // Utilisateur courant
   final String currentUserId;
 
@@ -42,23 +44,24 @@ class MainScreen extends StatefulWidget {
 }
 
 class MainScreenState extends State<MainScreen> {
-  MainScreenState({Key key, @required this.currentUserId});
-
+  // Attributs
   final String currentUserId;
+  // Constructeur
+  MainScreenState({Key key, @required this.currentUserId});
 
   // Lancement du widget chargement commandé par ce booléen
   bool isLoading = false;
 
-  // Quand appuie sur retour (icône déconnexion)
-
+  // Utilisateur sélectionné
   var selectedUser;
 
+  // retour : déconnexion
   Future<bool> onBackPress() {
-    openDialog();
+    openSignOutDialog();
     return Future.value(false);
   }
 
-  Future<Null> openDialog() async {
+  Future<Null> openSignOutDialog() async {
     switch (await showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -462,6 +465,7 @@ class MainScreenState extends State<MainScreen> {
         .delete(); // méthode pour supprimer de firebase le currentUser
   }
 
+  // Construction de l'écran ...
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -471,7 +475,7 @@ class MainScreenState extends State<MainScreen> {
         ),
         leading: IconButton(
           icon: Icon(Icons.exit_to_app),
-          onPressed: openDialog,
+          onPressed: openSignOutDialog,
         ),
         title: Text(
           'Messages',
@@ -492,6 +496,7 @@ class MainScreenState extends State<MainScreen> {
             icon: Icon(Icons.search),
             //padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
           ),
+          // Menu de droite
           PopupMenuButton<Choice>(
             onSelected: onItemMenuPress,
             itemBuilder: (BuildContext context) {
@@ -550,9 +555,10 @@ class MainScreenState extends State<MainScreen> {
       body: WillPopScope(
         child: Stack(
           children: <Widget>[
-            // Liste de conversation
+            // Liste de conversations
             Container(
               child: StreamBuilder(
+                // création d'un stream : on récupère tous les utilisateurs de la BD
                 stream: Firestore.instance.collection('users').snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -575,7 +581,7 @@ class MainScreenState extends State<MainScreen> {
               ),
             ),
 
-            // Loading
+            // Widget de chargement
             Positioned(
               child: isLoading
                   ? Container(
@@ -590,7 +596,7 @@ class MainScreenState extends State<MainScreen> {
             )
           ],
         ),
-        onWillPop: onBackPress,
+        onWillPop: onBackPress, // retour
       ),
     );
   }

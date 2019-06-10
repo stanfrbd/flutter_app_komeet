@@ -44,10 +44,12 @@ class MyApp extends StatelessWidget {
 }
 
 class LoginScreen extends StatefulWidget {
+  // Attributs
+  final String title;
+  // Constructeur
   LoginScreen({Key key, this.title}) : super(key: key);
 
-  final String title;
-
+  // nouvel état
   @override
   LoginScreenState createState() => LoginScreenState();
 }
@@ -59,11 +61,15 @@ class LoginScreenState extends State<LoginScreen> {
       GoogleSignIn(); // déclaration d'un nouveau client google
   final FirebaseAuth firebaseAuth =
       FirebaseAuth.instance; // nouvelle instance de firebase auth
-  SharedPreferences prefs;
+  SharedPreferences
+      prefs; // SharedPreferences : écriture en local (base de donnée locale)
 
+  // Commande le widget chargement
   bool isLoading = false;
+  // est connecté oui/non
   bool isLoggedIn = false;
-  FirebaseUser currentUser; // utilisateur courant
+  // ID de l'utilisateur courant
+  FirebaseUser currentUser;
 
   @override
   void initState() {
@@ -74,12 +80,15 @@ class LoginScreenState extends State<LoginScreen> {
   void isSignedIn() async {
     this.setState(() {
       isLoading = true;
+      // déclenche le chargement
     });
 
     prefs = await SharedPreferences.getInstance(); // préférences
 
-    isLoggedIn = await googleSignIn.isSignedIn(); // booléen qui dit si connecté
+    isLoggedIn = await googleSignIn.isSignedIn();
+    // booléen qui dit si connecté
     if (isLoggedIn) {
+      // si connecté on peut afficher l'écran des conversations : main
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -101,6 +110,7 @@ class LoginScreenState extends State<LoginScreen> {
       isLoading = true;
     });
 
+    // selon documentation Google Sign In
     GoogleSignInAccount googleUser =
         await googleSignIn.signIn(); // compte de connexion google
     GoogleSignInAuthentication googleAuth =
@@ -124,7 +134,7 @@ class LoginScreenState extends State<LoginScreen> {
       Fluttertoast.showToast(msg: "Utilisateur existant");
       if (documents.length == 0) {
         Fluttertoast.showToast(msg: "Premier utilisateur");
-        // Update data to server if new user
+        // Si nouvel utilisateur on met à jour dans la base de données
         Firestore.instance
             .collection('users')
             .document(firebaseUser.uid)
@@ -134,14 +144,14 @@ class LoginScreenState extends State<LoginScreen> {
           'id': firebaseUser.uid
         });
 
-        // Write data to local
+        // Ecriture en local dans les sharedPreferences
         currentUser = firebaseUser;
         await prefs.setString('id', currentUser.uid);
         await prefs.setString('nickname', currentUser.displayName);
         await prefs.setString('photoUrl', currentUser.photoUrl);
       } else {
         Fluttertoast.showToast(msg: "Ecriture en local");
-        // Write data to local
+
         await prefs.setString('id', documents[0]['id']);
         await prefs.setString('nickname', documents[0]['nickname']);
         await prefs.setString('photoUrl', documents[0]['photoUrl']);
@@ -150,8 +160,10 @@ class LoginScreenState extends State<LoginScreen> {
       Fluttertoast.showToast(msg: "Connexion réussie");
       this.setState(() {
         isLoading = false;
+        // chargement terminé
       });
 
+      // création de l'écran de main à l'aide du constructeur
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -160,6 +172,7 @@ class LoginScreenState extends State<LoginScreen> {
                 )),
       );
     } else {
+      // Dans tous les autres cas
       Fluttertoast.showToast(msg: "Echec de connexion");
       this.setState(() {
         isLoading = false;
@@ -167,6 +180,7 @@ class LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  // Création de l'écran de login
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -194,9 +208,9 @@ class LoginScreenState extends State<LoginScreen> {
                   padding: EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0)),
             ),
 
-            // Loading
+            // Widget chargement
             Positioned(
-              child: isLoading // if true
+              child: isLoading // si vrai
                   ? Container(
                       child: Center(
                         child: CircularProgressIndicator(

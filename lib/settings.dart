@@ -45,6 +45,7 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class SettingsScreenState extends State<SettingsScreen> {
+  // champs texte
   TextEditingController controllernickname;
   TextEditingController controllerAboutMe;
 
@@ -56,17 +57,23 @@ class SettingsScreenState extends State<SettingsScreen> {
   String aboutMe = '';
   String photoUrl = '';
 
+  // déclenche le widget chargement
   bool isLoading = false;
+  // image de l'utilisateur
   File avatarImageFile;
 
+  // focus sur un champ texte
   final FocusNode focusNodenickname = new FocusNode();
   final FocusNode focusNodeAboutMe = new FocusNode();
 
   //color picker
 
   Color currentColor = ThemeKomeet.themeColor;
+
+  // texte du bouton : mode sombre/mode clair
   static String themeTxt;
 
+  // méthode de changement des couleurs
   void changeColor(Color color) {
     if (color == Colors.black) {
       handleDarkTheme();
@@ -80,7 +87,7 @@ class SettingsScreenState extends State<SettingsScreen> {
           context,
           MaterialPageRoute(builder: (context) {
             return MyApp();
-            // Retour à l'écran de main si l'utilisateur est connecté
+            // Retour à l'écran de main
           }),
         );
       },
@@ -93,6 +100,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     readLocal();
   }
 
+  // lecture des données déjà présentes dans les sharedPreferences
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
@@ -100,16 +108,15 @@ class SettingsScreenState extends State<SettingsScreen> {
     aboutMe = prefs.getString('aboutMe') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
 
-    controllernickname =
-        new TextEditingController(text: nickname);
+    controllernickname = new TextEditingController(text: nickname);
     controllerAboutMe = new TextEditingController(text: aboutMe);
 
     // Obligation de rafraichir
     setState(() {});
   }
 
-  // Procédures back-end d'envoi de la photo de profil
   Future getImage() async {
+    // image picker
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
@@ -131,10 +138,7 @@ class SettingsScreenState extends State<SettingsScreen> {
         storageTaskSnapshot = value;
         storageTaskSnapshot.ref.getDownloadURL().then((downloadUrl) {
           photoUrl = downloadUrl;
-          Firestore.instance
-              .collection('users')
-              .document(id)
-              .updateData({
+          Firestore.instance.collection('users').document(id).updateData({
             'nickname': nickname,
             'aboutMe': aboutMe,
             'photoUrl': photoUrl
@@ -148,40 +152,42 @@ class SettingsScreenState extends State<SettingsScreen> {
             setState(() {
               isLoading = false;
             });
+            // message d'erreur en toast
             Fluttertoast.showToast(msg: err.toString());
           });
         }, onError: (err) {
           setState(() {
             isLoading = false;
           });
-          Fluttertoast.showToast(msg: 'This file is not an image');
+          Fluttertoast.showToast(msg: 'Erreur inconnue');
         });
       } else {
         setState(() {
           isLoading = false;
         });
-        Fluttertoast.showToast(msg: 'This file is not an image');
+        Fluttertoast.showToast(msg: 'Erreur inconnue');
       }
     }, onError: (err) {
       setState(() {
         isLoading = false;
       });
+      // message d'erreur en toast
       Fluttertoast.showToast(msg: err.toString());
     });
   }
 
   void handleUpdateData() {
+    // on se retire du champ texte
     focusNodenickname.unfocus();
     focusNodeAboutMe.unfocus();
 
     setState(() {
       isLoading = true;
+      // chargement lancé
     });
 
-    Firestore.instance
-        .collection('users')
-        .document(id)
-        .updateData({
+    // mise à jour des données de firebase et des sharedPreferences
+    Firestore.instance.collection('users').document(id).updateData({
       'nickname': nickname,
       'aboutMe': aboutMe,
       'photoUrl': photoUrl
@@ -192,6 +198,7 @@ class SettingsScreenState extends State<SettingsScreen> {
 
       setState(() {
         isLoading = false;
+        // chragement terminé
       });
 
       Fluttertoast.showToast(msg: "Mise à jour réussie");
@@ -200,6 +207,7 @@ class SettingsScreenState extends State<SettingsScreen> {
         isLoading = false;
       });
 
+      // message d'erreur en toast
       Fluttertoast.showToast(msg: err.toString());
     });
   }
@@ -218,7 +226,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     focusNodenickname.unfocus();
     focusNodeAboutMe.unfocus();
     if (!ThemeKomeet.darkTheme) {
-      // launch theme changer...
+      // Changement du thème...
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -259,6 +267,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  // Création de l'écran de Réglages
   @override
   Widget build(BuildContext context) {
     checkTheme();
@@ -364,7 +373,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                     margin: EdgeInsets.only(left: 30.0, right: 30.0),
                   ),
 
-                  // Langue
+                  // Statut
                   Container(
                     child: Text(
                       'Statut',
@@ -449,7 +458,7 @@ class SettingsScreenState extends State<SettingsScreen> {
           padding: EdgeInsets.only(left: 15.0, right: 15.0),
         ),
 
-        // Loading
+        // Widget de chargement
         Positioned(
           child: isLoading
               ? Container(

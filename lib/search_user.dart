@@ -38,8 +38,10 @@ class SearchUserScreen extends StatefulWidget {
 }
 
 class SearchUserScreenState extends State<SearchUserScreen> {
+  // Champ texte
   TextEditingController editingController = TextEditingController();
 
+  // requête de recherche
   String query = ' ';
 
   // création du widget (départ)
@@ -67,6 +69,7 @@ class SearchUserScreenState extends State<SearchUserScreen> {
                   labelStyle: TextStyle(color: ThemeKomeet.primaryColor),
                   prefixIcon:
                       Icon(Icons.search, color: ThemeKomeet.primaryColor),
+                  // bordure stylisée
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: ThemeKomeet.primaryColor),
                       borderRadius: BorderRadius.all(Radius.circular(25.0)))),
@@ -85,9 +88,10 @@ class SearchUserScreenState extends State<SearchUserScreen> {
               builder: (context, snapshot) {
                 return ListView.builder(
                   shrinkWrap: true,
-                  itemCount: snapshot
-                      .data.documents.length, //snapshot.data.documents.length,
+                  itemCount: snapshot.data.documents
+                      .length, //Nombre de documents de la collection
                   itemBuilder: (context, index) {
+                    // création des items
                     return FlatButton(
                       onPressed: () {
                         Fluttertoast.showToast(
