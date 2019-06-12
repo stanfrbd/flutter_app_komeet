@@ -16,7 +16,7 @@ import 'package:flutter_app_komeet/chat.dart';
 import 'package:flutter_app_komeet/const.dart';
 import 'package:flutter_app_komeet/login.dart';
 import 'package:flutter_app_komeet/settings.dart';
-import 'package:flutter_app_komeet/backend_data_base.dart';
+import 'package:flutter_app_komeet/database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 // -----------------------------------------

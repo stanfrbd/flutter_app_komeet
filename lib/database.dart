@@ -114,7 +114,7 @@ class BackendDataBase {
     return this.pseudo;
   }
 
-  Future<Stream> getMessagesConversation(String groupChatId) async {
+  Stream getMessagesConversation(String groupChatId) {
     //Requête de récupération des 20 derniers messages de la conversation groupChatId
     var snap = Firestore.instance
         .collection('Message')
@@ -124,5 +124,43 @@ class BackendDataBase {
         .snapshots();
 
     return snap;
+  }
+
+
+  //Crée le document dans lequel sera stocké le message
+  DocumentReference createMessageDocument(String groupChatId) {
+    //Le document n'existant pas, il sera créé
+    var documentReference = Firestore.instance
+        .collection('messages')
+        .document(groupChatId)
+        .collection(groupChatId)
+        .document(DateTime.now().millisecondsSinceEpoch.toString());
+
+    return documentReference;
+  }
+
+  //Rempli le document dans lequel on stocke le message
+  Future<bool> completeMessageDocument(DocumentReference docRef, codeUtilisateur, peerId, content, type) async {
+
+    try {
+      //Transaction pour éviter les concurrences d'accès
+      Firestore.instance.runTransaction((transaction) async {
+        await transaction.set(
+          docRef, //Clé du document
+          {
+            'idFrom': codeUtilisateur,
+            'idTo': peerId,
+            'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
+            'content': content,
+            'type': type
+          },
+        );
+      });
+    }
+    on Exception {
+      return false;
+    }
+
+    return true;
   }
 }

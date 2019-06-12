@@ -12,7 +12,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_komeet/const.dart';
-import 'package:flutter_app_komeet/backend_data_base.dart';
+import 'package:flutter_app_komeet/database.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -75,6 +75,8 @@ class ChatScreenState extends State<ChatScreen> {
   final TextEditingController textEditingController = new TextEditingController();
   final ScrollController listScrollController = new ScrollController();
   final FocusNode focusNode = new FocusNode();
+
+  BackendDataBase db;
 
   @override
   void initState() {
@@ -607,13 +609,7 @@ class ChatScreenState extends State<ChatScreen> {
       child: groupChatId == ''
           ? Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor)))
           : StreamBuilder(
-              stream: Firestore.instance
-                  .collection('messages')
-                  .document(groupChatId)
-                  .collection(groupChatId)
-                  .orderBy('timestamp', descending: true)
-                  .limit(20)
-                  .snapshots(),
+              stream: db.getMessagesConversation(groupChatId),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return Center(
@@ -622,8 +618,8 @@ class ChatScreenState extends State<ChatScreen> {
                   listMessage = snapshot.data.documents;
                   return ListView.builder(
                     padding: EdgeInsets.all(10.0),
-                    itemBuilder: (context, index) => buildItem(index, snapshot.data.documents[index]),
-                    itemCount: snapshot.data.documents.length,
+                    itemBuilder: (context, index) => buildItem(index, listMessage[index]),
+                    itemCount: listMessage.length,
                     reverse: true,
                     controller: listScrollController,
                   );
