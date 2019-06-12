@@ -24,6 +24,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class BackendDataBase {
 
+  var pseudo = ""; //Le pseudo ne peut pas être récupéré dans une variable locale
+
   Future<bool> addFriend(String codeAmi, String codeUtilisateur) async {
     try
     {
@@ -87,5 +89,40 @@ class BackendDataBase {
   } //Fin addUserToDiscussion
 
 
+  //Obtenir le pseudo d'un utilisateur à partir de son code utiisateur
+  // /!\ On utilise une variable globale car une variable locale ne permet pas de stocker la valeur du champ /!\
+  String getPseudoUtilisateur(String codeUtilisateur) {
+    //Variable qui stockera le résultat de la requête
+    var query;
 
+    try {
+      //Requête pour récupérer le document concernant l'utilisateur
+      query = Firestore.instance
+          .collection('Utilisateur') //Ciblage de la table (ou collection) Utilisateur
+          .document(codeUtilisateur); //Ciblage du document identifié par le codeUtilisateur passé en paramètre
+    }
+    on Exception {
+      return ""; //Si il y a un erreurlors de la requête, on retourne une chaine vide
+    }
+
+    //Extraire de ce document le champs n°3 (correspondant au pseudo)
+    query.snapshots().listen(
+            (data) => this.pseudo = ('${data.data.values.elementAt(3)}')
+    );
+
+    //Retour sans erreur
+    return this.pseudo;
+  }
+
+  Future<Stream> getMessagesConversation(String groupChatId) async {
+    //Requête de récupération des 20 derniers messages de la conversation groupChatId
+    var snap = Firestore.instance
+        .collection('Message')
+        .where('codeDiscussion', isEqualTo: groupChatId)
+        .orderBy('timestamp', descending: true)
+        .limit(20)
+        .snapshots();
+
+    return snap;
+  }
 }
