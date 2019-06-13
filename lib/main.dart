@@ -278,16 +278,16 @@ class MainScreenState extends State<MainScreen> {
   }
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
-    if (document['id'] == currentUserId) {
+    if (document['codeUtilisateur'] == currentUserId) {
       return Container();
     } else {
       return Container(
         child: GestureDetector(
           onLongPress: () {
             Fluttertoast.showToast(
-                msg: 'selectionné : ${document['nickname']}');
+                msg: 'selectionné : ${document['pseudoUtilisateur']}');
             setState(() {
-              selectedUser = document['nickname'];
+              selectedUser = document['pseudoUtilisateur'];
             });
             handleDeleteFriend();
           },
@@ -321,7 +321,7 @@ class MainScreenState extends State<MainScreen> {
                       children: <Widget>[
                         Container(
                           child: Text(
-                            '${document['nickname']}',
+                            '${document['pseudoUtilisateur']}',
                             style: TextStyle(
                                 color: ThemeKomeet.primaryColor,
                                 fontWeight: FontWeight.bold,
@@ -332,7 +332,7 @@ class MainScreenState extends State<MainScreen> {
                         ),
                         Container(
                           child: Text(
-                            '${document['aboutMe'] ?? 'Dernier message...'}',
+                            '${document['statut'] ?? 'Dernier message...'}',
                             // il faudra mettre le dernier message à la place
                             style: TextStyle(color: ThemeKomeet.primaryColor),
                           ),
@@ -387,7 +387,7 @@ class MainScreenState extends State<MainScreen> {
                   builder: (context) => Chat(
                         peerId: document.documentID,
                         peerAvatar: document['photoUrl'],
-                        chatMate: document['nickname'],
+                        chatMate: document['pseudoUtilisateur'],
                       ),
                 ),
               );
@@ -395,7 +395,7 @@ class MainScreenState extends State<MainScreen> {
             color: ThemeKomeet.greyColor2,
             padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
+                borderRadius: BorderRadius.circular(20.0)),
           ),
         ),
         margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
@@ -475,7 +475,7 @@ class MainScreenState extends State<MainScreen> {
         (Route<dynamic> route) => false);
 
     Firestore.instance
-        .collection("users")
+        .collection("Utilisateur")
         .document(currentUserId)
         .delete(); // méthode pour supprimer de firebase le currentUser
   }
@@ -574,7 +574,8 @@ class MainScreenState extends State<MainScreen> {
             Container(
               child: StreamBuilder(
                 // création d'un stream : on récupère tous les utilisateurs de la BD
-                stream: Firestore.instance.collection('users').snapshots(),
+                stream:
+                    Firestore.instance.collection('Utilisateur').snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(

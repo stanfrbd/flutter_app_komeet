@@ -82,7 +82,7 @@ class ChatScreenState extends State<ChatScreen> {
 
   String peerId;
   String peerAvatar;
-  String id;
+  String codeUtilisateur;
 
   // Constructeur
   ChatScreenState({Key key, @required this.peerId, @required this.peerAvatar});
@@ -123,12 +123,12 @@ class ChatScreenState extends State<ChatScreen> {
 
   readLocal() async {
     prefs = await SharedPreferences.getInstance();
-    id = prefs.getString('id') ?? '';
-    if (id.hashCode <= peerId.hashCode) {
+    codeUtilisateur = prefs.getString('codeUtilisateur') ?? '';
+    if (codeUtilisateur.hashCode <= peerId.hashCode) {
       // Génération de l'ID de conversation
-      groupChatId = '$id-$peerId';
+      groupChatId = '$codeUtilisateur-$peerId';
     } else {
-      groupChatId = '$peerId-$id';
+      groupChatId = '$peerId-$codeUtilisateur';
     }
     // mettre à jour, sinon cela ne fait rien
     setState(() {});
@@ -185,7 +185,7 @@ class ChatScreenState extends State<ChatScreen> {
           // remplissage des champs du message
           documentReference,
           {
-            'idFrom': id,
+            'idFrom': codeUtilisateur,
             'idTo': peerId,
             'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
             'content': content,
@@ -204,7 +204,7 @@ class ChatScreenState extends State<ChatScreen> {
 
   // Création de l'item message dans la liste
   Widget buildItem(int index, DocumentSnapshot document) {
-    if (document['idFrom'] == id) {
+    if (document['idFrom'] == codeUtilisateur) {
       // Le message personnel
       return Row(
         children: <Widget>[
@@ -380,7 +380,7 @@ class ChatScreenState extends State<ChatScreen> {
   bool isLastMessageLeft(int index) {
     if ((index > 0 &&
             listMessage != null &&
-            listMessage[index - 1]['idFrom'] == id) ||
+            listMessage[index - 1]['idFrom'] == codeUtilisateur) ||
         index == 0) {
       return true;
     } else {
@@ -392,7 +392,7 @@ class ChatScreenState extends State<ChatScreen> {
   bool isLastMessageRight(int index) {
     if ((index > 0 &&
             listMessage != null &&
-            listMessage[index - 1]['idFrom'] != id) ||
+            listMessage[index - 1]['idFrom'] != codeUtilisateur) ||
         index == 0) {
       return true;
     } else {

@@ -102,7 +102,7 @@ class LoginScreenState extends State<LoginScreen> {
         context,
         MaterialPageRoute(
             builder: (context) => MainScreen(
-                currentUserId: prefs.getString('id'),
+                currentUserId: prefs.getString('codeUtilisateur'),
                 backendDataBase: backendDataBase)),
       );
     }
@@ -137,8 +137,8 @@ class LoginScreenState extends State<LoginScreen> {
     if (firebaseUser != null) {
       // si les tokens ont bien été récupérés
       final QuerySnapshot result = await Firestore.instance
-          .collection('users')
-          .where('id', isEqualTo: firebaseUser.uid)
+          .collection('Utilisateur')
+          .where('codeUtilisateur', isEqualTo: firebaseUser.uid)
           .getDocuments();
       final List<DocumentSnapshot> documents = result.documents;
       Fluttertoast.showToast(msg: "Utilisateur existant");
@@ -146,26 +146,26 @@ class LoginScreenState extends State<LoginScreen> {
         Fluttertoast.showToast(msg: "Premier utilisateur");
         // Si nouvel utilisateur on met à jour dans la base de données
         Firestore.instance
-            .collection('users')
+            .collection('Utilisateur')
             .document(firebaseUser.uid)
             .setData({
-          'nickname': firebaseUser.displayName,
+          'pseudoUtilisateur': firebaseUser.displayName,
           'photoUrl': firebaseUser.photoUrl,
-          'id': firebaseUser.uid
+          'codeUtilisateur': firebaseUser.uid
         });
 
         // Ecriture en local dans les sharedPreferences
         currentUser = firebaseUser;
-        await prefs.setString('id', currentUser.uid);
-        await prefs.setString('nickname', currentUser.displayName);
+        await prefs.setString('codeUtilisateur', currentUser.uid);
+        await prefs.setString('pseudoUtilisateur', currentUser.displayName);
         await prefs.setString('photoUrl', currentUser.photoUrl);
       } else {
         Fluttertoast.showToast(msg: "Ecriture en local");
 
-        await prefs.setString('id', documents[0]['id']);
-        await prefs.setString('nickname', documents[0]['nickname']);
+        await prefs.setString('codeUtilisateur', documents[0]['codeUtilisateur']);
+        await prefs.setString('pseudoUtilisateur', documents[0]['pseudoUtilisateur']);
         await prefs.setString('photoUrl', documents[0]['photoUrl']);
-        await prefs.setString('aboutMe', documents[0]['aboutMe']);
+        await prefs.setString('statut', documents[0]['statut']);
       }
       Fluttertoast.showToast(msg: "Connexion réussie");
       this.setState(() {

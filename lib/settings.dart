@@ -47,15 +47,15 @@ class SettingsScreen extends StatefulWidget {
 
 class SettingsScreenState extends State<SettingsScreen> {
   // champs texte
-  TextEditingController controllernickname;
-  TextEditingController controllerAboutMe;
+  TextEditingController controllerpseudoUtilisateur;
+  TextEditingController controllerstatut;
 
   // Préférences partagées :  stockage des données en local
   SharedPreferences prefs;
 
-  String id = '';
-  String nickname = '';
-  String aboutMe = '';
+  String codeUtilisateur = '';
+  String pseudoUtilisateur = '';
+  String statut = '';
   String photoUrl = '';
 
   // déclenche le widget chargement
@@ -64,8 +64,8 @@ class SettingsScreenState extends State<SettingsScreen> {
   File avatarImageFile;
 
   // focus sur un champ texte
-  final FocusNode focusNodenickname = new FocusNode();
-  final FocusNode focusNodeAboutMe = new FocusNode();
+  final FocusNode focusNodepseudoUtilisateur = new FocusNode();
+  final FocusNode focusNodestatut = new FocusNode();
 
   //color picker
 
@@ -104,13 +104,13 @@ class SettingsScreenState extends State<SettingsScreen> {
   // lecture des données déjà présentes dans les sharedPreferences
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
-    id = prefs.getString('id') ?? '';
-    nickname = prefs.getString('nickname') ?? '';
-    aboutMe = prefs.getString('aboutMe') ?? '';
+    codeUtilisateur = prefs.getString('codeUtilisateur') ?? '';
+    pseudoUtilisateur = prefs.getString('pseudoUtilisateur') ?? '';
+    statut = prefs.getString('statut') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
 
-    controllernickname = new TextEditingController(text: nickname);
-    controllerAboutMe = new TextEditingController(text: aboutMe);
+    controllerpseudoUtilisateur = new TextEditingController(text: pseudoUtilisateur);
+    controllerstatut = new TextEditingController(text: statut);
 
     // Obligation de rafraichir
     setState(() {});
@@ -130,7 +130,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future uploadFile() async {
-    String fileName = id;
+    String fileName = codeUtilisateur;
     StorageReference reference = FirebaseStorage.instance.ref().child(fileName);
     StorageUploadTask uploadTask = reference.putFile(avatarImageFile);
     StorageTaskSnapshot storageTaskSnapshot;
@@ -139,9 +139,9 @@ class SettingsScreenState extends State<SettingsScreen> {
         storageTaskSnapshot = value;
         storageTaskSnapshot.ref.getDownloadURL().then((downloadUrl) {
           photoUrl = downloadUrl;
-          Firestore.instance.collection('users').document(id).updateData({
-            'nickname': nickname,
-            'aboutMe': aboutMe,
+          Firestore.instance.collection('Utilisateur').document(codeUtilisateur).updateData({
+            'pseudoUtilisateur': pseudoUtilisateur,
+            'statut': statut,
             'photoUrl': photoUrl
           }).then((data) async {
             await prefs.setString('photoUrl', photoUrl);
@@ -179,8 +179,8 @@ class SettingsScreenState extends State<SettingsScreen> {
 
   void handleUpdateData() {
     // on se retire du champ texte
-    focusNodenickname.unfocus();
-    focusNodeAboutMe.unfocus();
+    focusNodepseudoUtilisateur.unfocus();
+    focusNodestatut.unfocus();
 
     setState(() {
       isLoading = true;
@@ -188,13 +188,13 @@ class SettingsScreenState extends State<SettingsScreen> {
     });
 
     // mise à jour des données de firebase et des sharedPreferences
-    Firestore.instance.collection('users').document(id).updateData({
-      'nickname': nickname,
-      'aboutMe': aboutMe,
+    Firestore.instance.collection('Utilisateur').document(codeUtilisateur).updateData({
+      'pseudoUtilisateur': pseudoUtilisateur,
+      'statut': statut,
       'photoUrl': photoUrl
     }).then((data) async {
-      await prefs.setString('nickname', nickname);
-      await prefs.setString('aboutMe', aboutMe);
+      await prefs.setString('pseudoUtilisateur', pseudoUtilisateur);
+      await prefs.setString('statut', statut);
       await prefs.setString('photoUrl', photoUrl);
 
       setState(() {
@@ -224,8 +224,8 @@ class SettingsScreenState extends State<SettingsScreen> {
 
   // Choix de la couleur dans le color picker
   void handleChangeTheme() {
-    focusNodenickname.unfocus();
-    focusNodeAboutMe.unfocus();
+    focusNodepseudoUtilisateur.unfocus();
+    focusNodestatut.unfocus();
     if (!ThemeKomeet.darkTheme) {
       // Changement du thème...
       showDialog(
@@ -364,11 +364,11 @@ class SettingsScreenState extends State<SettingsScreen> {
                           contentPadding: new EdgeInsets.all(5.0),
                           hintStyle: TextStyle(color: ThemeKomeet.greyColor),
                         ),
-                        controller: controllernickname,
+                        controller: controllerpseudoUtilisateur,
                         onChanged: (value) {
-                          nickname = value;
+                          pseudoUtilisateur = value;
                         },
-                        focusNode: focusNodenickname,
+                        focusNode: focusNodepseudoUtilisateur,
                       ),
                     ),
                     margin: EdgeInsets.only(left: 30.0, right: 30.0),
@@ -395,11 +395,11 @@ class SettingsScreenState extends State<SettingsScreen> {
                           contentPadding: EdgeInsets.all(5.0),
                           hintStyle: TextStyle(color: ThemeKomeet.greyColor),
                         ),
-                        controller: controllerAboutMe,
+                        controller: controllerstatut,
                         onChanged: (value) {
-                          aboutMe = value;
+                          statut = value;
                         },
-                        focusNode: focusNodeAboutMe,
+                        focusNode: focusNodestatut,
                       ),
                     ),
                     margin: EdgeInsets.only(left: 30.0, right: 30.0),

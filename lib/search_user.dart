@@ -117,8 +117,8 @@ class SearchUserScreenState extends State<SearchUserScreen> {
             child: StreamBuilder(
               // Construction d'un stream : on récupère tous les utilisateurs de la BD
               stream: Firestore.instance
-                  .collection('users')
-                  .where('nickname',
+                  .collection('Utilisateur')
+                  .where('pseudoUtilisateur',
                       isGreaterThanOrEqualTo:
                           query) // isEqualTO (moins permissif)
                   .snapshots(),
@@ -135,10 +135,10 @@ class SearchUserScreenState extends State<SearchUserScreen> {
                           // sera peut-être retiré si je n'arrive pas à selectionner juste 1 item
                           alreadySaved = !alreadySaved;
                         });
-                        var codeAmi = snapshot.data.documents[index]['id'];
+                        var codeAmi = snapshot.data.documents[index]['codeUtilisateur'];
                         Fluttertoast.showToast(
                             msg:
-                                '${snapshot.data.documents[index]['nickname']} ajouté aux amis (implémenter)',
+                                '${snapshot.data.documents[index]['pseudoUtilisateur']} ajouté aux amis (implémenter)',
                             gravity: ToastGravity.TOP);
                         // Ajout d'un ami en back-end
                         backendDataBase.addFriend(codeAmi, currentUserId);
@@ -175,7 +175,7 @@ class SearchUserScreenState extends State<SearchUserScreen> {
                         ),
                       ),
                       title: Text(
-                        '${snapshot.data.documents[index]['nickname']}',
+                        '${snapshot.data.documents[index]['pseudoUtilisateur']}',
                       ),
                       trailing: Icon(
                         // Add the lines from here...
