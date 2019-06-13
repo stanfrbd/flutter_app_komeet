@@ -7,11 +7,22 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_app_komeet/const.dart';
+import 'package:flutter_app_komeet/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/cupertino.dart';
 
 class SearchUser extends StatelessWidget {
+  // Utilisateur courant
+  final String currentUserId;
+
+  BackendDataBase backendDataBase;
+
+  // Constructeur
+  SearchUser(
+      {Key key, @required this.currentUserId, @required this.backendDataBase})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -24,20 +35,40 @@ class SearchUser extends StatelessWidget {
         centerTitle: true,
       ),
       // Nouvel écran de Recherche Utilisateur
-      body: new SearchUserScreen(),
+      body: new SearchUserScreen(
+          currentUserId: currentUserId, backendDataBase: backendDataBase),
     );
   }
 }
 
 class SearchUserScreen extends StatefulWidget {
+  // Utilisateur courant
+  final String currentUserId;
+
+  //database
+  BackendDataBase backendDataBase;
+
   // Constructeur
-  SearchUserScreen({Key key}) : super(key: key);
+  SearchUserScreen(
+      {Key key, @required this.currentUserId, @required this.backendDataBase})
+      : super(key: key);
 
   @override
-  SearchUserScreenState createState() => new SearchUserScreenState();
+  SearchUserScreenState createState() => new SearchUserScreenState(
+      currentUserId: currentUserId, backendDataBase: backendDataBase);
 }
 
 class SearchUserScreenState extends State<SearchUserScreen> {
+  // Utilisateur courant
+  final String currentUserId;
+
+  //database
+  BackendDataBase backendDataBase;
+
+  // Constructeur
+  SearchUserScreenState(
+      {Key key, @required this.currentUserId, @required this.backendDataBase});
+
   // Champ texte
   TextEditingController editingController = TextEditingController();
 
@@ -94,10 +125,13 @@ class SearchUserScreenState extends State<SearchUserScreen> {
                     // création des items
                     return FlatButton(
                       onPressed: () {
+                        var codeAmi = snapshot.data.documents[index]['id'];
                         Fluttertoast.showToast(
                             msg:
                                 '${snapshot.data.documents[index]['nickname']} ajouté aux amis (implémenter)',
                             gravity: ToastGravity.TOP);
+                        // Ajout d'un ami en back-end
+                        backendDataBase.addFriend(codeAmi, currentUserId);
                       },
                       child: ListTile(
                         leading: GestureDetector(

@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_komeet/const.dart';
 import 'package:flutter_app_komeet/main.dart';
+import 'package:flutter_app_komeet/database.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,16 +47,24 @@ class MyApp extends StatelessWidget {
 class LoginScreen extends StatefulWidget {
   // Attributs
   final String title;
+
+  // database
+  BackendDataBase backendDataBase = new BackendDataBase();
   // Constructeur
   LoginScreen({Key key, this.title}) : super(key: key);
 
   // nouvel état
   @override
-  LoginScreenState createState() => LoginScreenState();
+  LoginScreenState createState() =>
+      LoginScreenState(backendDataBase: backendDataBase);
 }
 
 class LoginScreenState extends State<LoginScreen> {
   // Back-end de l'authentification
+  BackendDataBase backendDataBase;
+
+  // Constructeur
+  LoginScreenState({Key key, @required this.backendDataBase});
 
   final GoogleSignIn googleSignIn =
       GoogleSignIn(); // déclaration d'un nouveau client google
@@ -92,8 +101,9 @@ class LoginScreenState extends State<LoginScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                MainScreen(currentUserId: prefs.getString('id'))),
+            builder: (context) => MainScreen(
+                currentUserId: prefs.getString('id'),
+                backendDataBase: backendDataBase)),
       );
     }
 
@@ -169,6 +179,7 @@ class LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(
             builder: (context) => MainScreen(
                   currentUserId: firebaseUser.uid,
+                  backendDataBase: backendDataBase,
                 )),
       );
     } else {

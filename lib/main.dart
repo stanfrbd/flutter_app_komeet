@@ -17,6 +17,7 @@ import 'package:flutter_app_komeet/const.dart';
 import 'package:flutter_app_komeet/login.dart';
 import 'package:flutter_app_komeet/search_user.dart';
 import 'package:flutter_app_komeet/settings.dart';
+import 'package:flutter_app_komeet/database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -35,19 +36,29 @@ class MainScreen extends StatefulWidget {
   // Utilisateur courant
   final String currentUserId;
 
+  // Instance de BackendDataBase
+  BackendDataBase backendDataBase;
+
   // Constructeur
-  MainScreen({Key key, @required this.currentUserId}) : super(key: key);
+  MainScreen(
+      {Key key, @required this.currentUserId, @required this.backendDataBase})
+      : super(key: key);
 
   // Création d'un nouvel état de MainScreen avec les widgets
   @override
-  State createState() => MainScreenState(currentUserId: currentUserId);
+  State createState() => MainScreenState(
+      currentUserId: currentUserId, backendDataBase: backendDataBase);
 }
 
 class MainScreenState extends State<MainScreen> {
   // Attributs
   final String currentUserId;
+
+  //database
+  BackendDataBase backendDataBase;
   // Constructeur
-  MainScreenState({Key key, @required this.currentUserId});
+  MainScreenState(
+      {Key key, @required this.currentUserId, @required this.backendDataBase});
 
   // Lancement du widget chargement commandé par ce booléen
   bool isLoading = false;
@@ -252,7 +263,11 @@ class MainScreenState extends State<MainScreen> {
   // Méthode pour rechercher un contact
   Future<Null> handleSearchContact() {
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => SearchUser()),
+        MaterialPageRoute(
+            builder: (context) => SearchUser(
+                  currentUserId: currentUserId,
+                  backendDataBase: backendDataBase,
+                )),
         (Route<dynamic> route) => true);
   }
 
