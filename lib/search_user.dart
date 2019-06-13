@@ -78,9 +78,6 @@ class SearchUserScreenState extends State<SearchUserScreen> {
   // couleur de l'ami sélectionné
   Color selectedColor = Colors.white;
 
-  // test d'icone
-  bool alreadySaved = false;
-
   // création du widget (départ)
   @override
   Widget build(BuildContext context) {
@@ -119,8 +116,7 @@ class SearchUserScreenState extends State<SearchUserScreen> {
               stream: Firestore.instance
                   .collection('Utilisateur')
                   .where('pseudoUtilisateur',
-                      isGreaterThanOrEqualTo:
-                          query) // isEqualTO (moins permissif)
+                      isEqualTo: query) // isEqualTO (moins permissif)
                   .snapshots(),
               builder: (context, snapshot) {
                 return ListView.builder(
@@ -131,11 +127,8 @@ class SearchUserScreenState extends State<SearchUserScreen> {
                     // création des items
                     return ListTile(
                       onTap: () {
-                        setState(() {
-                          // sera peut-être retiré si je n'arrive pas à selectionner juste 1 item
-                          alreadySaved = !alreadySaved;
-                        });
-                        var codeAmi = snapshot.data.documents[index]['codeUtilisateur'];
+                        var codeAmi =
+                            snapshot.data.documents[index]['codeUtilisateur'];
                         Fluttertoast.showToast(
                             msg:
                                 '${snapshot.data.documents[index]['pseudoUtilisateur']} ajouté aux amis (implémenter)',
@@ -176,11 +169,6 @@ class SearchUserScreenState extends State<SearchUserScreen> {
                       ),
                       title: Text(
                         '${snapshot.data.documents[index]['pseudoUtilisateur']}',
-                      ),
-                      trailing: Icon(
-                        // Add the lines from here...
-                        alreadySaved ? Icons.favorite : Icons.favorite_border,
-                        color: alreadySaved ? Colors.red : null,
                       ),
                     );
                   },
