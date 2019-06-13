@@ -75,6 +75,12 @@ class SearchUserScreenState extends State<SearchUserScreen> {
   // requête de recherche
   String query = ' ';
 
+  // couleur de l'ami sélectionné
+  Color selectedColor = Colors.white;
+
+  // test d'icone
+  bool alreadySaved = false;
+
   // création du widget (départ)
   @override
   Widget build(BuildContext context) {
@@ -123,8 +129,12 @@ class SearchUserScreenState extends State<SearchUserScreen> {
                       .length, //Nombre de documents de la collection
                   itemBuilder: (context, index) {
                     // création des items
-                    return FlatButton(
-                      onPressed: () {
+                    return ListTile(
+                      onTap: () {
+                        setState(() {
+                          // sera peut-être retiré si je n'arrive pas à selectionner juste 1 item
+                          alreadySaved = !alreadySaved;
+                        });
                         var codeAmi = snapshot.data.documents[index]['id'];
                         Fluttertoast.showToast(
                             msg:
@@ -133,41 +143,44 @@ class SearchUserScreenState extends State<SearchUserScreen> {
                         // Ajout d'un ami en back-end
                         backendDataBase.addFriend(codeAmi, currentUserId);
                       },
-                      child: ListTile(
-                        leading: GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          child: Container(
-                            width: 65.0,
-                            height: 65.0,
-                            padding: EdgeInsets.symmetric(vertical: 4.0),
-                            alignment: Alignment.center,
-                            child: Material(
-                              child: CachedNetworkImage(
-                                placeholder: (context, url) => Container(
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 1.0,
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                                ThemeKomeet.themeColor),
-                                      ),
-                                      width: 50.0,
-                                      height: 50.0,
-                                      padding: EdgeInsets.all(15.0),
+                      leading: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        child: Container(
+                          width: 65.0,
+                          height: 65.0,
+                          padding: EdgeInsets.symmetric(vertical: 4.0),
+                          alignment: Alignment.center,
+                          child: Material(
+                            child: CachedNetworkImage(
+                              placeholder: (context, url) => Container(
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 1.0,
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          ThemeKomeet.themeColor),
                                     ),
-                                imageUrl: snapshot.data.documents[index]
-                                    ['photoUrl'],
-                                width: 50.0,
-                                height: 50.0,
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25.0)),
-                              clipBehavior: Clip.hardEdge,
+                                    width: 50.0,
+                                    height: 50.0,
+                                    padding: EdgeInsets.all(15.0),
+                                  ),
+                              imageUrl: snapshot.data.documents[index]
+                                  ['photoUrl'],
+                              width: 50.0,
+                              height: 50.0,
+                              fit: BoxFit.cover,
                             ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25.0)),
+                            clipBehavior: Clip.hardEdge,
                           ),
                         ),
-                        title: Text(
-                            '${snapshot.data.documents[index]['nickname']}'),
+                      ),
+                      title: Text(
+                        '${snapshot.data.documents[index]['nickname']}',
+                      ),
+                      trailing: Icon(
+                        // Add the lines from here...
+                        alreadySaved ? Icons.favorite : Icons.favorite_border,
+                        color: alreadySaved ? Colors.red : null,
                       ),
                     );
                   },

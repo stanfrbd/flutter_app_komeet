@@ -226,7 +226,7 @@ class ChatScreenState extends State<ChatScreen> {
                     width: 200.0,
                     decoration: BoxDecoration(
                         color: ThemeKomeet.greyColor2,
-                        borderRadius: BorderRadius.circular(8.0)),
+                        borderRadius: BorderRadius.circular(20.0)),
                     margin: EdgeInsets.only(
                         bottom: isLastMessageRight(index) ? 20.0 : 10.0,
                         right: 10.0),
@@ -315,7 +315,7 @@ class ChatScreenState extends State<ChatScreen> {
                           width: 200.0,
                           decoration: BoxDecoration(
                               color: ThemeKomeet.primaryColor,
-                              borderRadius: BorderRadius.circular(8.0)),
+                              borderRadius: BorderRadius.circular(20.0)),
                           margin: EdgeInsets.only(left: 10.0),
                         ))
                     : document['type'] == 1 // image
