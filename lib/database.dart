@@ -23,34 +23,27 @@ import 'package:google_sign_in/google_sign_in.dart';
 // ------------------------------------------------
 
 class BackendDataBase {
-
-  var pseudo = ""; //Le pseudo ne peut pas être récupéré dans une variable locale
+  var pseudo =
+      ""; //Le pseudo ne peut pas être récupéré dans une variable locale
 
   Future<bool> addFriend(String codeAmi, String codeUtilisateur) async {
-    try
-    {
+    try {
       //Ajout d'un ami dans la BD
       Firestore.instance
           .collection('Connaissance')
-          .document()
-          .setData({
-        'codeAmi': codeAmi,
-        'codeUtilisateur': codeUtilisateur
-      });
+          .document('$codeAmi-$codeUtilisateur')
+          .setData({'codeAmi': codeAmi, 'codeUtilisateur': codeUtilisateur});
 
       //L'Ajout se fait aussi dans l'autre sens
       Firestore.instance
           .collection('Connaissance')
-          .document()
-          .setData({
-        'codeAmi': codeUtilisateur,
-        'codeUtilisateur': codeAmi
-      });
+          .document('$codeUtilisateur-$codeAmi')
+          .setData({'codeAmi': codeUtilisateur, 'codeUtilisateur': codeAmi});
 
       //Création de la discussion entre les deux utilisateurs
       Firestore.instance
           .collection('Discussion')
-          .document()
+          .document('$codeUtilisateur-$codeAmi')
           .setData({
         'codeDiscussion': '$codeUtilisateur-$codeAmi',
         'titreDiscussion': 'Une discussion',
@@ -59,19 +52,15 @@ class BackendDataBase {
       //Ajout des personnes à la discussion
       addUserToDiscussion('$codeUtilisateur-$codeAmi', codeUtilisateur);
       addUserToDiscussion('$codeUtilisateur-$codeAmi', codeAmi);
-    }
-    on Exception
-    {
+    } on Exception {
       return false;
     }
     return true;
   } //Fin addFriend
 
-
-
-  Future<bool> addUserToDiscussion(String codeDiscussion, String codeUtilisateur) async {
-    try
-    {
+  Future<bool> addUserToDiscussion(
+      String codeDiscussion, String codeUtilisateur) async {
+    try {
       //Ajout de l'utilisateur à la conversation dans la BD
       Firestore.instance
           .collection('Discussion_Utilisateur')
@@ -80,14 +69,11 @@ class BackendDataBase {
         'codeDiscussion': codeDiscussion,
         'codeUtilisateur': codeUtilisateur,
       });
-    }
-    on Exception
-    {
+    } on Exception {
       return false;
     }
     return true;
   } //Fin addUserToDiscussion
-
 
   //Obtenir le pseudo d'un utilisateur à partir de son code utiisateur
   // /!\ On utilise une variable globale car une variable locale ne permet pas de stocker la valeur du champ /!\
@@ -98,17 +84,18 @@ class BackendDataBase {
     try {
       //Requête pour récupérer le document concernant l'utilisateur
       query = Firestore.instance
-          .collection('Utilisateur') //Ciblage de la table (ou collection) Utilisateur
-          .document(codeUtilisateur); //Ciblage du document identifié par le codeUtilisateur passé en paramètre
-    }
-    on Exception {
+          .collection(
+              'Utilisateur') //Ciblage de la table (ou collection) Utilisateur
+          .document(
+              codeUtilisateur); //Ciblage du document identifié par le codeUtilisateur passé en paramètre
+    } on Exception {
       return ""; //Si il y a un erreurlors de la requête, on retourne une chaine vide
     }
 
     //Extraire de ce document le champs n°3 (correspondant au pseudo)
-    query.snapshots().listen(
-            (data) => this.pseudo = ('${data.data.values.elementAt(3)}')
-    );
+    query
+        .snapshots()
+        .listen((data) => this.pseudo = ('${data.data.values.elementAt(3)}'));
 
     //Retour sans erreur
     return this.pseudo;
@@ -126,7 +113,6 @@ class BackendDataBase {
     return snap;
   }
 
-
   //Crée le document dans lequel sera stocké le message
   DocumentReference createMessageDocument(String groupChatId) {
     //Le document n'existant pas, il sera créé
@@ -140,8 +126,8 @@ class BackendDataBase {
   }
 
   //Rempli le document dans lequel on stocke le message
-  Future<bool> completeMessageDocument(DocumentReference docRef, codeUtilisateur, peerId, content, type) async {
-
+  Future<bool> completeMessageDocument(
+      DocumentReference docRef, codeUtilisateur, peerId, content, type) async {
     try {
       //Transaction pour éviter les concurrences d'accès
       Firestore.instance.runTransaction((transaction) async {
@@ -156,8 +142,7 @@ class BackendDataBase {
           },
         );
       });
-    }
-    on Exception {
+    } on Exception {
       return false;
     }
 

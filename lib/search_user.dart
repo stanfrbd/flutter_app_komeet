@@ -73,7 +73,7 @@ class SearchUserScreenState extends State<SearchUserScreen> {
   TextEditingController editingController = TextEditingController();
 
   // requête de recherche
-  String query = ' ';
+  String query = 'Développeur';
 
   // couleur de l'ami sélectionné
   Color selectedColor = Colors.white;
