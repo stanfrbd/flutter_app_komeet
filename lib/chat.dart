@@ -30,13 +30,16 @@ class Chat extends StatelessWidget {
   final String peerAvatar;
   // le nom d'utilisateur de la personne à qui on envoie le message
   final String chatMate;
+  // la classe de base de donnée
+  final DataBase db;
 
   // Constructeur
   Chat(
       {Key key,
       @required this.peerId,
       @required this.peerAvatar,
-      @required this.chatMate})
+      @required this.chatMate,
+      @required this.db})
       : super(key: key);
 
   // Construction de l'écran
@@ -56,6 +59,7 @@ class Chat extends StatelessWidget {
       body: new ChatScreen(
         peerId: peerId,
         peerAvatar: peerAvatar,
+        db: db,
       ),
     );
   }
@@ -66,15 +70,20 @@ class ChatScreen extends StatefulWidget {
 
   final String peerId;
   final String peerAvatar;
+  final DataBase db;
 
   // Constructeur
-  ChatScreen({Key key, @required this.peerId, @required this.peerAvatar})
+  ChatScreen(
+      {Key key,
+      @required this.peerId,
+      @required this.peerAvatar,
+      @required this.db})
       : super(key: key);
 
   // Nouvel état
   @override
   State createState() =>
-      new ChatScreenState(peerId: peerId, peerAvatar: peerAvatar);
+      new ChatScreenState(peerId: peerId, peerAvatar: peerAvatar, db: db);
 }
 
 class ChatScreenState extends State<ChatScreen> {
@@ -83,9 +92,14 @@ class ChatScreenState extends State<ChatScreen> {
   String peerId;
   String peerAvatar;
   String codeUtilisateur;
+  DataBase db;
 
   // Constructeur
-  ChatScreenState({Key key, @required this.peerId, @required this.peerAvatar});
+  ChatScreenState(
+      {Key key,
+      @required this.peerId,
+      @required this.peerAvatar,
+      @required this.db});
 
   // Liste des messages
   var listMessage;

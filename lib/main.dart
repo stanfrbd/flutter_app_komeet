@@ -36,18 +36,16 @@ class MainScreen extends StatefulWidget {
   // Utilisateur courant
   final String currentUserId;
 
-  // Instance de BackendDataBase
-  BackendDataBase backendDataBase;
+  // base de donnée
+  final DataBase db;
 
   // Constructeur
-  MainScreen(
-      {Key key, @required this.currentUserId, @required this.backendDataBase})
+  MainScreen({Key key, @required this.currentUserId, @required this.db})
       : super(key: key);
 
   // Création d'un nouvel état de MainScreen avec les widgets
   @override
-  State createState() => MainScreenState(
-      currentUserId: currentUserId, backendDataBase: backendDataBase);
+  State createState() => MainScreenState(currentUserId: currentUserId, db: db);
 }
 
 class MainScreenState extends State<MainScreen> {
@@ -55,10 +53,9 @@ class MainScreenState extends State<MainScreen> {
   final String currentUserId;
 
   //database
-  BackendDataBase backendDataBase;
+  DataBase db;
   // Constructeur
-  MainScreenState(
-      {Key key, @required this.currentUserId, @required this.backendDataBase});
+  MainScreenState({Key key, @required this.currentUserId, @required this.db});
 
   // Lancement du widget chargement commandé par ce booléen
   bool isLoading = false;
@@ -266,7 +263,7 @@ class MainScreenState extends State<MainScreen> {
         MaterialPageRoute(
             builder: (context) => SearchUser(
                   currentUserId: currentUserId,
-                  backendDataBase: backendDataBase,
+                  db: db,
                 )),
         (Route<dynamic> route) => true);
   }
@@ -385,10 +382,10 @@ class MainScreenState extends State<MainScreen> {
                 MaterialPageRoute(
                   // Lancement d'un nouvel écran de chat
                   builder: (context) => Chat(
-                        peerId: document.documentID,
-                        peerAvatar: document['photoUrl'],
-                        chatMate: document['pseudoUtilisateur'],
-                      ),
+                      peerId: document.documentID,
+                      peerAvatar: document['photoUrl'],
+                      chatMate: document['pseudoUtilisateur'],
+                      db: db),
                 ),
               );
             },
@@ -409,7 +406,7 @@ class MainScreenState extends State<MainScreen> {
   void onItemMenuPress(Choice choice) {
     if (choice.title == 'Réglages') {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Settings()));
+          context, MaterialPageRoute(builder: (context) => Settings(db: db)));
     } else if (choice.title == 'Supprimer mon profil') {
       handleDeleteProfile();
     } else if (choice.title == 'Supprimer la conversation') {

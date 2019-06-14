@@ -21,6 +21,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 // -------------------------------------------------------
 
 class MyApp extends StatelessWidget {
+  final DataBase db = new DataBase();
   @override
   Widget build(BuildContext context) {
     if (!ThemeKomeet.darkTheme) {
@@ -49,22 +50,21 @@ class LoginScreen extends StatefulWidget {
   final String title;
 
   // database
-  BackendDataBase backendDataBase = new BackendDataBase();
+  final DataBase db;
   // Constructeur
-  LoginScreen({Key key, this.title}) : super(key: key);
+  LoginScreen({Key key, this.title, this.db}) : super(key: key);
 
   // nouvel état
   @override
-  LoginScreenState createState() =>
-      LoginScreenState(backendDataBase: backendDataBase);
+  LoginScreenState createState() => LoginScreenState(db: db);
 }
 
 class LoginScreenState extends State<LoginScreen> {
   // Back-end de l'authentification
-  BackendDataBase backendDataBase;
+  final DataBase db;
 
   // Constructeur
-  LoginScreenState({Key key, @required this.backendDataBase});
+  LoginScreenState({Key key, @required this.db});
 
   final GoogleSignIn googleSignIn =
       GoogleSignIn(); // déclaration d'un nouveau client google
@@ -102,8 +102,7 @@ class LoginScreenState extends State<LoginScreen> {
         context,
         MaterialPageRoute(
             builder: (context) => MainScreen(
-                currentUserId: prefs.getString('codeUtilisateur'),
-                backendDataBase: backendDataBase)),
+                currentUserId: prefs.getString('codeUtilisateur'), db: db)),
       );
     }
 
@@ -162,8 +161,10 @@ class LoginScreenState extends State<LoginScreen> {
       } else {
         Fluttertoast.showToast(msg: "Ecriture en local");
 
-        await prefs.setString('codeUtilisateur', documents[0]['codeUtilisateur']);
-        await prefs.setString('pseudoUtilisateur', documents[0]['pseudoUtilisateur']);
+        await prefs.setString(
+            'codeUtilisateur', documents[0]['codeUtilisateur']);
+        await prefs.setString(
+            'pseudoUtilisateur', documents[0]['pseudoUtilisateur']);
         await prefs.setString('photoUrl', documents[0]['photoUrl']);
         await prefs.setString('statut', documents[0]['statut']);
       }
@@ -179,7 +180,7 @@ class LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(
             builder: (context) => MainScreen(
                   currentUserId: firebaseUser.uid,
-                  backendDataBase: backendDataBase,
+                  db: db,
                 )),
       );
     } else {

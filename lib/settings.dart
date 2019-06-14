@@ -23,6 +23,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_colorpicker/block_picker.dart';
 
 class Settings extends StatelessWidget {
+  // attributs
+  final DataBase db;
+
+  // Constructeur
+  Settings({Key key, @required this.db}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -35,20 +41,32 @@ class Settings extends StatelessWidget {
         centerTitle: true,
       ),
       // Nouvel écran de Réglages
-      body: new SettingsScreen(),
+      body: new SettingsScreen(db: db),
     );
   }
 }
 
 class SettingsScreen extends StatefulWidget {
+  // attributs
+  final DataBase db;
+
+  // Constructeur
+  SettingsScreen({Key key, @required this.db}) : super(key: key);
+
   @override
-  State createState() => new SettingsScreenState();
+  State createState() => new SettingsScreenState(db: db);
 }
 
 class SettingsScreenState extends State<SettingsScreen> {
+  // base de données
+  DataBase db;
+
+  // Constructeur
+  SettingsScreenState({Key key, @required this.db});
+
   // champs texte
-  TextEditingController controllerpseudoUtilisateur;
-  TextEditingController controllerstatut;
+  TextEditingController controllerPseudoUtilisateur;
+  TextEditingController controllerStatut;
 
   // Préférences partagées :  stockage des données en local
   SharedPreferences prefs;
@@ -109,8 +127,9 @@ class SettingsScreenState extends State<SettingsScreen> {
     statut = prefs.getString('statut') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
 
-    controllerpseudoUtilisateur = new TextEditingController(text: pseudoUtilisateur);
-    controllerstatut = new TextEditingController(text: statut);
+    controllerPseudoUtilisateur =
+        new TextEditingController(text: pseudoUtilisateur);
+    controllerStatut = new TextEditingController(text: statut);
 
     // Obligation de rafraichir
     setState(() {});
@@ -139,7 +158,10 @@ class SettingsScreenState extends State<SettingsScreen> {
         storageTaskSnapshot = value;
         storageTaskSnapshot.ref.getDownloadURL().then((downloadUrl) {
           photoUrl = downloadUrl;
-          Firestore.instance.collection('Utilisateur').document(codeUtilisateur).updateData({
+          Firestore.instance
+              .collection('Utilisateur')
+              .document(codeUtilisateur)
+              .updateData({
             'pseudoUtilisateur': pseudoUtilisateur,
             'statut': statut,
             'photoUrl': photoUrl
@@ -188,7 +210,10 @@ class SettingsScreenState extends State<SettingsScreen> {
     });
 
     // mise à jour des données de firebase et des sharedPreferences
-    Firestore.instance.collection('Utilisateur').document(codeUtilisateur).updateData({
+    Firestore.instance
+        .collection('Utilisateur')
+        .document(codeUtilisateur)
+        .updateData({
       'pseudoUtilisateur': pseudoUtilisateur,
       'statut': statut,
       'photoUrl': photoUrl
@@ -364,7 +389,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                           contentPadding: new EdgeInsets.all(5.0),
                           hintStyle: TextStyle(color: ThemeKomeet.greyColor),
                         ),
-                        controller: controllerpseudoUtilisateur,
+                        controller: controllerPseudoUtilisateur,
                         onChanged: (value) {
                           pseudoUtilisateur = value;
                         },
@@ -395,7 +420,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                           contentPadding: EdgeInsets.all(5.0),
                           hintStyle: TextStyle(color: ThemeKomeet.greyColor),
                         ),
-                        controller: controllerstatut,
+                        controller: controllerStatut,
                         onChanged: (value) {
                           statut = value;
                         },

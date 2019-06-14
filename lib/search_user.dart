@@ -16,11 +16,11 @@ class SearchUser extends StatelessWidget {
   // Utilisateur courant
   final String currentUserId;
 
-  BackendDataBase backendDataBase;
+  //base de donnée
+  final DataBase db;
 
   // Constructeur
-  SearchUser(
-      {Key key, @required this.currentUserId, @required this.backendDataBase})
+  SearchUser({Key key, @required this.currentUserId, @required this.db})
       : super(key: key);
 
   @override
@@ -35,8 +35,7 @@ class SearchUser extends StatelessWidget {
         centerTitle: true,
       ),
       // Nouvel écran de Recherche Utilisateur
-      body: new SearchUserScreen(
-          currentUserId: currentUserId, backendDataBase: backendDataBase),
+      body: new SearchUserScreen(currentUserId: currentUserId, db: db),
     );
   }
 }
@@ -45,17 +44,16 @@ class SearchUserScreen extends StatefulWidget {
   // Utilisateur courant
   final String currentUserId;
 
-  //database
-  BackendDataBase backendDataBase;
+  //base de données
+  final DataBase db;
 
   // Constructeur
-  SearchUserScreen(
-      {Key key, @required this.currentUserId, @required this.backendDataBase})
+  SearchUserScreen({Key key, @required this.currentUserId, @required this.db})
       : super(key: key);
 
   @override
-  SearchUserScreenState createState() => new SearchUserScreenState(
-      currentUserId: currentUserId, backendDataBase: backendDataBase);
+  SearchUserScreenState createState() =>
+      new SearchUserScreenState(currentUserId: currentUserId, db: db);
 }
 
 class SearchUserScreenState extends State<SearchUserScreen> {
@@ -63,17 +61,17 @@ class SearchUserScreenState extends State<SearchUserScreen> {
   final String currentUserId;
 
   //database
-  BackendDataBase backendDataBase;
+  DataBase db;
 
   // Constructeur
   SearchUserScreenState(
-      {Key key, @required this.currentUserId, @required this.backendDataBase});
+      {Key key, @required this.currentUserId, @required this.db});
 
   // Champ texte
   TextEditingController editingController = TextEditingController();
 
   // requête de recherche
-  String query = 'Développeur';
+  String query = ' ';
 
   // couleur de l'ami sélectionné
   Color selectedColor = Colors.white;
@@ -119,60 +117,65 @@ class SearchUserScreenState extends State<SearchUserScreen> {
                       isEqualTo: query) // isEqualTO (moins permissif)
                   .snapshots(),
               builder: (context, snapshot) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: snapshot.data.documents
-                      .length, //Nombre de documents de la collection
-                  itemBuilder: (context, index) {
-                    // création des items
-                    return ListTile(
-                      onTap: () {
-                        var codeAmi =
-                            snapshot.data.documents[index]['codeUtilisateur'];
-                        Fluttertoast.showToast(
-                            msg:
-                                '${snapshot.data.documents[index]['pseudoUtilisateur']} ajouté aux amis (implémenter)',
-                            gravity: ToastGravity.TOP);
-                        // Ajout d'un ami en back-end
-                        backendDataBase.addFriend(codeAmi, currentUserId);
-                      },
-                      leading: GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        child: Container(
-                          width: 65.0,
-                          height: 65.0,
-                          padding: EdgeInsets.symmetric(vertical: 4.0),
-                          alignment: Alignment.center,
-                          child: Material(
-                            child: CachedNetworkImage(
-                              placeholder: (context, url) => Container(
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 1.0,
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                          ThemeKomeet.themeColor),
+                if (!snapshot.hasData) {
+                  return Container();
+                } else {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data.documents
+                        .length, //Nombre de documents de la collection
+                    itemBuilder: (context, index) {
+                      // création des items
+                      return ListTile(
+                        onTap: () {
+                          var codeAmi =
+                              snapshot.data.documents[index]['codeUtilisateur'];
+                          Fluttertoast.showToast(
+                              msg:
+                                  '${snapshot.data.documents[index]['pseudoUtilisateur']} ajouté aux amis (implémenter)',
+                              gravity: ToastGravity.TOP);
+                          // Ajout d'un ami en back-end
+                          db.addFriend(codeAmi, currentUserId);
+                        },
+                        leading: GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          child: Container(
+                            width: 65.0,
+                            height: 65.0,
+                            padding: EdgeInsets.symmetric(vertical: 4.0),
+                            alignment: Alignment.center,
+                            child: Material(
+                              child: CachedNetworkImage(
+                                placeholder: (context, url) => Container(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 1.0,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                ThemeKomeet.themeColor),
+                                      ),
+                                      width: 50.0,
+                                      height: 50.0,
+                                      padding: EdgeInsets.all(15.0),
                                     ),
-                                    width: 50.0,
-                                    height: 50.0,
-                                    padding: EdgeInsets.all(15.0),
-                                  ),
-                              imageUrl: snapshot.data.documents[index]
-                                  ['photoUrl'],
-                              width: 50.0,
-                              height: 50.0,
-                              fit: BoxFit.cover,
+                                imageUrl: snapshot.data.documents[index]
+                                    ['photoUrl'],
+                                width: 50.0,
+                                height: 50.0,
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25.0)),
+                              clipBehavior: Clip.hardEdge,
                             ),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25.0)),
-                            clipBehavior: Clip.hardEdge,
                           ),
                         ),
-                      ),
-                      title: Text(
-                        '${snapshot.data.documents[index]['pseudoUtilisateur']}',
-                      ),
-                    );
-                  },
-                );
+                        title: Text(
+                          '${snapshot.data.documents[index]['pseudoUtilisateur']}',
+                        ),
+                      );
+                    },
+                  );
+                }
               },
             ),
           ),

@@ -22,7 +22,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 // Classe des méthodes back-end de firebase
 // ------------------------------------------------
 
-class BackendDataBase {
+class DataBase {
   var pseudo =
       ""; //Le pseudo ne peut pas être récupéré dans une variable locale
 
