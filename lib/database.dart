@@ -23,8 +23,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 // ------------------------------------------------
 
 class DataBase {
-  var pseudo =
-      ""; //Le pseudo ne peut pas être récupéré dans une variable locale
 
   Future<bool> addFriend(String codeAmi, String codeUtilisateur) async {
     try {
@@ -75,31 +73,7 @@ class DataBase {
     return true;
   } //Fin addUserToDiscussion
 
-  //Obtenir le pseudo d'un utilisateur à partir de son code utiisateur
-  // /!\ On utilise une variable globale car une variable locale ne permet pas de stocker la valeur du champ /!\
-  String getPseudoUtilisateur(String codeUtilisateur) {
-    //Variable qui stockera le résultat de la requête
-    var query;
 
-    try {
-      //Requête pour récupérer le document concernant l'utilisateur
-      query = Firestore.instance
-          .collection(
-              'Utilisateur') //Ciblage de la table (ou collection) Utilisateur
-          .document(
-              codeUtilisateur); //Ciblage du document identifié par le codeUtilisateur passé en paramètre
-    } on Exception {
-      return ""; //Si il y a un erreurlors de la requête, on retourne une chaine vide
-    }
-
-    //Extraire de ce document le champs n°3 (correspondant au pseudo)
-    query
-        .snapshots()
-        .listen((data) => this.pseudo = ('${data.data.values.elementAt(3)}'));
-
-    //Retour sans erreur
-    return this.pseudo;
-  }
 
   Stream getMessagesConversation(String groupChatId) {
     //Requête de récupération des 20 derniers messages de la conversation groupChatId
@@ -147,5 +121,69 @@ class DataBase {
     }
 
     return true;
+  }
+
+  //Récupérer les ID des connaissances
+  List<String> getConnaissancesId(String idUser) {
+    List<String> ids; //liste des ids des amis
+
+    var query = Firestore.instance
+        .collection('Connaissance')
+        .where('codeUtilisateur', isEqualTo: idUser);
+
+    //A FAIRE POUR CHAQUE DOCUMENT MAIS COMMENT ???????????????????????????????
+    //ids.add(query['codeAmi']);
+
+    //query.snapshots().listen(
+    //    (data) => ids.add('${data.documents.}')
+    //);
+    //data['codeAmi'];
+
+    //for(int index =0;index<nbAmis;index++)
+    //{
+      //ids.add(query.snapshots().//elementAt(index)['codeAmi']);
+    //}
+    //query.snapshots().forEach(
+    //    (QuerySnap) => ids.add(QuerySnap.)
+    //);
+    //query.getDocuments().then(
+    //    (qrySnap)=> ids.add(qrySnap.toString())
+    //);
+    //query['codeAmi'];
+    //query.snapshots().forEach(
+    //    (QrySnap) => ids.add(Q)
+    //)
+    return ids;
+  }
+
+  //Obtenir le pseudo d'un utilisateur à partir de son code utiisateur
+  String getPseudoUtilisateur(String codeUtilisateur) {
+    //Variable qui stockera le résultat de la requête
+    var query;
+
+    try {
+      //Requête pour récupérer le document concernant l'utilisateur
+      query = Firestore.instance
+          .collection('Utilisateur') //Ciblage de la table (ou collection) Utilisateur
+          .document(codeUtilisateur); //Ciblage du document identifié par le codeUtilisateur passé en paramètre
+    } on Exception {
+      return ""; //Si il y a un erreur lors de la requête, on retourne une chaine vide
+    }
+
+    return query['pseudoUtilisateur'];
+  }
+
+  //Obtenir l'url de la photo de profil à partir du codeUtilisateur
+  String getPhotoUtilisateur(String userId) {
+    var query;
+    try {
+      query = Firestore.instance
+          .collection('Utilisateur')
+          .document(userId);
+    }
+    on Exception {
+      return "";
+    }
+    return query['photoUrl'];
   }
 }
