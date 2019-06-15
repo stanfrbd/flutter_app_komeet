@@ -138,14 +138,32 @@ class DataBase {
       //Requête pour récupérer le document concernant l'utilisateur
       query = Firestore.instance
           .collection('Utilisateur') //Ciblage de la table (ou collection) Utilisateur
-          .where('codeUtilisateur', isEqualTo: codeUtilisateur);
+          .where('codeUtilisateur', isEqualTo: codeUtilisateur)
+          .snapshots();
       //.document(
             //  codeUtilisateur); //Ciblage du document identifié par le codeUtilisateur passé en paramètre
     } on Exception {
       return "erreur"; //Si il y a un erreur lors de la requête, on retourne une chaine vide
     }
 
-    return query['pseudoUtilisateur'];
+    var pseudo;
+
+    //TEST 1
+    query.forEach(
+        (snap) => {pseudo = snap.value['pseudoUtilisateur'].toString()},
+    );
+
+    //TEST 2
+    /*query.forEach(
+        (snap) => {pseudo = snap.document['pseudoUtilisateur'].toString()},
+    );*/
+
+    //TEST 3
+    /*query.forEach(
+          (snap) => {pseudo = snap.getDocument()['pseudoUtilisateur'].toString()},
+    );*/
+
+    return pseudo;
   }
 
   //Obtenir l'url de la photo de profil à partir du codeUtilisateur
