@@ -577,7 +577,7 @@ class MainScreenState extends State<MainScreen> {
                     return ListView.builder(
                       padding: EdgeInsets.all(10.0),
                       itemBuilder: (context, index) =>
-                          buildItem(context, snapshot.data.documents[index]),
+                          buildItem(context, snapshot.data.documents[index]), //Appelle constructeur avec UN des documents d'amis
                       itemCount: snapshot.data.documents.length,
                     );
                   }

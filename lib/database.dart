@@ -72,7 +72,7 @@ class DataBase {
     return true;
   } //Fin addUserToDiscussion
 
-  Stream getMessagesConversation(String groupChatId) {
+  Stream<QuerySnapshot> getMessagesConversation(String groupChatId) {
     //Requête de récupération des 20 derniers messages de la conversation groupChatId
     var snap = Firestore.instance
         .collection('Message')
@@ -120,23 +120,14 @@ class DataBase {
     return true;
   }
 
-  //Récupérer les ID des connaissances
-  List<String> getConnaissancesId(String idUser) {
-    List<String> ids; //liste des ids des amis
-
-    //On récupère un ensemble de document avec codeUtilisateur = idUser
+  Stream<QuerySnapshot> getConnaissancesId(String idUser) {
     var query = Firestore.instance
         .collection('Connaissance')
         .where('codeUtilisateur', isEqualTo: idUser)
-        .getDocuments();
-
-    //On récupère les "codeAmi" et on les met dans une liste
-    query.then((Snapshot) => {
-          Snapshot.documents.forEach((doc) => {ids.add(doc['codeAmi'])})
-        });
-
-    return ids;
+        .snapshots();
+    return query;
   }
+
 
   //Obtenir le pseudo d'un utilisateur à partir de son code utiisateur
   String getPseudoUtilisateur(String codeUtilisateur) {
@@ -146,10 +137,10 @@ class DataBase {
     try {
       //Requête pour récupérer le document concernant l'utilisateur
       query = Firestore.instance
-          .collection(
-              'Utilisateur') //Ciblage de la table (ou collection) Utilisateur
-          .document(
-              codeUtilisateur); //Ciblage du document identifié par le codeUtilisateur passé en paramètre
+          .collection('Utilisateur') //Ciblage de la table (ou collection) Utilisateur
+          .where('codeUtilisateur', isEqualTo: codeUtilisateur);
+      //.document(
+            //  codeUtilisateur); //Ciblage du document identifié par le codeUtilisateur passé en paramètre
     } on Exception {
       return "erreur"; //Si il y a un erreur lors de la requête, on retourne une chaine vide
     }
@@ -161,9 +152,9 @@ class DataBase {
   String getPhotoUtilisateur(String userId) {
     var query;
     try {
-      query = Firestore.instance.collection('Utilisateur').document(userId);
+      query = Firestore.instance.collection('Utilisateur').where('codeUtiisateur', isEqualTo: userId);//document(userId);
     } on Exception {
-      return "";
+      return "erreur";
     }
     return query['photoUrl'];
   }
