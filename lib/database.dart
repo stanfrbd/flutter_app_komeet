@@ -23,7 +23,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 // ------------------------------------------------
 
 class DataBase {
-
   Future<bool> addFriend(String codeAmi, String codeUtilisateur) async {
     try {
       //Ajout d'un ami dans la BD
@@ -72,8 +71,6 @@ class DataBase {
     }
     return true;
   } //Fin addUserToDiscussion
-
-
 
   Stream getMessagesConversation(String groupChatId) {
     //Requête de récupération des 20 derniers messages de la conversation groupChatId
@@ -134,15 +131,9 @@ class DataBase {
         .getDocuments();
 
     //On récupère les "codeAmi" et on les met dans une liste
-    query.then(
-        (Snapshot) => {
-          Snapshot.documents.forEach(
-              (doc) => {
-                ids.add(doc['codeAmi'])
-              }
-          )
-        }
-    );
+    query.then((Snapshot) => {
+          Snapshot.documents.forEach((doc) => {ids.add(doc['codeAmi'])})
+        });
 
     return ids;
   }
@@ -155,10 +146,12 @@ class DataBase {
     try {
       //Requête pour récupérer le document concernant l'utilisateur
       query = Firestore.instance
-          .collection('Utilisateur') //Ciblage de la table (ou collection) Utilisateur
-          .document(codeUtilisateur); //Ciblage du document identifié par le codeUtilisateur passé en paramètre
+          .collection(
+              'Utilisateur') //Ciblage de la table (ou collection) Utilisateur
+          .document(
+              codeUtilisateur); //Ciblage du document identifié par le codeUtilisateur passé en paramètre
     } on Exception {
-      return ""; //Si il y a un erreur lors de la requête, on retourne une chaine vide
+      return "erreur"; //Si il y a un erreur lors de la requête, on retourne une chaine vide
     }
 
     return query['pseudoUtilisateur'];
@@ -168,11 +161,8 @@ class DataBase {
   String getPhotoUtilisateur(String userId) {
     var query;
     try {
-      query = Firestore.instance
-          .collection('Utilisateur')
-          .document(userId);
-    }
-    on Exception {
+      query = Firestore.instance.collection('Utilisateur').document(userId);
+    } on Exception {
       return "";
     }
     return query['photoUrl'];

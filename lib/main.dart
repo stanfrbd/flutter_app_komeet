@@ -36,26 +36,22 @@ class MainScreen extends StatefulWidget {
   // Utilisateur courant
   final String currentUserId;
 
-  // base de donnée
-  final DataBase db;
-
   // Constructeur
-  MainScreen({Key key, @required this.currentUserId, @required this.db})
-      : super(key: key);
+  MainScreen({Key key, @required this.currentUserId}) : super(key: key);
 
   // Création d'un nouvel état de MainScreen avec les widgets
   @override
-  State createState() => MainScreenState(currentUserId: currentUserId, db: db);
+  State createState() => MainScreenState(currentUserId: currentUserId);
 }
 
 class MainScreenState extends State<MainScreen> {
+  // base de données
+  DataBase db = new DataBase();
   // Attributs
   final String currentUserId;
 
-  //database
-  DataBase db;
   // Constructeur
-  MainScreenState({Key key, @required this.currentUserId, @required this.db});
+  MainScreenState({Key key, @required this.currentUserId});
 
   // Lancement du widget chargement commandé par ce booléen
   bool isLoading = false;
@@ -263,7 +259,6 @@ class MainScreenState extends State<MainScreen> {
         MaterialPageRoute(
             builder: (context) => SearchUser(
                   currentUserId: currentUserId,
-                  db: db,
                 )),
         (Route<dynamic> route) => true);
   }
@@ -275,23 +270,22 @@ class MainScreenState extends State<MainScreen> {
   }
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
-    if (document['codeUtilisateur'] == currentUserId) {
+    if (document['codeAmi'] == currentUserId) {
       return Container();
     } else {
       return Container(
         child: GestureDetector(
           onLongPress: () {
-            Fluttertoast.showToast(
-                msg: 'selectionné : ${document['pseudoUtilisateur']}');
             setState(() {
-              selectedUser = document['pseudoUtilisateur'];
+              selectedUser = db.getPseudoUtilisateur(document['codeAmi']);
             });
+            Fluttertoast.showToast(msg: 'selectionné : $selectedUser');
             handleDeleteFriend();
           },
           child: FlatButton(
             child: Row(
               children: <Widget>[
-                Material(
+                /*Material(
                   child: CachedNetworkImage(
                     placeholder: (context, url) => Container(
                           child: CircularProgressIndicator(
@@ -303,14 +297,14 @@ class MainScreenState extends State<MainScreen> {
                           height: 50.0,
                           padding: EdgeInsets.all(15.0),
                         ),
-                    imageUrl: document['photoUrl'],
+                    imageUrl: db.getPhotoUtilisateur(document['codeAmi']),
                     width: 50.0,
                     height: 50.0,
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.all(Radius.circular(25.0)),
                   clipBehavior: Clip.hardEdge,
-                ),
+                ),*/
                 // Widget contenant le nom et le statut
                 Flexible(
                   child: Container(
@@ -318,7 +312,7 @@ class MainScreenState extends State<MainScreen> {
                       children: <Widget>[
                         Container(
                           child: Text(
-                            '${document['pseudoUtilisateur']}',
+                            db.getPseudoUtilisateur(document['codeAmi']),
                             style: TextStyle(
                                 color: ThemeKomeet.primaryColor,
                                 fontWeight: FontWeight.bold,
@@ -329,7 +323,7 @@ class MainScreenState extends State<MainScreen> {
                         ),
                         Container(
                           child: Text(
-                            '${document['statut'] ?? 'Dernier message...'}',
+                            '${'toto' ?? 'Dernier message...'}',
                             // il faudra mettre le dernier message à la place
                             style: TextStyle(color: ThemeKomeet.primaryColor),
                           ),
@@ -382,10 +376,10 @@ class MainScreenState extends State<MainScreen> {
                 MaterialPageRoute(
                   // Lancement d'un nouvel écran de chat
                   builder: (context) => Chat(
-                      peerId: document.documentID,
-                      peerAvatar: document['photoUrl'],
-                      chatMate: document['pseudoUtilisateur'],
-                      db: db),
+                        peerId: document.documentID,
+                        peerAvatar: document['photoUrl'],
+                        chatMate: document['pseudoUtilisateur'],
+                      ),
                 ),
               );
             },
@@ -406,7 +400,7 @@ class MainScreenState extends State<MainScreen> {
   void onItemMenuPress(Choice choice) {
     if (choice.title == 'Réglages') {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Settings(db: db)));
+          context, MaterialPageRoute(builder: (context) => Settings()));
     } else if (choice.title == 'Supprimer mon profil') {
       handleDeleteProfile();
     } else if (choice.title == 'Supprimer la conversation') {
@@ -557,13 +551,6 @@ class MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
-      /*floatingActionButton: FloatingActionButton(
-        onPressed: handleAddFriends,
-        tooltip: 'Nouvel ami',
-        child: Icon(Icons.add),
-
-        backgroundColor: ThemeKomeet.floatingBtnColor,
-      ),*/
       body: WillPopScope(
         child: Stack(
           children: <Widget>[
@@ -571,14 +558,18 @@ class MainScreenState extends State<MainScreen> {
             Container(
               child: StreamBuilder(
                 // création d'un stream : on récupère tous les utilisateurs de la BD
-                stream:
-                    Firestore.instance.collection('Utilisateur').snapshots(),
+                stream: Firestore.instance
+                    .collection('Connaissance')
+                    .where('codeUtilisateur', isEqualTo: currentUserId)
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                            ThemeKomeet.themeColor),
+                    return Container(
+                      child: Center(
+                        child: Text(
+                          "Vous n'avez pas encore d'amis",
+                          style: TextStyle(color: ThemeKomeet.primaryColor),
+                        ),
                       ),
                     );
                   } else {

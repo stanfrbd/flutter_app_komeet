@@ -16,12 +16,8 @@ class SearchUser extends StatelessWidget {
   // Utilisateur courant
   final String currentUserId;
 
-  //base de donnée
-  final DataBase db;
-
   // Constructeur
-  SearchUser({Key key, @required this.currentUserId, @required this.db})
-      : super(key: key);
+  SearchUser({Key key, @required this.currentUserId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +31,7 @@ class SearchUser extends StatelessWidget {
         centerTitle: true,
       ),
       // Nouvel écran de Recherche Utilisateur
-      body: new SearchUserScreen(currentUserId: currentUserId, db: db),
+      body: new SearchUserScreen(currentUserId: currentUserId),
     );
   }
 }
@@ -44,16 +40,12 @@ class SearchUserScreen extends StatefulWidget {
   // Utilisateur courant
   final String currentUserId;
 
-  //base de données
-  final DataBase db;
-
   // Constructeur
-  SearchUserScreen({Key key, @required this.currentUserId, @required this.db})
-      : super(key: key);
+  SearchUserScreen({Key key, @required this.currentUserId}) : super(key: key);
 
   @override
   SearchUserScreenState createState() =>
-      new SearchUserScreenState(currentUserId: currentUserId, db: db);
+      new SearchUserScreenState(currentUserId: currentUserId);
 }
 
 class SearchUserScreenState extends State<SearchUserScreen> {
@@ -61,11 +53,10 @@ class SearchUserScreenState extends State<SearchUserScreen> {
   final String currentUserId;
 
   //database
-  DataBase db;
+  DataBase db = new DataBase();
 
   // Constructeur
-  SearchUserScreenState(
-      {Key key, @required this.currentUserId, @required this.db});
+  SearchUserScreenState({Key key, @required this.currentUserId});
 
   // Champ texte
   TextEditingController editingController = TextEditingController();

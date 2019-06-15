@@ -21,7 +21,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 // -------------------------------------------------------
 
 class MyApp extends StatelessWidget {
-  final DataBase db = new DataBase();
   @override
   Widget build(BuildContext context) {
     if (!ThemeKomeet.darkTheme) {
@@ -49,22 +48,20 @@ class LoginScreen extends StatefulWidget {
   // Attributs
   final String title;
 
-  // database
-  final DataBase db;
   // Constructeur
-  LoginScreen({Key key, this.title, this.db}) : super(key: key);
+  LoginScreen({Key key, this.title}) : super(key: key);
 
   // nouvel état
   @override
-  LoginScreenState createState() => LoginScreenState(db: db);
+  LoginScreenState createState() => LoginScreenState();
 }
 
 class LoginScreenState extends State<LoginScreen> {
   // Back-end de l'authentification
-  final DataBase db;
+  DataBase db = new DataBase();
 
   // Constructeur
-  LoginScreenState({Key key, @required this.db});
+  LoginScreenState({Key key});
 
   final GoogleSignIn googleSignIn =
       GoogleSignIn(); // déclaration d'un nouveau client google
@@ -101,8 +98,8 @@ class LoginScreenState extends State<LoginScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => MainScreen(
-                currentUserId: prefs.getString('codeUtilisateur'), db: db)),
+            builder: (context) =>
+                MainScreen(currentUserId: prefs.getString('codeUtilisateur'))),
       );
     }
 
@@ -180,7 +177,6 @@ class LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(
             builder: (context) => MainScreen(
                   currentUserId: firebaseUser.uid,
-                  db: db,
                 )),
       );
     } else {

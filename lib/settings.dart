@@ -23,11 +23,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_colorpicker/block_picker.dart';
 
 class Settings extends StatelessWidget {
-  // attributs
-  final DataBase db;
-
   // Constructeur
-  Settings({Key key, @required this.db}) : super(key: key);
+  Settings({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,28 +38,25 @@ class Settings extends StatelessWidget {
         centerTitle: true,
       ),
       // Nouvel écran de Réglages
-      body: new SettingsScreen(db: db),
+      body: new SettingsScreen(),
     );
   }
 }
 
 class SettingsScreen extends StatefulWidget {
-  // attributs
-  final DataBase db;
-
   // Constructeur
-  SettingsScreen({Key key, @required this.db}) : super(key: key);
+  SettingsScreen({Key key}) : super(key: key);
 
   @override
-  State createState() => new SettingsScreenState(db: db);
+  State createState() => new SettingsScreenState();
 }
 
 class SettingsScreenState extends State<SettingsScreen> {
   // base de données
-  DataBase db;
+  DataBase db = new DataBase();
 
   // Constructeur
-  SettingsScreenState({Key key, @required this.db});
+  SettingsScreenState({Key key});
 
   // champs texte
   TextEditingController controllerPseudoUtilisateur;
