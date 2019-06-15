@@ -127,32 +127,23 @@ class DataBase {
   List<String> getConnaissancesId(String idUser) {
     List<String> ids; //liste des ids des amis
 
+    //On récupère un ensemble de document avec codeUtilisateur = idUser
     var query = Firestore.instance
         .collection('Connaissance')
-        .where('codeUtilisateur', isEqualTo: idUser);
+        .where('codeUtilisateur', isEqualTo: idUser)
+        .getDocuments();
 
-    //A FAIRE POUR CHAQUE DOCUMENT MAIS COMMENT ???????????????????????????????
-    //ids.add(query['codeAmi']);
+    //On récupère les "codeAmi" et on les met dans une liste
+    query.then(
+        (Snapshot) => {
+          Snapshot.documents.forEach(
+              (doc) => {
+                ids.add(doc['codeAmi'])
+              }
+          )
+        }
+    );
 
-    //query.snapshots().listen(
-    //    (data) => ids.add('${data.documents.}')
-    //);
-    //data['codeAmi'];
-
-    //for(int index =0;index<nbAmis;index++)
-    //{
-      //ids.add(query.snapshots().//elementAt(index)['codeAmi']);
-    //}
-    //query.snapshots().forEach(
-    //    (QuerySnap) => ids.add(QuerySnap.)
-    //);
-    //query.getDocuments().then(
-    //    (qrySnap)=> ids.add(qrySnap.toString())
-    //);
-    //query['codeAmi'];
-    //query.snapshots().forEach(
-    //    (QrySnap) => ids.add(Q)
-    //)
     return ids;
   }
 
