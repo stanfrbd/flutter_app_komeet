@@ -40,9 +40,9 @@ dev_dependencies:
 
 flutter:
   fonts:
-    - family: Open Sans
+    - family: Roboto
       fonts:
-        - asset: fonts/OpenSans-Regular.ttf
+        - asset: fonts/Roboto-Regular.ttf
   uses-material-design: true
 
 flutter_icons:

@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       return MaterialApp(
         title: 'Komeet',
         theme: new ThemeData(
-            primarySwatch: ThemeKomeet.themeColor, fontFamily: 'Open Sans'),
+            primarySwatch: ThemeKomeet.themeColor, fontFamily: 'Roboto'),
         home: LoginScreen(title: 'Komeet'),
         // enlève la bannière "debug"
         debugShowCheckedModeBanner: false,
