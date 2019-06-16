@@ -35,13 +35,23 @@ class MainScreen extends StatefulWidget {
 
   // Utilisateur courant
   final String currentUserId;
+  final String currentUserPhoto;
+  final String currentUserPseudo;
 
   // Constructeur
-  MainScreen({Key key, @required this.currentUserId}) : super(key: key);
+  MainScreen(
+      {Key key,
+      @required this.currentUserId,
+      @required this.currentUserPhoto,
+      @required this.currentUserPseudo})
+      : super(key: key);
 
   // Création d'un nouvel état de MainScreen avec les widgets
   @override
-  State createState() => MainScreenState(currentUserId: currentUserId);
+  State createState() => MainScreenState(
+      currentUserId: currentUserId,
+      currentUserPhoto: currentUserPhoto,
+      currentUserPseudo: currentUserPseudo);
 }
 
 class MainScreenState extends State<MainScreen> {
@@ -49,19 +59,21 @@ class MainScreenState extends State<MainScreen> {
   DataBase db = new DataBase();
   // Attributs
   final String currentUserId;
+  final String currentUserPhoto;
+  final String currentUserPseudo;
 
   // Constructeur
-  MainScreenState({Key key, @required this.currentUserId});
+  MainScreenState(
+      {Key key,
+      @required this.currentUserId,
+      @required this.currentUserPhoto,
+      @required this.currentUserPseudo});
 
   // Lancement du widget chargement commandé par ce booléen
   bool isLoading = false;
 
   // Utilisateur sélectionné
   var selectedUser;
-
-  // attributs de l'utilisateur actuel
-  String currentUserPhoto;
-  String currentUserPseudo;
 
   // retour : déconnexion
   Future<bool> onBackPress() {
@@ -277,8 +289,6 @@ class MainScreenState extends State<MainScreen> {
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
     if (document['codeUtilisateur'] == currentUserId) {
-      currentUserPseudo = document['pseudoUtilisateur'];
-      currentUserPhoto = document['photoUrl'];
       return Container();
     } else {
       return Container(
