@@ -17,6 +17,7 @@ import 'package:flutter_app_komeet/const.dart';
 import 'package:flutter_app_komeet/login.dart';
 import 'package:flutter_app_komeet/settings.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'dart:math' show Random;
 
 // ------------------------------------------------
 // Classe des méthodes back-end de firebase
@@ -224,6 +225,10 @@ class DataBase {
           (snap) => {pseudo = snap.getDocument()['pseudoUtilisateur'].toString()},
     );*/
 
+    pseudo = query.forEach(
+        (snap) => snap.document['pseudoUtilisateur']
+    );
+
     return pseudo;
   }
 
@@ -238,5 +243,62 @@ class DataBase {
       return "erreur";
     }
     return query['photoUrl'];
+  }
+
+  //Méthode d'ajout d'un ami tiré aléatoirement
+  Future<String> addRandomFriend(String userId) async {
+    //On commence par récupérer les amis
+    var queryFriends = Firestore.instance
+      .collection('Connaissance')
+      .where('codeUtilisateur', isEqualTo: userId)
+      .getDocuments();
+
+    //On crée une liste d'identifiants à ne pas tirer au sort (amis et utilisateur courant)
+    List<String> friendsYet;
+    queryFriends.then(
+        (q) => {
+          q.documents.forEach(
+              (doc) => friendsYet.add(doc.data['codeAmi'])
+          )
+        }
+    );
+    friendsYet.add(userId);
+
+    //On récupère l'ensemble des utilisateurs
+    var queryAll = Firestore.instance
+        .collection('Utilisateur')
+        .getDocuments(); //Future<QuerySnapshot>
+
+    //On met leurs identifiants dans une liste
+    List<String> possibleFriends;
+    queryAll.then(
+        (q) => {
+          q.documents.forEach(
+              (doc) => possibleFriends.add(doc.data['codeUtilisateur'])
+          )
+        }
+    );
+
+    //On retire les utilisateurs à ne pas tirer au sort
+    possibleFriends.forEach(
+        (f) => {
+          if(friendsYet.contains(f)) {
+            possibleFriends.remove(f)
+          }
+        }
+    );
+
+    //On tire un utilisateur aléatoirement
+    var random = new Random();
+    int ind = random.nextInt(possibleFriends.length);
+    String newFriendId = possibleFriends.elementAt(ind);
+
+    //Ajout de l'ami
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //A décommenter après modification de la méthode AddFriend()
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //addFriend(userId, newFriendId);
+
+    return getPseudoUtilisateur(newFriendId);
   }
 }
