@@ -16,7 +16,7 @@ Rémi T. - Josquin I. - Antoine D-G. - Stanislas M.
 * Supprimer son compte **[fonctionnel]**
 * Se connecter / se déconnecter en conservant son profil **[fonctionnel]**
 ### Fonctionnalités secondaires
-* Envoyer des photos **[fonctionnel sur iPhone, exception image-picker sur Android ?]**
+* Envoyer des photos **[fonctionnel sur iPhone, exception image-picker sur Android ?]** [Issue #24859, Flutter Team](https://github.com/flutter/flutter/issues/24859)
 * Changer les couleurs **[fonctionnel]**
 * Mettre en mode sombre **[fonctionnel]**
 * Copier / coller des messages **[fonctionnel]**
