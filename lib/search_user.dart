@@ -17,13 +17,15 @@ class SearchUser extends StatelessWidget {
   final String currentUserId;
   final String currentUserPhoto;
   final String currentUserPseudo;
+  final String currentUserStatus;
 
   // Constructeur
   SearchUser(
       {Key key,
       @required this.currentUserId,
       @required this.currentUserPhoto,
-      @required this.currentUserPseudo})
+      @required this.currentUserPseudo,
+      @required this.currentUserStatus})
       : super(key: key);
 
   @override
@@ -42,6 +44,7 @@ class SearchUser extends StatelessWidget {
         currentUserId: currentUserId,
         currentUserPhoto: currentUserPhoto,
         currentUserPseudo: currentUserPseudo,
+        currentUserStatus: currentUserStatus,
       ),
     );
   }
@@ -52,20 +55,23 @@ class SearchUserScreen extends StatefulWidget {
   final String currentUserId;
   final String currentUserPhoto;
   final String currentUserPseudo;
+  final String currentUserStatus;
 
   // Constructeur
   SearchUserScreen(
       {Key key,
       @required this.currentUserId,
       @required this.currentUserPhoto,
-      @required this.currentUserPseudo})
+      @required this.currentUserPseudo,
+      @required this.currentUserStatus})
       : super(key: key);
 
   @override
   SearchUserScreenState createState() => new SearchUserScreenState(
       currentUserId: currentUserId,
       currentUserPhoto: currentUserPhoto,
-      currentUserPseudo: currentUserPseudo);
+      currentUserPseudo: currentUserPseudo,
+      currentUserStatus: currentUserStatus);
 }
 
 class SearchUserScreenState extends State<SearchUserScreen> {
@@ -73,6 +79,7 @@ class SearchUserScreenState extends State<SearchUserScreen> {
   final String currentUserId;
   final String currentUserPhoto;
   final String currentUserPseudo;
+  final String currentUserStatus;
 
   //database
   DataBase db = new DataBase();
@@ -82,7 +89,8 @@ class SearchUserScreenState extends State<SearchUserScreen> {
       {Key key,
       @required this.currentUserId,
       @required this.currentUserPhoto,
-      @required this.currentUserPseudo});
+      @required this.currentUserPseudo,
+      @required this.currentUserStatus});
 
   // Champ texte
   TextEditingController editingController = TextEditingController();
@@ -157,9 +165,11 @@ class SearchUserScreenState extends State<SearchUserScreen> {
                               snapshot.data.documents[index]
                                   ['pseudoUtilisateur'],
                               snapshot.data.documents[index]['photoUrl'],
+                              snapshot.data.documents[index]['statut'],
                               currentUserId,
                               currentUserPseudo,
-                              currentUserPhoto);
+                              currentUserPhoto,
+                              currentUserStatus);
                         },
                         leading: GestureDetector(
                           behavior: HitTestBehavior.translucent,

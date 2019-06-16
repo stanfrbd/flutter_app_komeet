@@ -37,13 +37,15 @@ class MainScreen extends StatefulWidget {
   final String currentUserId;
   final String currentUserPhoto;
   final String currentUserPseudo;
+  final String currentUserStatus;
 
   // Constructeur
   MainScreen(
       {Key key,
       @required this.currentUserId,
       @required this.currentUserPhoto,
-      @required this.currentUserPseudo})
+      @required this.currentUserPseudo,
+      @required this.currentUserStatus})
       : super(key: key);
 
   // Création d'un nouvel état de MainScreen avec les widgets
@@ -51,7 +53,8 @@ class MainScreen extends StatefulWidget {
   State createState() => MainScreenState(
       currentUserId: currentUserId,
       currentUserPhoto: currentUserPhoto,
-      currentUserPseudo: currentUserPseudo);
+      currentUserPseudo: currentUserPseudo,
+      currentUserStatus: currentUserStatus);
 }
 
 class MainScreenState extends State<MainScreen> {
@@ -61,13 +64,15 @@ class MainScreenState extends State<MainScreen> {
   final String currentUserId;
   final String currentUserPhoto;
   final String currentUserPseudo;
+  final String currentUserStatus;
 
   // Constructeur
   MainScreenState(
       {Key key,
       @required this.currentUserId,
       @required this.currentUserPhoto,
-      @required this.currentUserPseudo});
+      @required this.currentUserPseudo,
+      @required this.currentUserStatus});
 
   // Lancement du widget chargement commandé par ce booléen
   bool isLoading = false;
@@ -277,6 +282,7 @@ class MainScreenState extends State<MainScreen> {
                   currentUserId: currentUserId,
                   currentUserPhoto: currentUserPhoto,
                   currentUserPseudo: currentUserPseudo,
+                  currentUserStatus: currentUserStatus,
                 )),
         (Route<dynamic> route) => true);
   }
@@ -341,7 +347,7 @@ class MainScreenState extends State<MainScreen> {
                         ),
                         Container(
                           child: Text(
-                            '${'Dernier message...' ?? 'Dernier message...'}',
+                            '${document['statut'] ?? "Komeet c'est trop cool !"}',
                             // il faudra mettre le dernier message à la place
                             style: TextStyle(color: ThemeKomeet.primaryColor),
                           ),

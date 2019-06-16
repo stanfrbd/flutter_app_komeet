@@ -50,9 +50,11 @@ class DataBase {
       String codeAmi,
       String pseudoAmi,
       String photoAmi,
+      String statutAmi,
       String codeUtilisateurCourant,
       String pseudoUtilisateurCourant,
-      String photoUtilisateurCourant) async {
+      String photoUtilisateurCourant,
+      String statutUtilisateurCourant) async {
     // ajout d'un ami : redondance des données mais marche :
     // en gros copié collé de
     // l'utilisateur dans une collection ayant pour ID le codeUtilisateur et pour attributs le nom, la photo...
@@ -65,7 +67,8 @@ class DataBase {
         .setData({
       'codeUtilisateur': codeAmi,
       'pseudoUtilisateur': pseudoAmi,
-      'photoUrl': photoAmi
+      'photoUrl': photoAmi,
+      'statut': statutAmi
     });
 
     // ajout de l'ami chez dans l'autre ami
@@ -78,7 +81,8 @@ class DataBase {
         .setData({
       'codeUtilisateur': codeUtilisateurCourant,
       'pseudoUtilisateur': pseudoUtilisateurCourant,
-      'photoUrl': photoUtilisateurCourant
+      'photoUrl': photoUtilisateurCourant,
+      'statut': statutUtilisateurCourant
     });
 
     /*try {

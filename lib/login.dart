@@ -58,8 +58,6 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   // Back-end de l'authentification
   DataBase db = new DataBase();
-  static String pseudo;
-  static String photo;
 
   // Constructeur
   LoginScreenState({Key key});
@@ -103,6 +101,7 @@ class LoginScreenState extends State<LoginScreen> {
                   currentUserId: prefs.getString('codeUtilisateur'),
                   currentUserPseudo: prefs.getString('pseudoUtilisateur'),
                   currentUserPhoto: prefs.getString('photoUrl'),
+                  currentUserStatus: prefs.getString('statut'),
                 )),
       );
     }
@@ -183,6 +182,7 @@ class LoginScreenState extends State<LoginScreen> {
                   currentUserId: firebaseUser.uid,
                   currentUserPseudo: prefs.getString('pseudoUtilisateur'),
                   currentUserPhoto: prefs.getString('photoUrl'),
+                  currentUserStatus: prefs.getString('statut'),
                 )),
       );
     } else {
