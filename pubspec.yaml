@@ -39,6 +39,10 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
+  fonts:
+    - family: Open Sans
+      fonts:
+        - asset: fonts/OpenSans-Regular.ttf
   uses-material-design: true
 
 flutter_icons:

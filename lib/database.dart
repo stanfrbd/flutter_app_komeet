@@ -23,8 +23,65 @@ import 'package:google_sign_in/google_sign_in.dart';
 // ------------------------------------------------
 
 class DataBase {
-  Future<bool> addFriend(String codeAmi, String codeUtilisateur) async {
-    try {
+  // modification de structure, simple proposition,
+  // si vous n'êtes pas d'accord on change tout, je ne veux pas imposer
+
+  Future<bool> deleteFriend(
+      String codeAmi, String codeUtilisateurCourant) async {
+    // suppression d'un ami dans l'utilisateur courant
+    Firestore.instance
+        .collection("Connaissance")
+        .document(codeUtilisateurCourant)
+        .collection('sesAmis')
+        .document(codeAmi)
+        .delete();
+    // suppression d'un ami dans l'ami en question
+    Firestore.instance
+        .collection("Connaissance")
+        .document(codeAmi)
+        .collection('sesAmis')
+        .document(codeUtilisateurCourant)
+        .delete();
+    return true;
+  }
+
+  // plus d'attributs pour le copié-collé...
+  Future<bool> addFriend(
+      String codeAmi,
+      String pseudoAmi,
+      String photoAmi,
+      String codeUtilisateurCourant,
+      String pseudoUtilisateurCourant,
+      String photoUtilisateurCourant) async {
+    // ajout d'un ami : redondance des données mais marche :
+    // en gros copié collé de
+    // l'utilisateur dans une collection ayant pour ID le codeUtilisateur et pour attributs le nom, la photo...
+    Firestore.instance
+        .collection('Connaissance')
+        .document(codeUtilisateurCourant)
+        .collection(
+            'sesAmis') // une collection qui contient les docs utilisateur
+        .document(codeAmi)
+        .setData({
+      'codeUtilisateur': codeAmi,
+      'pseudoUtilisateur': pseudoAmi,
+      'photoUrl': photoAmi
+    });
+
+    // ajout de l'ami chez dans l'autre ami
+    Firestore.instance
+        .collection('Connaissance')
+        .document(codeAmi)
+        .collection(
+            'sesAmis') // une collection qui contient les docs utilisateur
+        .document(codeUtilisateurCourant)
+        .setData({
+      'codeUtilisateur': codeUtilisateurCourant,
+      'pseudoUtilisateur': pseudoUtilisateurCourant,
+      'photoUrl': photoUtilisateurCourant
+    });
+
+    /*try {
       //Ajout d'un ami dans la BD
       Firestore.instance
           .collection('Connaissance')
@@ -51,7 +108,7 @@ class DataBase {
       addUserToDiscussion('$codeUtilisateur-$codeAmi', codeAmi);
     } on Exception {
       return false;
-    }
+    }*/
     return true;
   } //Fin addFriend
 
@@ -128,7 +185,6 @@ class DataBase {
     return query;
   }
 
-
   //Obtenir le pseudo d'un utilisateur à partir de son code utiisateur
   String getPseudoUtilisateur(String codeUtilisateur) {
     //Variable qui stockera le résultat de la requête
@@ -137,11 +193,12 @@ class DataBase {
     try {
       //Requête pour récupérer le document concernant l'utilisateur
       query = Firestore.instance
-          .collection('Utilisateur') //Ciblage de la table (ou collection) Utilisateur
+          .collection(
+              'Utilisateur') //Ciblage de la table (ou collection) Utilisateur
           .where('codeUtilisateur', isEqualTo: codeUtilisateur)
           .snapshots();
       //.document(
-            //  codeUtilisateur); //Ciblage du document identifié par le codeUtilisateur passé en paramètre
+      //  codeUtilisateur); //Ciblage du document identifié par le codeUtilisateur passé en paramètre
     } on Exception {
       return "erreur"; //Si il y a un erreur lors de la requête, on retourne une chaine vide
     }
@@ -150,7 +207,7 @@ class DataBase {
 
     //TEST 1
     query.forEach(
-        (snap) => {pseudo = snap.value['pseudoUtilisateur'].toString()},
+      (snap) => {pseudo = snap.value['pseudoUtilisateur'].toString()},
     );
 
     //TEST 2
@@ -170,7 +227,9 @@ class DataBase {
   String getPhotoUtilisateur(String userId) {
     var query;
     try {
-      query = Firestore.instance.collection('Utilisateur').where('codeUtiisateur', isEqualTo: userId);//document(userId);
+      query = Firestore.instance
+          .collection('Utilisateur')
+          .where('codeUtiisateur', isEqualTo: userId); //document(userId);
     } on Exception {
       return "erreur";
     }

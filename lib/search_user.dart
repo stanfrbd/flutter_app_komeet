@@ -15,9 +15,16 @@ import 'package:flutter/cupertino.dart';
 class SearchUser extends StatelessWidget {
   // Utilisateur courant
   final String currentUserId;
+  final String currentUserPhoto;
+  final String currentUserPseudo;
 
   // Constructeur
-  SearchUser({Key key, @required this.currentUserId}) : super(key: key);
+  SearchUser(
+      {Key key,
+      @required this.currentUserId,
+      @required this.currentUserPhoto,
+      @required this.currentUserPseudo})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +38,11 @@ class SearchUser extends StatelessWidget {
         centerTitle: true,
       ),
       // Nouvel écran de Recherche Utilisateur
-      body: new SearchUserScreen(currentUserId: currentUserId),
+      body: new SearchUserScreen(
+        currentUserId: currentUserId,
+        currentUserPhoto: currentUserPhoto,
+        currentUserPseudo: currentUserPseudo,
+      ),
     );
   }
 }
@@ -39,24 +50,39 @@ class SearchUser extends StatelessWidget {
 class SearchUserScreen extends StatefulWidget {
   // Utilisateur courant
   final String currentUserId;
+  final String currentUserPhoto;
+  final String currentUserPseudo;
 
   // Constructeur
-  SearchUserScreen({Key key, @required this.currentUserId}) : super(key: key);
+  SearchUserScreen(
+      {Key key,
+      @required this.currentUserId,
+      @required this.currentUserPhoto,
+      @required this.currentUserPseudo})
+      : super(key: key);
 
   @override
-  SearchUserScreenState createState() =>
-      new SearchUserScreenState(currentUserId: currentUserId);
+  SearchUserScreenState createState() => new SearchUserScreenState(
+      currentUserId: currentUserId,
+      currentUserPhoto: currentUserPhoto,
+      currentUserPseudo: currentUserPseudo);
 }
 
 class SearchUserScreenState extends State<SearchUserScreen> {
   // Utilisateur courant
   final String currentUserId;
+  final String currentUserPhoto;
+  final String currentUserPseudo;
 
   //database
   DataBase db = new DataBase();
 
   // Constructeur
-  SearchUserScreenState({Key key, @required this.currentUserId});
+  SearchUserScreenState(
+      {Key key,
+      @required this.currentUserId,
+      @required this.currentUserPhoto,
+      @required this.currentUserPseudo});
 
   // Champ texte
   TextEditingController editingController = TextEditingController();
@@ -123,10 +149,17 @@ class SearchUserScreenState extends State<SearchUserScreen> {
                               snapshot.data.documents[index]['codeUtilisateur'];
                           Fluttertoast.showToast(
                               msg:
-                                  '${snapshot.data.documents[index]['pseudoUtilisateur']} ajouté aux amis (implémenter)',
+                                  '${snapshot.data.documents[index]['pseudoUtilisateur']} ajouté aux amis',
                               gravity: ToastGravity.TOP);
                           // Ajout d'un ami en back-end
-                          db.addFriend(codeAmi, currentUserId);
+                          db.addFriend(
+                              codeAmi,
+                              snapshot.data.documents[index]
+                                  ['pseudoUtilisateur'],
+                              snapshot.data.documents[index]['photoUrl'],
+                              currentUserId,
+                              currentUserPseudo,
+                              currentUserPhoto);
                         },
                         leading: GestureDetector(
                           behavior: HitTestBehavior.translucent,

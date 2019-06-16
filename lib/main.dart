@@ -59,6 +59,10 @@ class MainScreenState extends State<MainScreen> {
   // Utilisateur sélectionné
   var selectedUser;
 
+  // attributs de l'utilisateur actuel
+  String currentUserPhoto;
+  String currentUserPseudo;
+
   // retour : déconnexion
   Future<bool> onBackPress() {
     openSignOutDialog();
@@ -159,7 +163,7 @@ class MainScreenState extends State<MainScreen> {
     }
   }
 
-  Future<Null> handleDeleteFriend() async {
+  Future<Null> handleDeleteFriend(String codeUtilisateur) async {
     switch (await showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -247,8 +251,8 @@ class MainScreenState extends State<MainScreen> {
       case 0:
         break;
       case 1:
-        Fluttertoast.showToast(
-            msg: '$selectedUser Supprimé des amis (implémenter)');
+        Fluttertoast.showToast(msg: '$selectedUser Supprimé des amis');
+        db.deleteFriend(codeUtilisateur, currentUserId);
         break;
     }
   }
@@ -259,6 +263,8 @@ class MainScreenState extends State<MainScreen> {
         MaterialPageRoute(
             builder: (context) => SearchUser(
                   currentUserId: currentUserId,
+                  currentUserPhoto: currentUserPhoto,
+                  currentUserPseudo: currentUserPseudo,
                 )),
         (Route<dynamic> route) => true);
   }
@@ -270,22 +276,24 @@ class MainScreenState extends State<MainScreen> {
   }
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
-    if (document['codeAmi'] == currentUserId) {
+    if (document['codeUtilisateur'] == currentUserId) {
+      currentUserPseudo = document['pseudoUtilisateur'];
+      currentUserPhoto = document['photoUrl'];
       return Container();
     } else {
       return Container(
         child: GestureDetector(
           onLongPress: () {
             setState(() {
-              selectedUser = db.getPseudoUtilisateur(document['codeAmi']);
+              selectedUser = document['pseudoUtilisateur'];
             });
             Fluttertoast.showToast(msg: 'selectionné : $selectedUser');
-            handleDeleteFriend();
+            handleDeleteFriend(document['codeUtilisateur']);
           },
           child: FlatButton(
             child: Row(
               children: <Widget>[
-                /*Material(
+                Material(
                   child: CachedNetworkImage(
                     placeholder: (context, url) => Container(
                           child: CircularProgressIndicator(
@@ -297,14 +305,14 @@ class MainScreenState extends State<MainScreen> {
                           height: 50.0,
                           padding: EdgeInsets.all(15.0),
                         ),
-                    imageUrl: db.getPhotoUtilisateur(document['codeAmi']),
+                    imageUrl: document['photoUrl'],
                     width: 50.0,
                     height: 50.0,
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.all(Radius.circular(25.0)),
                   clipBehavior: Clip.hardEdge,
-                ),*/
+                ),
                 // Widget contenant le nom et le statut
                 Flexible(
                   child: Container(
@@ -312,7 +320,7 @@ class MainScreenState extends State<MainScreen> {
                       children: <Widget>[
                         Container(
                           child: Text(
-                            db.getPseudoUtilisateur(document['codeAmi']),
+                            document['pseudoUtilisateur'],
                             style: TextStyle(
                                 color: ThemeKomeet.primaryColor,
                                 fontWeight: FontWeight.bold,
@@ -323,7 +331,7 @@ class MainScreenState extends State<MainScreen> {
                         ),
                         Container(
                           child: Text(
-                            '${'toto' ?? 'Dernier message...'}',
+                            '${'Dernier message...' ?? 'Dernier message...'}',
                             // il faudra mettre le dernier message à la place
                             style: TextStyle(color: ThemeKomeet.primaryColor),
                           ),
@@ -560,10 +568,15 @@ class MainScreenState extends State<MainScreen> {
                 // création d'un stream : on récupère tous les utilisateurs de la BD
                 stream: Firestore.instance
                     .collection('Connaissance')
-                    .where('codeUtilisateur', isEqualTo: currentUserId)
+                    .document(currentUserId)
+                    .collection('sesAmis')
                     .snapshots(),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
+                  // si pas d'amis ou lui-même (invisible)
+                  if (!snapshot.hasData ||
+                      snapshot.data.documents.length == 1 &&
+                          snapshot.data.documents[0]['codeUtilisateur'] ==
+                              currentUserId) {
                     return Container(
                       child: Center(
                         child: Text(
@@ -576,8 +589,10 @@ class MainScreenState extends State<MainScreen> {
                     // construction de la listView
                     return ListView.builder(
                       padding: EdgeInsets.all(10.0),
-                      itemBuilder: (context, index) =>
-                          buildItem(context, snapshot.data.documents[index]), //Appelle constructeur avec UN des documents d'amis
+                      itemBuilder: (context, index) => buildItem(
+                          context,
+                          snapshot.data.documents[
+                              index]), //Appelle constructeur avec UN des documents d'amis
                       itemCount: snapshot.data.documents.length,
                     );
                   }
