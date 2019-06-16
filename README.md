@@ -6,6 +6,24 @@ Rémi T. - Josquin I. - Antoine D-G. - Stanislas M.
 
 [**Wiki !!!** 👍 ](https://github.com/stanfrbd/flutter_app_komeet/wiki)
 
+## Fonctionnalités
+### Fonctionnalités principales
+* Envoyer et recevoir des messages **[fonctionnel]**
+* Ajouter des amis **[fonctionnel]**
+* Supprimer des amis **[fonctionnel]**
+* Rechercher des utilisateurs avec leur unique pseudonyme (sensible à la casse) **[fonctionnel]**
+* Mettre à jour ses informations (pseudo, photo, statut) **[fonctionnel]**
+* Supprimer son compte **[fonctionnel]**
+* Se connecter / se déconnecter en conservant son profil **[fonctionnel]**
+### Fonctionnalités secondaires
+* Envoyer des photos **[fonctionnel sur iPhone, exception image-picker sur Android ?]**
+* Changer les couleurs **[fonctionnel]**
+* Mettre en mode sombre **[fonctionnel]**
+* Copier / coller des messages **[fonctionnel]**
+* Notifications in-app **[En cours, ne sera peut-être pas ajouté]**
+* Timers **[optionnel, ne sera peut-être pas ajouté]**
+* Ajouter aléatoirement des personnes **[optionnel, ne sera peut-être pas ajouté]**
+
 <img src="https://user-images.githubusercontent.com/44167150/59147905-bfdc5880-8a01-11e9-9151-7425f80d2143.png" alt="drawing" width="200"/>
 
 <img src="https://user-images.githubusercontent.com/44167150/59149702-494b5500-8a19-11e9-870a-c040668dc66a.png" width="200"/><img src="https://user-images.githubusercontent.com/44167150/59149703-4b151880-8a19-11e9-9c14-6b11d620406a.png" width="200"/><img src="https://user-images.githubusercontent.com/44167150/59149705-4d777280-8a19-11e9-9974-3ada86e81c2e.png" width="200"/><img src="https://user-images.githubusercontent.com/44167150/59149706-4fd9cc80-8a19-11e9-9bf2-4705c074b7a0.png" width="200"/><img src="https://user-images.githubusercontent.com/44167150/59149707-52d4bd00-8a19-11e9-9673-27836fc718e2.png" width="200"/><img src="https://user-images.githubusercontent.com/44167150/59149710-55cfad80-8a19-11e9-92b2-3e4261f85195.png" width="200"/><img src="https://user-images.githubusercontent.com/44167150/59452626-6b284b80-8e0e-11e9-85c2-a36e6c9e7312.png" width="200"/>
