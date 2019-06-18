@@ -243,7 +243,7 @@ class DataBase {
   //Méthode de suppression d'un message
   Future<bool> deleteMessage(String idMsg) async {
     var query =
-        Firestore.instance.collection('Message').document(idMsg).delete();
+        Firestore.instance.collection('messages').document(idMsg).delete();
 
     bool success = true;
 
