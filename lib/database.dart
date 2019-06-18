@@ -25,14 +25,20 @@ import 'dart:math' show Random;
 
 class DataBase {
   //Methode de suppression d'un contact
-  Future<void> deleteFriend(String codeAmi, String codeUtilisateurCourant) async {
-    Firestore.instance.collection("Connaissance").document('$codeAmi-$codeUtilisateurCourant').delete();
-    Firestore.instance.collection("Connaissance").document('$codeUtilisateurCourant-$codeAmi').delete();
+  Future<void> deleteFriend(
+      String codeAmi, String codeUtilisateurCourant) async {
+    Firestore.instance
+        .collection("Connaissance")
+        .document('$codeAmi-$codeUtilisateurCourant')
+        .delete();
+    Firestore.instance
+        .collection("Connaissance")
+        .document('$codeUtilisateurCourant-$codeAmi')
+        .delete();
   }
 
   //Méthode d'ajout d'un ami
   Future<bool> addFriend(String codeUtilisateur, String codeAmi) async {
-
     try {
       //Ajout d'un ami dans la BD
       Firestore.instance
@@ -65,7 +71,8 @@ class DataBase {
   } //Fin addFriend
 
   //Méthode d'ajout d'un ami à une discussion
-  Future<bool> addUserToDiscussion(String codeDiscussion, String codeUtilisateur) async {
+  Future<bool> addUserToDiscussion(
+      String codeDiscussion, String codeUtilisateur) async {
     try {
       //Ajout de l'utilisateur à la conversation dans la BD
       Firestore.instance
@@ -107,7 +114,8 @@ class DataBase {
   }
 
   //Rempli le document dans lequel on stocke le message
-  Future<bool> completeMessageDocument(DocumentReference docRef, codeUtilisateur, peerId, content, type) async {
+  Future<bool> completeMessageDocument(
+      DocumentReference docRef, codeUtilisateur, peerId, content, type) async {
     try {
       //Transaction pour éviter les concurrences d'accès
       Firestore.instance.runTransaction((transaction) async {
@@ -141,6 +149,7 @@ class DataBase {
   //Obtenir le pseudo d'un utilisateur à partir de son code utiisateur
   String getPseudoUtilisateur(String codeUtilisateur) {
     //Variable qui stockera le résultat de la requête
+    String toto = "Chaîne vide";
     var query;
 
     try {
@@ -158,15 +167,10 @@ class DataBase {
 
     var pseudo;
 
-    query.then(
-        (q) => {
-          q.documents.forEach(
-              (doc) => pseudo = doc.data['pseudoUtilisateur']
-          )
-        }
-    );
+    query.then((q) =>
+        {q.documents.forEach((doc) => pseudo = doc.data['pseudoUtilisateur'])});
 
-    return pseudo;
+    return pseudo ?? toto;
   }
 
   //Obtenir l'url de la photo de profil à partir du codeUtilisateur
@@ -183,9 +187,7 @@ class DataBase {
     }
     var url = "";
     //Récupération de l'url dans ce document
-    query.then(
-        (doc) => url = doc.data['photoUrl']
-    );
+    query.then((doc) => url = doc.data['photoUrl']);
 
     return url;
   }
@@ -194,19 +196,14 @@ class DataBase {
   Future<String> addRandomFriend(String userId) async {
     //On commence par récupérer les amis
     var queryFriends = Firestore.instance
-      .collection('Connaissance')
-      .where('codeUtilisateur', isEqualTo: userId)
-      .getDocuments();
+        .collection('Connaissance')
+        .where('codeUtilisateur', isEqualTo: userId)
+        .getDocuments();
 
     //On crée une liste d'identifiants à ne pas tirer au sort (amis et utilisateur courant)
     List<String> friendsYet;
-    queryFriends.then(
-        (q) => {
-          q.documents.forEach(
-              (doc) => friendsYet.add(doc.data['codeAmi'])
-          )
-        }
-    );
+    queryFriends.then((q) =>
+        {q.documents.forEach((doc) => friendsYet.add(doc.data['codeAmi']))});
     friendsYet.add(userId);
 
     //On récupère l'ensemble des utilisateurs
@@ -216,22 +213,15 @@ class DataBase {
 
     //On met leurs identifiants dans une liste
     List<String> possibleFriends;
-    queryAll.then(
-        (q) => {
+    queryAll.then((q) => {
           q.documents.forEach(
-              (doc) => possibleFriends.add(doc.data['codeUtilisateur'])
-          )
-        }
-    );
+              (doc) => possibleFriends.add(doc.data['codeUtilisateur']))
+        });
 
     //On retire les utilisateurs à ne pas tirer au sort
-    possibleFriends.forEach(
-        (f) => {
-          if(friendsYet.contains(f)) {
-            possibleFriends.remove(f)
-          }
-        }
-    );
+    possibleFriends.forEach((f) => {
+          if (friendsYet.contains(f)) {possibleFriends.remove(f)}
+        });
 
     //On tire un utilisateur aléatoirement
     var random = new Random();
@@ -241,23 +231,17 @@ class DataBase {
     //Ajout de l'ami
     addFriend(userId, newFriendId);
 
-    return getPseudoUtilisateur(newFriendId);
+    return newFriendId; //getPseudoUtilisateur(newFriendId);
   }
 
   //Méthode de suppression d'un message
   Future<bool> deleteMessage(String idMsg) async {
-    var query = Firestore.instance
-        .collection('Message')
-        .document(idMsg)
-        .delete();
+    var query =
+        Firestore.instance.collection('Message').document(idMsg).delete();
 
     bool success = true;
 
-    query.then(
-        (val) => success = true
-    ).catchError(
-        (error) => success = false
-    );
+    query.then((val) => success = true).catchError((error) => success = false);
 
     return success;
   }
