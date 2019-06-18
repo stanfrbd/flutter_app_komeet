@@ -157,20 +157,20 @@ class DataBase {
       query = Firestore.instance
           .collection(
               'Utilisateur') //Ciblage de la table (ou collection) Utilisateur
-          .where('codeUtilisateur', isEqualTo: codeUtilisateur)
-          .getDocuments();
-      //.document(
-      //  codeUtilisateur); //Ciblage du document identifié par le codeUtilisateur passé en paramètre
+          .document(codeUtilisateur)
+          .get();
+      //.document(codeUtilisateur); //Ciblage du document identifié par le codeUtilisateur passé en paramètre
     } on Exception {
       return "erreur"; //Si il y a un erreur lors de la requête, on retourne une chaine vide
     }
 
     var pseudo;
 
-    query.then((q) =>
-        {q.documents.forEach((doc) => pseudo = doc.data['pseudoUtilisateur'])});
+    query.then(
+            (doc) => pseudo = doc.data['pseudoUtilisateur']
+    ).catchError((err) => pseudo = "erreur");
 
-    return pseudo ?? toto;
+    return '$pseudo' ?? "erreur";
   }
 
   //Obtenir l'url de la photo de profil à partir du codeUtilisateur
@@ -187,9 +187,11 @@ class DataBase {
     }
     var url = "";
     //Récupération de l'url dans ce document
-    query.then((doc) => url = doc.data['photoUrl']);
+    query.then(
+            (doc) => url = doc.data['photoUrl']
+    ).catchError((err) => url = "erreur");
 
-    return url;
+    return '$url' ?? "erreur";
   }
 
   //Méthode d'ajout d'un ami tiré aléatoirement
@@ -202,8 +204,10 @@ class DataBase {
 
     //On crée une liste d'identifiants à ne pas tirer au sort (amis et utilisateur courant)
     List<String> friendsYet;
-    queryFriends.then((q) =>
-        {q.documents.forEach((doc) => friendsYet.add(doc.data['codeAmi']))});
+    queryFriends.then(
+            (q) => {q.documents.forEach(
+                (doc) => friendsYet.add(doc.data['codeAmi'])
+            )});
     friendsYet.add(userId);
 
     //On récupère l'ensemble des utilisateurs
@@ -215,12 +219,12 @@ class DataBase {
     List<String> possibleFriends;
     queryAll.then((q) => {
           q.documents.forEach(
-              (doc) => possibleFriends.add(doc.data['codeUtilisateur']))
-        });
-
-    //On retire les utilisateurs à ne pas tirer au sort
-    possibleFriends.forEach((f) => {
-          if (friendsYet.contains(f)) {possibleFriends.remove(f)}
+              (doc) => {
+                //On n'ajoute que les utilisateurs à prendre en compte
+                if(!friendsYet.contains(doc.data['codeUtilisateur'])) {
+                  possibleFriends.add(doc.data['codeUtilisateur'])
+                }
+              })
         });
 
     //On tire un utilisateur aléatoirement
