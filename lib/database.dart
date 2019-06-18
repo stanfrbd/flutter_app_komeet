@@ -239,4 +239,16 @@ class DataBase {
     }
     return query['photoUrl'];
   }
+
+  //Méthode de suppression d'un message
+  Future<bool> deleteMessage(String idMsg) async {
+    var query =
+        Firestore.instance.collection('Message').document(idMsg).delete();
+
+    bool success = true;
+
+    query.then((val) => success = true).catchError((error) => success = false);
+
+    return success;
+  }
 }
