@@ -211,6 +211,100 @@ class ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  Future<Null> handleDeleteMessage(String codeMessage) async {
+    switch (await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            contentPadding:
+                EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
+            children: <Widget>[
+              Container(
+                color: ThemeKomeet.themeColor,
+                margin: EdgeInsets.all(0.0),
+                padding: EdgeInsets.only(bottom: 10.0, top: 10.0),
+                height: 100.0,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      child: Icon(
+                        Icons.warning,
+                        size: 30.0,
+                        color: ThemeKomeet.primaryColor,
+                      ),
+                      margin: EdgeInsets.only(bottom: 10.0),
+                    ),
+                    Text(
+                      'Supprimer ce message ?',
+                      style: TextStyle(
+                          color: ThemeKomeet.primaryColor,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Confirmation ?',
+                      style: TextStyle(
+                          color: ThemeKomeet.primaryColor, fontSize: 14.0),
+                    ),
+                  ],
+                ),
+              ),
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, 0);
+                },
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      child: Icon(
+                        Icons.cancel,
+                        color: ThemeKomeet.primaryColor,
+                      ),
+                      margin: EdgeInsets.only(right: 10.0),
+                    ),
+                    Text(
+                      'Annuler',
+                      style: TextStyle(
+                          color: ThemeKomeet.primaryColor,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, 1);
+                },
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      child: Icon(
+                        Icons.check_circle,
+                        color: ThemeKomeet.primaryColor,
+                      ),
+                      margin: EdgeInsets.only(right: 10.0),
+                    ),
+                    Text(
+                      'Oui',
+                      style: TextStyle(
+                          color: ThemeKomeet.primaryColor,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          );
+        })) {
+      case 0:
+        break;
+      case 1:
+        Fluttertoast.showToast(msg: 'Message supprimé', gravity: ToastGravity.TOP);
+        db.deleteMessage(codeMessage);
+        break;
+    }
+  }
+
   // Création de l'item message dans la liste
   Widget buildItem(int index, DocumentSnapshot document) {
     if (document['idFrom'] == codeUtilisateur) {
@@ -220,11 +314,14 @@ class ChatScreenState extends State<ChatScreen> {
           document['type'] == 0
               // Texte
               ? GestureDetector(
-                  onLongPress: () {
+                  onTap: () {
                     Fluttertoast.showToast(
-                        msg: 'Message copié, implémenter : supprimer');
+                        msg: 'Message copié', gravity: ToastGravity.TOP);
                     Clipboard.setData(
                         new ClipboardData(text: document['content']));
+                  },
+                  onLongPress: () {
+                    handleDeleteMessage(document.documentID);
                   },
                   child: Container(
                     child: Text(
@@ -308,12 +405,14 @@ class ChatScreenState extends State<ChatScreen> {
                     : Container(width: 35.0),
                 document['type'] == 0 // texte
                     ? GestureDetector(
-                        // lorqu'on reste appuyé
-                        onLongPress: () {
+                        onTap: () {
                           Fluttertoast.showToast(
-                              msg: 'Message copié, Implémenter : supprimer');
+                              msg: 'Message copié', gravity: ToastGravity.TOP);
                           Clipboard.setData(
                               new ClipboardData(text: document['content']));
+                        },
+                        onLongPress: () {
+                          handleDeleteMessage(document.documentID);
                         },
                         child: Container(
                           child: Text(

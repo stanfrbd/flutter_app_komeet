@@ -17,29 +17,75 @@ import 'package:flutter_app_komeet/const.dart';
 import 'package:flutter_app_komeet/login.dart';
 import 'package:flutter_app_komeet/settings.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'dart:math' show Random;
 
 // ------------------------------------------------
 // Classe des méthodes back-end de firebase
 // ------------------------------------------------
 
 class DataBase {
-  //Methode de suppression d'un contact
-  Future<void> deleteFriend(
+  // modification de structure, simple proposition,
+  // si vous n'êtes pas d'accord on change tout, je ne veux pas imposer
+
+  Future<bool> deleteFriend(
       String codeAmi, String codeUtilisateurCourant) async {
+    // suppression d'un ami dans l'utilisateur courant
     Firestore.instance
         .collection("Connaissance")
-        .document('$codeAmi-$codeUtilisateurCourant')
+        .document(codeUtilisateurCourant)
+        .collection('sesAmis')
+        .document(codeAmi)
         .delete();
+    // suppression d'un ami dans l'ami en question
     Firestore.instance
         .collection("Connaissance")
-        .document('$codeUtilisateurCourant-$codeAmi')
+        .document(codeAmi)
+        .collection('sesAmis')
+        .document(codeUtilisateurCourant)
         .delete();
+    return true;
   }
 
-  //Méthode d'ajout d'un ami
-  Future<bool> addFriend(String codeUtilisateur, String codeAmi) async {
-    try {
+  // plus d'attributs pour le copié-collé...
+  Future<bool> addFriend(
+      String codeAmi,
+      String pseudoAmi,
+      String photoAmi,
+      String statutAmi,
+      String codeUtilisateurCourant,
+      String pseudoUtilisateurCourant,
+      String photoUtilisateurCourant,
+      String statutUtilisateurCourant) async {
+    // ajout d'un ami : redondance des données mais marche :
+    // en gros copié collé de
+    // l'utilisateur dans une collection ayant pour ID le codeUtilisateur et pour attributs le nom, la photo...
+    Firestore.instance
+        .collection('Connaissance')
+        .document(codeUtilisateurCourant)
+        .collection(
+            'sesAmis') // une collection qui contient les docs utilisateur
+        .document(codeAmi)
+        .setData({
+      'codeUtilisateur': codeAmi,
+      'pseudoUtilisateur': pseudoAmi,
+      'photoUrl': photoAmi,
+      'statut': statutAmi
+    });
+
+    // ajout de l'ami chez dans l'autre ami
+    Firestore.instance
+        .collection('Connaissance')
+        .document(codeAmi)
+        .collection(
+            'sesAmis') // une collection qui contient les docs utilisateur
+        .document(codeUtilisateurCourant)
+        .setData({
+      'codeUtilisateur': codeUtilisateurCourant,
+      'pseudoUtilisateur': pseudoUtilisateurCourant,
+      'photoUrl': photoUtilisateurCourant,
+      'statut': statutUtilisateurCourant
+    });
+
+    /*try {
       //Ajout d'un ami dans la BD
       Firestore.instance
           .collection('Connaissance')
@@ -66,18 +112,17 @@ class DataBase {
       addUserToDiscussion('$codeUtilisateur-$codeAmi', codeAmi);
     } on Exception {
       return false;
-    }
+    }*/
     return true;
   } //Fin addFriend
 
-  //Méthode d'ajout d'un ami à une discussion
   Future<bool> addUserToDiscussion(
       String codeDiscussion, String codeUtilisateur) async {
     try {
       //Ajout de l'utilisateur à la conversation dans la BD
       Firestore.instance
           .collection('Discussion_Utilisateur')
-          .document('$codeDiscussion-$codeUtilisateur')
+          .document()
           .setData({
         'codeDiscussion': codeDiscussion,
         'codeUtilisateur': codeUtilisateur,
@@ -88,7 +133,6 @@ class DataBase {
     return true;
   } //Fin addUserToDiscussion
 
-  //Méthode de récupération des messages d'une conversation
   Stream<QuerySnapshot> getMessagesConversation(String groupChatId) {
     //Requête de récupération des 20 derniers messages de la conversation groupChatId
     var snap = Firestore.instance
@@ -137,7 +181,6 @@ class DataBase {
     return true;
   }
 
-  //Retourne un stream sur l'ensemble des identifiants des amis
   Stream<QuerySnapshot> getConnaissancesId(String idUser) {
     var query = Firestore.instance
         .collection('Connaissance')
@@ -149,7 +192,6 @@ class DataBase {
   //Obtenir le pseudo d'un utilisateur à partir de son code utiisateur
   String getPseudoUtilisateur(String codeUtilisateur) {
     //Variable qui stockera le résultat de la requête
-    String toto = "Chaîne vide";
     var query;
 
     try {
@@ -157,91 +199,51 @@ class DataBase {
       query = Firestore.instance
           .collection(
               'Utilisateur') //Ciblage de la table (ou collection) Utilisateur
-          .document(codeUtilisateur)
-          .get();
-      //.document(codeUtilisateur); //Ciblage du document identifié par le codeUtilisateur passé en paramètre
+          .where('codeUtilisateur', isEqualTo: codeUtilisateur)
+          .snapshots();
+      //.document(
+      //  codeUtilisateur); //Ciblage du document identifié par le codeUtilisateur passé en paramètre
     } on Exception {
       return "erreur"; //Si il y a un erreur lors de la requête, on retourne une chaine vide
     }
 
     var pseudo;
 
-    query.then(
-            (doc) => pseudo = doc.data['pseudoUtilisateur']
-    ).catchError((err) => pseudo = "erreur");
+    //TEST 1
+    query.forEach(
+      (snap) => {pseudo = snap.value['pseudoUtilisateur'].toString()},
+    );
 
-    return '$pseudo' ?? "erreur";
+    //TEST 2
+    /*query.forEach(
+        (snap) => {pseudo = snap.document['pseudoUtilisateur'].toString()},
+    );*/
+
+    //TEST 3
+    /*query.forEach(
+          (snap) => {pseudo = snap.getDocument()['pseudoUtilisateur'].toString()},
+    );*/
+
+    return pseudo;
   }
 
   //Obtenir l'url de la photo de profil à partir du codeUtilisateur
   String getPhotoUtilisateur(String userId) {
     var query;
     try {
-      //récupération du document de l'utilisateur
       query = Firestore.instance
           .collection('Utilisateur')
-          .document(userId)
-          .get(); //document(userId);
+          .where('codeUtiisateur', isEqualTo: userId); //document(userId);
     } on Exception {
       return "erreur";
     }
-    var url = "";
-    //Récupération de l'url dans ce document
-    query.then(
-            (doc) => url = doc.data['photoUrl']
-    ).catchError((err) => url = "erreur");
-
-    return '$url' ?? "erreur";
-  }
-
-  //Méthode d'ajout d'un ami tiré aléatoirement
-  Future<String> addRandomFriend(String userId) async {
-    //On commence par récupérer les amis
-    var queryFriends = Firestore.instance
-        .collection('Connaissance')
-        .where('codeUtilisateur', isEqualTo: userId)
-        .getDocuments();
-
-    //On crée une liste d'identifiants à ne pas tirer au sort (amis et utilisateur courant)
-    List<String> friendsYet;
-    queryFriends.then(
-            (q) => {q.documents.forEach(
-                (doc) => friendsYet.add(doc.data['codeAmi'])
-            )});
-    friendsYet.add(userId);
-
-    //On récupère l'ensemble des utilisateurs
-    var queryAll = Firestore.instance
-        .collection('Utilisateur')
-        .getDocuments(); //Future<QuerySnapshot>
-
-    //On met leurs identifiants dans une liste
-    List<String> possibleFriends;
-    queryAll.then((q) => {
-          q.documents.forEach(
-              (doc) => {
-                //On n'ajoute que les utilisateurs à prendre en compte
-                if(!friendsYet.contains(doc.data['codeUtilisateur'])) {
-                  possibleFriends.add(doc.data['codeUtilisateur'])
-                }
-              })
-        });
-
-    //On tire un utilisateur aléatoirement
-    var random = new Random();
-    int ind = random.nextInt(possibleFriends.length);
-    String newFriendId = possibleFriends.elementAt(ind);
-
-    //Ajout de l'ami
-    addFriend(userId, newFriendId);
-
-    return newFriendId; //getPseudoUtilisateur(newFriendId);
+    return query['photoUrl'];
   }
 
   //Méthode de suppression d'un message
   Future<bool> deleteMessage(String idMsg) async {
     var query =
-        Firestore.instance.collection('Message').document(idMsg).delete();
+        Firestore.instance.collection('messages').document(idMsg).delete();
 
     bool success = true;
 

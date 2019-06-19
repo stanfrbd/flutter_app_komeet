@@ -289,23 +289,22 @@ class MainScreenState extends State<MainScreen> {
 
   // Méthode pour avoir des personnes aléatoirement (principe Komeet)
   Future<bool> handleRandomFriends() {
-    Fluttertoast.showToast(msg: 'Aléatoire');
-    db.addRandomFriend(currentUserId);
+    Fluttertoast.showToast(msg: 'Aléatoire (implémenter)');
     return Future.value(true);
   }
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
-    if (document['codeAmi'] == currentUserId) {
+    if (document['codeUtilisateur'] == currentUserId) {
       return Container();
     } else {
       return Container(
         child: GestureDetector(
           onLongPress: () {
             setState(() {
-              selectedUser = db.getPseudoUtilisateur(document['codeAmi']);
+              selectedUser = document['pseudoUtilisateur'];
             });
             Fluttertoast.showToast(msg: 'selectionné : $selectedUser');
-            handleDeleteFriend(document['codeAmi']);
+            handleDeleteFriend(document['codeUtilisateur']);
           },
           child: FlatButton(
             child: Row(
@@ -322,7 +321,7 @@ class MainScreenState extends State<MainScreen> {
                           height: 50.0,
                           padding: EdgeInsets.all(15.0),
                         ),
-                    imageUrl: db.getPhotoUtilisateur(document['codeAmi']),
+                    imageUrl: document['photoUrl'],
                     width: 50.0,
                     height: 50.0,
                     fit: BoxFit.cover,
@@ -337,7 +336,7 @@ class MainScreenState extends State<MainScreen> {
                       children: <Widget>[
                         Container(
                           child: Text(
-                            db.getPseudoUtilisateur(document['codeAmi']),
+                            document['pseudoUtilisateur'],
                             style: TextStyle(
                                 color: ThemeKomeet.primaryColor,
                                 fontWeight: FontWeight.bold,
@@ -401,9 +400,9 @@ class MainScreenState extends State<MainScreen> {
                 MaterialPageRoute(
                   // Lancement d'un nouvel écran de chat
                   builder: (context) => Chat(
-                        peerId: document['codeAMi'],
-                        peerAvatar: db.getPhotoUtilisateur(document['codeAmi']),
-                        chatMate: db.getPseudoUtilisateur(document['codeAmi']),
+                        peerId: document.documentID,
+                        peerAvatar: document['photoUrl'],
+                        chatMate: document['pseudoUtilisateur'],
                       ),
                 ),
               );
@@ -585,7 +584,8 @@ class MainScreenState extends State<MainScreen> {
                 // création d'un stream : on récupère tous les utilisateurs de la BD
                 stream: Firestore.instance
                     .collection('Connaissance')
-                    .where('codeUtilisateur', isEqualTo: currentUserId)
+                    .document(currentUserId)
+                    .collection('sesAmis')
                     .snapshots(),
                 builder: (context, snapshot) {
                   // si pas d'amis ou lui-même (invisible)
