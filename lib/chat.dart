@@ -299,8 +299,9 @@ class ChatScreenState extends State<ChatScreen> {
       case 0:
         break;
       case 1:
-        Fluttertoast.showToast(msg: 'Message supprimé', gravity: ToastGravity.TOP);
-        db.deleteMessage(codeMessage);
+        Fluttertoast.showToast(
+            msg: 'Message supprimé', gravity: ToastGravity.TOP);
+        db.deleteMessage(codeMessage, groupChatId);
         break;
     }
   }

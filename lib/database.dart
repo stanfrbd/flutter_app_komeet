@@ -241,14 +241,12 @@ class DataBase {
   }
 
   //Méthode de suppression d'un message
-  Future<bool> deleteMessage(String idMsg) async {
-    var query =
-        Firestore.instance.collection('messages').document(idMsg).delete();
-
-    bool success = true;
-
-    query.then((val) => success = true).catchError((error) => success = false);
-
-    return success;
+  Future<Null> deleteMessage(String idMsg, String groupChatId) async {
+    Firestore.instance
+        .collection('messages')
+        .document(groupChatId)
+        .collection(groupChatId)
+        .document(idMsg)
+        .delete();
   }
 }
