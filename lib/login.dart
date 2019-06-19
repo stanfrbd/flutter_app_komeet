@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_komeet/const.dart';
 import 'package:flutter_app_komeet/main.dart';
+import 'package:flutter_app_komeet/database.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,14 +27,12 @@ class MyApp extends StatelessWidget {
       return MaterialApp(
         title: 'Komeet',
         theme: new ThemeData(
-          primarySwatch: ThemeKomeet.themeColor,
-        ),
+            primarySwatch: ThemeKomeet.themeColor, fontFamily: 'Roboto'),
         home: LoginScreen(title: 'Komeet'),
         // enlève la bannière "debug"
         debugShowCheckedModeBanner: false,
       );
-    }
-  else {
+    } else {
       return MaterialApp(
         title: 'Komeet',
         theme: new ThemeData.dark(), // Mode sombre
@@ -45,25 +44,37 @@ class MyApp extends StatelessWidget {
 }
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({Key key, this.title}) : super(key: key);
-
+  // Attributs
   final String title;
 
+  // Constructeur
+  LoginScreen({Key key, this.title}) : super(key: key);
+
+  // nouvel état
   @override
   LoginScreenState createState() => LoginScreenState();
 }
 
 class LoginScreenState extends State<LoginScreen> {
-
   // Back-end de l'authentification
+  DataBase db = new DataBase();
 
-  final GoogleSignIn googleSignIn = GoogleSignIn(); // déclaration d'un nouveau client google
-  final FirebaseAuth firebaseAuth = FirebaseAuth.instance; // nouvelle instance de firebase auth
-  SharedPreferences prefs;
+  // Constructeur
+  LoginScreenState({Key key});
 
+  final GoogleSignIn googleSignIn =
+      GoogleSignIn(); // déclaration d'un nouveau client google
+  final FirebaseAuth firebaseAuth =
+      FirebaseAuth.instance; // nouvelle instance de firebase auth
+  SharedPreferences
+      prefs; // SharedPreferences : écriture en local (base de donnée locale)
+
+  // Commande le widget chargement
   bool isLoading = false;
+  // est connecté oui/non
   bool isLoggedIn = false;
-  FirebaseUser currentUser; // utilisateur courant
+  // ID de l'utilisateur courant
+  FirebaseUser currentUser;
 
   @override
   void initState() {
@@ -74,15 +85,24 @@ class LoginScreenState extends State<LoginScreen> {
   void isSignedIn() async {
     this.setState(() {
       isLoading = true;
+      // déclenche le chargement
     });
 
     prefs = await SharedPreferences.getInstance(); // préférences
 
-    isLoggedIn = await googleSignIn.isSignedIn(); // booléen qui dit si connecté
+    isLoggedIn = await googleSignIn.isSignedIn();
+    // booléen qui dit si connecté
     if (isLoggedIn) {
+      // si connecté on peut afficher l'écran des conversations : main
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => MainScreen(currentUserId: prefs.getString('codeUtilisateur'))),
+        MaterialPageRoute(
+            builder: (context) => MainScreen(
+                  currentUserId: prefs.getString('codeUtilisateur'),
+                  currentUserPseudo: prefs.getString('pseudoUtilisateur'),
+                  currentUserPhoto: prefs.getString('photoUrl'),
+                  currentUserStatus: prefs.getString('statut'),
+                )),
       );
     }
 
@@ -99,55 +119,74 @@ class LoginScreenState extends State<LoginScreen> {
       isLoading = true;
     });
 
-    GoogleSignInAccount googleUser = await googleSignIn.signIn(); // compte de connexion google
-    GoogleSignInAuthentication googleAuth = await googleUser.authentication; // évènement de connexion
+    // selon documentation Google Sign In
+    GoogleSignInAccount googleUser =
+        await googleSignIn.signIn(); // compte de connexion google
+    GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication; // évènement de connexion
 
     final AuthCredential credential = GoogleAuthProvider.getCredential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken, // identifiant de l'utilisateur compte google
     );
 
-    FirebaseUser firebaseUser = await firebaseAuth.signInWithCredential(credential);
+    FirebaseUser firebaseUser =
+        await firebaseAuth.signInWithCredential(credential);
 
-    if (firebaseUser != null) { // si les tokens ont bien été récupérés
-      final QuerySnapshot result =
-          await Firestore.instance.collection('Utilisateur').where('codeUtilisateur', isEqualTo: firebaseUser.uid).getDocuments();
+    if (firebaseUser != null) {
+      // si les tokens ont bien été récupérés
+      final QuerySnapshot result = await Firestore.instance
+          .collection('Utilisateur')
+          .where('codeUtilisateur', isEqualTo: firebaseUser.uid)
+          .getDocuments();
       final List<DocumentSnapshot> documents = result.documents;
-       Fluttertoast.showToast(msg: "Utilisateur existant");
+      Fluttertoast.showToast(msg: "Utilisateur existant");
       if (documents.length == 0) {
         Fluttertoast.showToast(msg: "Premier utilisateur");
-        // Update data to server if new user
+        // Si nouvel utilisateur on met à jour dans la base de données
         Firestore.instance
             .collection('Utilisateur')
             .document(firebaseUser.uid)
-            .setData({'pseudoUtilisateur': firebaseUser.displayName, 'photoUrl': firebaseUser.photoUrl, 'codeUtilisateur': firebaseUser.uid});
+            .setData({
+          'pseudoUtilisateur': firebaseUser.displayName,
+          'photoUrl': firebaseUser.photoUrl,
+          'codeUtilisateur': firebaseUser.uid
+        });
 
-        // Write data to local
+        // Ecriture en local dans les sharedPreferences
         currentUser = firebaseUser;
         await prefs.setString('codeUtilisateur', currentUser.uid);
         await prefs.setString('pseudoUtilisateur', currentUser.displayName);
         await prefs.setString('photoUrl', currentUser.photoUrl);
       } else {
         Fluttertoast.showToast(msg: "Ecriture en local");
-        // Write data to local
-        await prefs.setString('codeUtilisateur', documents[0]['codeUtilisateur']);
-        await prefs.setString('pseudoUtilisateur', documents[0]['pseudoUtilisateur']);
+
+        await prefs.setString(
+            'codeUtilisateur', documents[0]['codeUtilisateur']);
+        await prefs.setString(
+            'pseudoUtilisateur', documents[0]['pseudoUtilisateur']);
         await prefs.setString('photoUrl', documents[0]['photoUrl']);
-        await prefs.setString('aboutMe', documents[0]['aboutMe']);
+        await prefs.setString('statut', documents[0]['statut']);
       }
       Fluttertoast.showToast(msg: "Connexion réussie");
       this.setState(() {
         isLoading = false;
+        // chargement terminé
       });
 
+      // création de l'écran de main à l'aide du constructeur
       Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => MainScreen(
                   currentUserId: firebaseUser.uid,
+                  currentUserPseudo: prefs.getString('pseudoUtilisateur'),
+                  currentUserPhoto: prefs.getString('photoUrl'),
+                  currentUserStatus: prefs.getString('statut'),
                 )),
       );
     } else {
+      // Dans tous les autres cas
       Fluttertoast.showToast(msg: "Echec de connexion");
       this.setState(() {
         isLoading = false;
@@ -155,13 +194,15 @@ class LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  // Création de l'écran de login
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text(
             widget.title,
-            style: TextStyle(color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
         ),
@@ -181,14 +222,14 @@ class LoginScreenState extends State<LoginScreen> {
                   padding: EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0)),
             ),
 
-            // Loading
+            // Widget chargement
             Positioned(
-
-              child: isLoading // if true
+              child: isLoading // si vrai
                   ? Container(
                       child: Center(
                         child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              ThemeKomeet.themeColor),
                         ),
                       ),
                       color: Colors.white.withOpacity(0.8),

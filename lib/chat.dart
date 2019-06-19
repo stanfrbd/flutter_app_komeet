@@ -11,33 +11,48 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app_komeet/const.dart';
+import 'package:flutter_app_komeet/main.dart';
 import 'package:flutter_app_komeet/database.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-
+import 'package:flutter/cupertino.dart';
 
 class Chat extends StatelessWidget {
+  // Attributs
+
+  // ID de celui à qui on envoie le message
   final String peerId;
+  // Image de celui à qui on envoie le message
   final String peerAvatar;
-  final String chatMate; // le nom d'utilisateur de la personne à qui on parle
+  // le nom d'utilisateur de la personne à qui on envoie le message
+  final String chatMate;
 
-  Chat({Key key, @required this.peerId, @required this.peerAvatar, @required this.chatMate}) : super(key: key);
+  // Constructeur
+  Chat({
+    Key key,
+    @required this.peerId,
+    @required this.peerAvatar,
+    @required this.chatMate,
+  }) : super(key: key);
 
+  // Construction de l'écran
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(
           chatMate, // à qui on envoie le message
-          style: TextStyle(color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
-      // Nouvel écran de chat
+
+      // body de Chat avec le constructeur
       body: new ChatScreen(
         peerId: peerId,
         peerAvatar: peerAvatar,
@@ -47,96 +62,107 @@ class Chat extends StatelessWidget {
 }
 
 class ChatScreen extends StatefulWidget {
+  // Attributs
+
   final String peerId;
   final String peerAvatar;
 
-  ChatScreen({Key key, @required this.peerId, @required this.peerAvatar}) : super(key: key);
+  // Constructeur
+  ChatScreen({
+    Key key,
+    @required this.peerId,
+    @required this.peerAvatar,
+  }) : super(key: key);
 
+  // Nouvel état
   @override
-  State createState() => new ChatScreenState(peerId: peerId, peerAvatar: peerAvatar);
+  State createState() =>
+      new ChatScreenState(peerId: peerId, peerAvatar: peerAvatar);
 }
 
 class ChatScreenState extends State<ChatScreen> {
-  ChatScreenState({Key key, @required this.peerId, @required this.peerAvatar});
+  // Attributs
 
   String peerId;
   String peerAvatar;
   String codeUtilisateur;
 
+  DataBase db = new DataBase();
+
+  // Constructeur
+  ChatScreenState({
+    Key key,
+    @required this.peerId,
+    @required this.peerAvatar,
+  });
+
+  // Liste des messages
   var listMessage;
+  // ID de la conversation
   String groupChatId;
+  // SharedPreferences : écriture en local
   SharedPreferences prefs;
 
+  // fichier image
   File imageFile;
+  // Chargement
   bool isLoading;
-  bool isShowSticker;
+
+  // URL de l'image obtenu à l'upload
   String imageUrl;
 
-  final TextEditingController textEditingController = new TextEditingController();
+  // Champ texte
+  final TextEditingController textEditingController =
+      new TextEditingController();
+  // scrolling
   final ScrollController listScrollController = new ScrollController();
-  final FocusNode focusNode = new FocusNode();
 
-  BackendDataBase db;
-
+  // Initialisation de départ
   @override
   void initState() {
     super.initState();
-    focusNode.addListener(onFocusChange);
 
     groupChatId = '';
 
     isLoading = false;
-    isShowSticker = false;
     imageUrl = '';
 
     readLocal();
-  }
-
-  void onFocusChange() {
-    if (focusNode.hasFocus) {
-      // Hide sticker when keyboard appear
-      setState(() {
-        isShowSticker = false;
-      });
-    }
   }
 
   readLocal() async {
     prefs = await SharedPreferences.getInstance();
     codeUtilisateur = prefs.getString('codeUtilisateur') ?? '';
     if (codeUtilisateur.hashCode <= peerId.hashCode) {
+      // Génération de l'ID de conversation
       groupChatId = '$codeUtilisateur-$peerId';
     } else {
       groupChatId = '$peerId-$codeUtilisateur';
     }
-
+    // mettre à jour, sinon cela ne fait rien
     setState(() {});
   }
 
   Future getImage() async {
+    // utilisation de l'image picker
     imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     if (imageFile != null) {
       setState(() {
+        // widget chargement activé
         isLoading = true;
       });
+      // envoi du fichier
       uploadFile();
     }
   }
 
-  void getSticker() {
-    // Hide keyboard when sticker appear
-    focusNode.unfocus();
-    setState(() {
-      isShowSticker = !isShowSticker;
-    });
-  }
-
-  // Procédures back-end d'envoi d'images
+  // Envoi du fichier
   Future uploadFile() async {
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
     StorageReference reference = FirebaseStorage.instance.ref().child(fileName);
     StorageUploadTask uploadTask = reference.putFile(imageFile);
+    // upload de l'image sur firebase puis récupération de l'URL
     StorageTaskSnapshot storageTaskSnapshot = await uploadTask.onComplete;
     storageTaskSnapshot.ref.getDownloadURL().then((downloadUrl) {
       imageUrl = downloadUrl;
@@ -148,12 +174,13 @@ class ChatScreenState extends State<ChatScreen> {
       setState(() {
         isLoading = false;
       });
-      Fluttertoast.showToast(msg: 'This file is not an image');
+      Fluttertoast.showToast(msg: 'Erreur inconnue');
     });
   }
 
+  // à l'envoi du message
   void onSendMessage(String content, int type) {
-    // type : 0 = texte, 1 = image, 2 = sticker
+    // type : 0 = texte, 1 = image,
     if (content.trim() != '') {
       textEditingController.clear();
       var documentReference = Firestore.instance
@@ -164,6 +191,7 @@ class ChatScreenState extends State<ChatScreen> {
 
       Firestore.instance.runTransaction((transaction) async {
         await transaction.set(
+          // remplissage des champs du message
           documentReference,
           {
             'idFrom': codeUtilisateur,
@@ -174,12 +202,111 @@ class ChatScreenState extends State<ChatScreen> {
           },
         );
       });
-      listScrollController.animateTo(0.0, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+      // Animation de scroll
+      listScrollController.animateTo(0.0,
+          duration: Duration(milliseconds: 300), curve: Curves.easeOut);
     } else {
+      // si le champ texte est vide
       Fluttertoast.showToast(msg: 'Rien à envoyer');
     }
   }
 
+  Future<Null> handleDeleteMessage(String codeMessage) async {
+    switch (await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            contentPadding:
+                EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
+            children: <Widget>[
+              Container(
+                color: ThemeKomeet.themeColor,
+                margin: EdgeInsets.all(0.0),
+                padding: EdgeInsets.only(bottom: 10.0, top: 10.0),
+                height: 100.0,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      child: Icon(
+                        Icons.warning,
+                        size: 30.0,
+                        color: ThemeKomeet.primaryColor,
+                      ),
+                      margin: EdgeInsets.only(bottom: 10.0),
+                    ),
+                    Text(
+                      'Supprimer ce message ?',
+                      style: TextStyle(
+                          color: ThemeKomeet.primaryColor,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Confirmation ?',
+                      style: TextStyle(
+                          color: ThemeKomeet.primaryColor, fontSize: 14.0),
+                    ),
+                  ],
+                ),
+              ),
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, 0);
+                },
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      child: Icon(
+                        Icons.cancel,
+                        color: ThemeKomeet.primaryColor,
+                      ),
+                      margin: EdgeInsets.only(right: 10.0),
+                    ),
+                    Text(
+                      'Annuler',
+                      style: TextStyle(
+                          color: ThemeKomeet.primaryColor,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, 1);
+                },
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      child: Icon(
+                        Icons.check_circle,
+                        color: ThemeKomeet.primaryColor,
+                      ),
+                      margin: EdgeInsets.only(right: 10.0),
+                    ),
+                    Text(
+                      'Oui',
+                      style: TextStyle(
+                          color: ThemeKomeet.primaryColor,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          );
+        })) {
+      case 0:
+        break;
+      case 1:
+        Fluttertoast.showToast(
+            msg: 'Message supprimé', gravity: ToastGravity.TOP);
+        db.deleteMessage(codeMessage, groupChatId);
+        break;
+    }
+  }
+
+  // Création de l'item message dans la liste
   Widget buildItem(int index, DocumentSnapshot document) {
     if (document['idFrom'] == codeUtilisateur) {
       // Le message personnel
@@ -187,16 +314,30 @@ class ChatScreenState extends State<ChatScreen> {
         children: <Widget>[
           document['type'] == 0
               // Texte
-              ? Container(
-                  child: Text(
-                    document['content'],
-                    style: TextStyle(color: ThemeKomeet.primaryColor),
-                  ),
-                  padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-                  width: 200.0,
-                  decoration: BoxDecoration(color: ThemeKomeet.greyColor2, borderRadius: BorderRadius.circular(8.0)),
-                  margin: EdgeInsets.only(bottom: isLastMessageRight(index) ? 20.0 : 10.0, right: 10.0),
-                )
+              ? GestureDetector(
+                  onTap: () {
+                    Fluttertoast.showToast(
+                        msg: 'Message copié', gravity: ToastGravity.TOP);
+                    Clipboard.setData(
+                        new ClipboardData(text: document['content']));
+                  },
+                  onLongPress: () {
+                    handleDeleteMessage(document.documentID);
+                  },
+                  child: Container(
+                    child: Text(
+                      document['content'],
+                      style: TextStyle(color: ThemeKomeet.primaryColor),
+                    ),
+                    padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                    width: 200.0,
+                    decoration: BoxDecoration(
+                        color: ThemeKomeet.greyColor2,
+                        borderRadius: BorderRadius.circular(20.0)),
+                    margin: EdgeInsets.only(
+                        bottom: isLastMessageRight(index) ? 20.0 : 10.0,
+                        right: 10.0),
+                  ))
               : document['type'] == 1
                   // Image
                   ? Container(
@@ -204,7 +345,8 @@ class ChatScreenState extends State<ChatScreen> {
                         child: CachedNetworkImage(
                           placeholder: (context, url) => Container(
                                 child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor),
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      ThemeKomeet.themeColor),
                                 ),
                                 width: 200.0,
                                 height: 200.0,
@@ -216,18 +358,6 @@ class ChatScreenState extends State<ChatScreen> {
                                   ),
                                 ),
                               ),
-                          errorWidget: (context, url, error) => Material(
-                                child: Image.asset(
-                                  'images/img_not_available.jpeg',
-                                  width: 200.0,
-                                  height: 200.0,
-                                  fit: BoxFit.cover,
-                                ),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8.0),
-                                ),
-                                clipBehavior: Clip.hardEdge,
-                              ),
                           imageUrl: document['content'],
                           width: 200.0,
                           height: 200.0,
@@ -236,18 +366,11 @@ class ChatScreenState extends State<ChatScreen> {
                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
                         clipBehavior: Clip.hardEdge,
                       ),
-                      margin: EdgeInsets.only(bottom: isLastMessageRight(index) ? 20.0 : 10.0, right: 10.0),
+                      margin: EdgeInsets.only(
+                          bottom: isLastMessageRight(index) ? 20.0 : 10.0,
+                          right: 10.0),
                     )
-                  // Sticker
-                  : Container(
-                      child: new Image.asset(
-                        'images/${document['content']}.gif',
-                        width: 100.0,
-                        height: 100.0,
-                        fit: BoxFit.cover,
-                      ),
-                      margin: EdgeInsets.only(bottom: isLastMessageRight(index) ? 20.0 : 10.0, right: 10.0),
-                    ),
+                  : Container(),
         ],
         mainAxisAlignment: MainAxisAlignment.end,
       );
@@ -263,7 +386,8 @@ class ChatScreenState extends State<ChatScreen> {
                           placeholder: (context, url) => Container(
                                 child: CircularProgressIndicator(
                                   strokeWidth: 1.0,
-                                  valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor),
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      ThemeKomeet.themeColor),
                                 ),
                                 width: 35.0,
                                 height: 35.0,
@@ -280,24 +404,38 @@ class ChatScreenState extends State<ChatScreen> {
                         clipBehavior: Clip.hardEdge,
                       )
                     : Container(width: 35.0),
-                document['type'] == 0
-                    ? Container(
-                        child: Text(
-                          document['content'],
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-                        width: 200.0,
-                        decoration: BoxDecoration(color: ThemeKomeet.primaryColor, borderRadius: BorderRadius.circular(8.0)),
-                        margin: EdgeInsets.only(left: 10.0),
-                      )
-                    : document['type'] == 1
+                document['type'] == 0 // texte
+                    ? GestureDetector(
+                        onTap: () {
+                          Fluttertoast.showToast(
+                              msg: 'Message copié', gravity: ToastGravity.TOP);
+                          Clipboard.setData(
+                              new ClipboardData(text: document['content']));
+                        },
+                        onLongPress: () {
+                          handleDeleteMessage(document.documentID);
+                        },
+                        child: Container(
+                          child: Text(
+                            document['content'],
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                          width: 200.0,
+                          decoration: BoxDecoration(
+                              color: ThemeKomeet.primaryColor,
+                              borderRadius: BorderRadius.circular(20.0)),
+                          margin: EdgeInsets.only(left: 10.0),
+                        ))
+                    : document['type'] == 1 // image
                         ? Container(
                             child: Material(
                               child: CachedNetworkImage(
                                 placeholder: (context, url) => Container(
                                       child: CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor),
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                ThemeKomeet.themeColor),
                                       ),
                                       width: 200.0,
                                       height: 200.0,
@@ -309,47 +447,32 @@ class ChatScreenState extends State<ChatScreen> {
                                         ),
                                       ),
                                     ),
-                                errorWidget: (context, url, error) => Material(
-                                      child: Image.asset(
-                                        'images/img_not_available.jpeg',
-                                        width: 200.0,
-                                        height: 200.0,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(8.0),
-                                      ),
-                                      clipBehavior: Clip.hardEdge,
-                                    ),
                                 imageUrl: document['content'],
                                 width: 200.0,
                                 height: 200.0,
                                 fit: BoxFit.cover,
                               ),
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
                               clipBehavior: Clip.hardEdge,
                             ),
                             margin: EdgeInsets.only(left: 10.0),
                           )
-                        : Container(
-                            child: new Image.asset(
-                              'images/${document['content']}.gif',
-                              width: 100.0,
-                              height: 100.0,
-                              fit: BoxFit.cover,
-                            ),
-                            margin: EdgeInsets.only(bottom: isLastMessageRight(index) ? 20.0 : 10.0, right: 10.0),
-                          ),
+                        : Container(),
               ],
             ),
 
-            // Date du message
+            // Date du message : à gauche uniquement (résultat du booléen)
             isLastMessageLeft(index)
                 ? Container(
                     child: Text(
-                      DateFormat('dd MMM kk:mm')
-                          .format(DateTime.fromMillisecondsSinceEpoch(int.parse(document['timestamp']))),
-                      style: TextStyle(color: ThemeKomeet.greyColor, fontSize: 12.0, fontStyle: FontStyle.italic),
+                      DateFormat('dd MMM kk:mm').format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                              int.parse(document['timestamp']))),
+                      style: TextStyle(
+                          color: ThemeKomeet.greyColor,
+                          fontSize: 12.0,
+                          fontStyle: FontStyle.italic),
                     ),
                     margin: EdgeInsets.only(left: 50.0, top: 5.0, bottom: 5.0),
                   )
@@ -362,16 +485,24 @@ class ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  // dernier message à gauche oui/non
   bool isLastMessageLeft(int index) {
-    if ((index > 0 && listMessage != null && listMessage[index - 1]['idFrom'] == codeUtilisateur) || index == 0) {
+    if ((index > 0 &&
+            listMessage != null &&
+            listMessage[index - 1]['idFrom'] == codeUtilisateur) ||
+        index == 0) {
       return true;
     } else {
       return false;
     }
   }
 
+  // dernier message à droite oui/non
   bool isLastMessageRight(int index) {
-    if ((index > 0 && listMessage != null && listMessage[index - 1]['idFrom'] != codeUtilisateur) || index == 0) {
+    if ((index > 0 &&
+            listMessage != null &&
+            listMessage[index - 1]['idFrom'] != codeUtilisateur) ||
+        index == 0) {
       return true;
     } else {
       return false;
@@ -379,160 +510,47 @@ class ChatScreenState extends State<ChatScreen> {
   }
 
   // Lors de l'appui sur la flèche de retour arrière
-  Future<bool> onBackPress() {
-    if (isShowSticker) {
-      setState(() {
-        isShowSticker = false;
-      });
-    } else {
-      Navigator.pop(context);
-    }
-
-    return Future.value(false);
+  Future<Null> onBackPress() {
+    Navigator.pop(context);
   }
 
+  // Création de l'écran
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       child: Stack(
         children: <Widget>[
+          GestureDetector(
+              // implémenter pour le swipe-to-go-back
+              ),
           Column(
             children: <Widget>[
-              // Liste des messages
+              // création de la liste des messages
               buildListMessage(),
 
-              // Sticker
-              (isShowSticker ? buildSticker() : Container()),
-
-              // Entrée
+              // widget Entrée de texte
               buildInput(),
             ],
           ),
 
-          // Loading
+          // widget chargement
           buildLoading()
         ],
       ),
+      // retour à la page d'avant
       onWillPop: onBackPress,
     );
   }
 
-  Widget buildSticker() {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              FlatButton(
-                onPressed: () => onSendMessage('mimi1', 2),
-                child: new Image.asset(
-                  'images/mimi1.gif',
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              FlatButton(
-                onPressed: () => onSendMessage('mimi2', 2),
-                child: new Image.asset(
-                  'images/mimi2.gif',
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              FlatButton(
-                onPressed: () => onSendMessage('mimi3', 2),
-                child: new Image.asset(
-                  'images/mimi3.gif',
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-              )
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          ),
-          Row(
-            children: <Widget>[
-              FlatButton(
-                onPressed: () => onSendMessage('mimi4', 2),
-                child: new Image.asset(
-                  'images/mimi4.gif',
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              FlatButton(
-                onPressed: () => onSendMessage('mimi5', 2),
-                child: new Image.asset(
-                  'images/mimi5.gif',
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              FlatButton(
-                onPressed: () => onSendMessage('mimi6', 2),
-                child: new Image.asset(
-                  'images/mimi6.gif',
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-              )
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          ),
-          Row(
-            children: <Widget>[
-              FlatButton(
-                onPressed: () => onSendMessage('mimi7', 2),
-                child: new Image.asset(
-                  'images/mimi7.gif',
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              FlatButton(
-                onPressed: () => onSendMessage('mimi8', 2),
-                child: new Image.asset(
-                  'images/mimi8.gif',
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              FlatButton(
-                onPressed: () => onSendMessage('mimi9', 2),
-                child: new Image.asset(
-                  'images/mimi9.gif',
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-              )
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          )
-        ],
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      ),
-      decoration: new BoxDecoration(
-          border: new Border(top: new BorderSide(color: ThemeKomeet.greyColor2, width: 0.5)), color: Colors.white),
-      padding: EdgeInsets.all(5.0),
-      height: 180.0,
-    );
-  }
-
+  // Création du widget chargement
   Widget buildLoading() {
     return Positioned(
       child: isLoading
           ? Container(
               child: Center(
-                child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor)),
+                child: CircularProgressIndicator(
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor)),
               ),
               color: Colors.white.withOpacity(0.8),
             )
@@ -540,6 +558,7 @@ class ChatScreenState extends State<ChatScreen> {
     );
   }
 
+  // création du widget d'entrée des données
   Widget buildInput() {
     return Container(
       child: Row(
@@ -560,25 +579,27 @@ class ChatScreenState extends State<ChatScreen> {
             child: new Container(
               margin: new EdgeInsets.symmetric(horizontal: 1.0),
               child: new IconButton(
-                icon: new Icon(Icons.timer), // icône
-                onPressed: getSticker,
+                icon: new Icon(Icons.timer),
+                onPressed: () {
+                  Fluttertoast.showToast(msg: 'à implémenter : timer');
+                },
                 color: ThemeKomeet.primaryColor,
               ),
             ),
             color: Colors.white,
           ),
 
-          // Changer le texte
+          // Changer le texte : widget flexible contenant le champ texte
           Flexible(
             child: Container(
               child: TextField(
-                style: TextStyle(color: ThemeKomeet.primaryColor, fontSize: 15.0),
+                style:
+                    TextStyle(color: ThemeKomeet.primaryColor, fontSize: 15.0),
                 controller: textEditingController,
                 decoration: InputDecoration.collapsed(
                   hintText: 'Tapez ici...',
                   hintStyle: TextStyle(color: ThemeKomeet.greyColor),
                 ),
-                focusNode: focusNode,
               ),
             ),
           ),
@@ -600,27 +621,53 @@ class ChatScreenState extends State<ChatScreen> {
       width: double.infinity,
       height: 50.0,
       decoration: new BoxDecoration(
-          border: new Border(top: new BorderSide(color: ThemeKomeet.greyColor2, width: 0.5)), color: Colors.white),
+          border: new Border(
+              top: new BorderSide(color: ThemeKomeet.greyColor2, width: 0.5)),
+          color: Colors.white),
     );
   }
 
+  // création de la pile de messages
   Widget buildListMessage() {
     return Flexible(
       child: groupChatId == ''
-          ? Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor)))
+          // si on ne sait pas le contenu : widget de chargement
+          ? Center(
+              child: CircularProgressIndicator(
+                  valueColor:
+                      AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor)))
+          //sinon on stream Firebase pour récupérer les messages
           : StreamBuilder(
-              stream: db.getMessagesConversation(groupChatId),
+              stream: Firestore.instance
+                  .collection('messages')
+                  .document(groupChatId)
+                  .collection(groupChatId)
+                  //groupement par timestamp
+                  .orderBy('timestamp', descending: true)
+                  // on limite à 20 messages le scroll
+                  .limit(20)
+                  .snapshots(),
               builder: (context, snapshot) {
+                // si pas de données : widget chargement
                 if (!snapshot.hasData) {
                   return Center(
-                      child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor)));
-                } else {
+                      child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              ThemeKomeet.themeColor)));
+                }
+                // Sinon construction de la liste avec les données de firebase
+                else {
+                  // on récupère les messages dans la liste
                   listMessage = snapshot.data.documents;
                   return ListView.builder(
                     padding: EdgeInsets.all(10.0),
-                    itemBuilder: (context, index) => buildItem(index, listMessage[index]),
-                    itemCount: listMessage.length,
+                    // Constructeur d'items : items de la liste
+                    itemBuilder: (context, index) =>
+                        buildItem(index, snapshot.data.documents[index]),
+                    itemCount:
+                        snapshot.data.documents.length, // nombre de documents
                     reverse: true,
+                    // scrollable
                     controller: listScrollController,
                   );
                 }

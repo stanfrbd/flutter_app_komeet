@@ -15,9 +15,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_app_komeet/chat.dart';
 import 'package:flutter_app_komeet/const.dart';
 import 'package:flutter_app_komeet/login.dart';
+import 'package:flutter_app_komeet/search_user.dart';
 import 'package:flutter_app_komeet/settings.dart';
 import 'package:flutter_app_komeet/database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter/cupertino.dart';
 
 // -----------------------------------------
 // Lancement de l'écran de Login au démarrage
@@ -29,37 +31,69 @@ void main() => runApp(MyApp());
 // -------------------------------------
 
 class MainScreen extends StatefulWidget {
+  // Attributs
+
   // Utilisateur courant
   final String currentUserId;
-
+  final String currentUserPhoto;
+  final String currentUserPseudo;
+  final String currentUserStatus;
 
   // Constructeur
-  MainScreen({Key key, @required this.currentUserId}) : super(key: key);
+  MainScreen(
+      {Key key,
+      @required this.currentUserId,
+      @required this.currentUserPhoto,
+      @required this.currentUserPseudo,
+      @required this.currentUserStatus})
+      : super(key: key);
 
   // Création d'un nouvel état de MainScreen avec les widgets
   @override
-  State createState() => MainScreenState(currentUserId: currentUserId);
+  State createState() => MainScreenState(
+      currentUserId: currentUserId,
+      currentUserPhoto: currentUserPhoto,
+      currentUserPseudo: currentUserPseudo,
+      currentUserStatus: currentUserStatus);
 }
+// --------------------------------------------
+// Création de l'état qui hérite de Mainscreen
+//----------------------------------------------
 
 class MainScreenState extends State<MainScreen> {
-  MainScreenState({Key key, @required this.currentUserId});
-
+  // base de données
+  DataBase db = new DataBase();
+  // Attributs
   final String currentUserId;
+  final String currentUserPhoto;
+  final String currentUserPseudo;
+  final String currentUserStatus;
 
-  // Instance de BackendDataBase
-  BackendDataBase backendDataBase = new BackendDataBase();
+  // Constructeur
+  MainScreenState(
+      {Key key,
+      @required this.currentUserId,
+      @required this.currentUserPhoto,
+      @required this.currentUserPseudo,
+      @required this.currentUserStatus});
 
   // Lancement du widget chargement commandé par ce booléen
   bool isLoading = false;
 
-  // Quand appuie sur retour (icône déconnexion)
+  // Utilisateur sélectionné
+  var selectedUser;
 
+  // retour : déconnexion
   Future<bool> onBackPress() {
-    openDialog();
+    openSignOutDialog();
     return Future.value(false);
   }
 
-  Future<Null> openDialog() async {
+  //--------------------------------------------
+  // Dialogue de confirmation pour la déconnexion
+  // --------------------------------------------
+  // Future<Null> procédure évenementielle qui ne revoie rien
+  Future<Null> openSignOutDialog() async {
     switch (await showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -97,7 +131,7 @@ class MainScreenState extends State<MainScreen> {
                 ),
               ),
 
-              // Confirmation de déconnexion
+              // Confirmation de déconnexion de type 0,1 => switch
               SimpleDialogOption(
                 onPressed: () {
                   Navigator.pop(context, 0);
@@ -148,41 +182,146 @@ class MainScreenState extends State<MainScreen> {
       case 0:
         break;
       case 1:
-        handleSignOut(); // Déconnexion back-end
+        handleSignOut(); // Procédure de la déconnexion
         break;
     }
   }
 
-  // Méthode pour rechercher un contact
-  Future<Null> handleSearchContact() {
-    Fluttertoast.showToast(msg: "A implémenter");
-    //1 demande saisir string
-    //2 affiche tous les utilisateur qui on ce pseudo
-    //3 appel fonction ajout amis
-
-    // Pseudo qui est récupéré avec l'interface graphique...
-    String pseudoUtilisateur = '';
-
-    String codeAmi;
-
-    // Ajout d'un ami en back-end
-    backendDataBase.addFriend(codeAmi, currentUserId);
+  // -------------------------------------------------
+  // Procédure évenementielle de suppression d'un ami
+  // ------------------------------------------------
+  Future<Null> handleDeleteFriend(String codeUtilisateur) async {
+    switch (await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            contentPadding:
+                EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
+            children: <Widget>[
+              Container(
+                color: ThemeKomeet.themeColor,
+                margin: EdgeInsets.all(0.0),
+                padding: EdgeInsets.only(bottom: 10.0, top: 10.0),
+                height: 100.0,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      child: Icon(
+                        Icons.warning,
+                        size: 30.0,
+                        color: ThemeKomeet.primaryColor,
+                      ),
+                      margin: EdgeInsets.only(bottom: 10.0),
+                    ),
+                    Text(
+                      'Supprimer $selectedUser ?',
+                      style: TextStyle(
+                          color: ThemeKomeet.primaryColor,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Confirmation ?',
+                      style: TextStyle(
+                          color: ThemeKomeet.primaryColor, fontSize: 14.0),
+                    ),
+                  ],
+                ),
+              ),
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, 0);
+                },
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      child: Icon(
+                        Icons.cancel,
+                        color: ThemeKomeet.primaryColor,
+                      ),
+                      margin: EdgeInsets.only(right: 10.0),
+                    ),
+                    Text(
+                      'Annuler',
+                      style: TextStyle(
+                          color: ThemeKomeet.primaryColor,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, 1);
+                },
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      child: Icon(
+                        Icons.check_circle,
+                        color: ThemeKomeet.primaryColor,
+                      ),
+                      margin: EdgeInsets.only(right: 10.0),
+                    ),
+                    Text(
+                      'Oui',
+                      style: TextStyle(
+                          color: ThemeKomeet.primaryColor,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          );
+        })) {
+      case 0: // même principe que la procédure précédente
+        break;
+      case 1:
+        Fluttertoast.showToast(
+            msg: '$selectedUser Supprimé des amis'); // retour utilisateur
+        db.deleteFriend(
+            codeUtilisateur, currentUserId); // suppression dans la base
+        break;
+    }
   }
 
-  // Méthode pour ajouter des favoris
-  Future<bool> handleAddFriends() {
-    Fluttertoast.showToast(msg: "Ami ajouté (implémenter)");
+  // -------------------------------------------------
+  // Procédure évenementielle pour rechercher un ami
+  // ------------------------------------------------
+
+  // Lancement d'un nouvel écran de SearchUser
+  Future<Null> handleSearchContact() {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+            builder: (context) => SearchUser(
+                  currentUserId: currentUserId,
+                  currentUserPhoto: currentUserPhoto,
+                  currentUserPseudo: currentUserPseudo,
+                  currentUserStatus: currentUserStatus,
+                )),
+        (Route<dynamic> route) => true);
+  }
+
+  // Procédure pour avoir des personnes en ami aléatoirement (principe Komeet)
+  Future<bool> handleRandomFriends() {
+    Fluttertoast.showToast(msg: 'Aléatoire (implémenter)');
+    // db.addRandomFriend();
     return Future.value(true);
   }
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
-    if (document['codeUtilisateur'] == currentUserId) {
+    if (document['codeAmi'] == currentUserId) {
       return Container();
     } else {
       return Container(
         child: GestureDetector(
           onLongPress: () {
-            Fluttertoast.showToast(msg: "onlongPress à implémenter");
+            setState(() {
+              selectedUser = db.getPseudoUtilisateur(document['codeAmi']);
+            });
+            Fluttertoast.showToast(msg: 'selectionné : $selectedUser');
+            handleDeleteFriend(document['codeAmi']);
           },
           child: FlatButton(
             child: Row(
@@ -199,7 +338,7 @@ class MainScreenState extends State<MainScreen> {
                           height: 50.0,
                           padding: EdgeInsets.all(15.0),
                         ),
-                    imageUrl: document['photoUrl'],
+                    imageUrl: db.getPhotoUtilisateur(document['codeAmi']),
                     width: 50.0,
                     height: 50.0,
                     fit: BoxFit.cover,
@@ -214,7 +353,7 @@ class MainScreenState extends State<MainScreen> {
                       children: <Widget>[
                         Container(
                           child: Text(
-                            '${document['pseudoUtilisateur']}',
+                            db.getPseudoUtilisateur(document['codeAmi']),
                             style: TextStyle(
                                 color: ThemeKomeet.primaryColor,
                                 fontWeight: FontWeight.bold,
@@ -225,7 +364,7 @@ class MainScreenState extends State<MainScreen> {
                         ),
                         Container(
                           child: Text(
-                            '${document['aboutMe'] ?? 'Je suis cool'}',
+                            '${document['statut'] ?? "Komeet c'est trop cool !"}',
                             // il faudra mettre le dernier message à la place
                             style: TextStyle(color: ThemeKomeet.primaryColor),
                           ),
@@ -238,63 +377,57 @@ class MainScreenState extends State<MainScreen> {
                   ),
                 ),
                 Container(
-                  /*child: IconButton( // Bouton + pour ajouter des amis
-
-                  onPressed: () {
-                    setState(() {
-                      isPressed = true;
-                    });
-                  },
-                  icon: (isPressed) ? Icon(Icons.done) : Icon(Icons.add),
-                ),
-                alignment: Alignment.centerRight,
-                margin: EdgeInsets.fromLTRB(30,0, 2, 0),*/
-
-                  child: PopupMenuButton<Choice>(
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    color: ThemeKomeet.primaryColor,
+                  ), /*PopupMenuButton<Choice>(
                     icon: Icon(Icons.menu, color: ThemeKomeet.primaryColor),
                     onSelected: onItemMenuPress,
                     itemBuilder: (BuildContext context) {
                       return Static.friendsOptions.map((Choice choice) {
                         return PopupMenuItem<Choice>(
-                            value: choice,
-                            child: Row(
-                              children: <Widget>[
-                                Icon(
-                                  choice.icon,
-                                  color: ThemeKomeet.primaryColor,
-                                ),
-                                Container(
-                                  width: 10.0,
-                                ),
-                                Text(
-                                  choice.title,
-                                  style: TextStyle(
-                                      color: ThemeKomeet.primaryColor),
-                                ),
-                              ],
-                            ));
+                          value: choice,
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                choice.icon,
+                                color: ThemeKomeet.primaryColor,
+                              ),
+                              Container(
+                                width: 10.0,
+                              ),
+                              Text(
+                                choice.title,
+                                style:
+                                    TextStyle(color: ThemeKomeet.primaryColor),
+                              ),
+                            ],
+                          ),
+                        );
                       }).toList();
                     },
-                  ),
+                  ),  */
                 ),
               ],
             ),
             // Lorsque l'on appuie sur le widget Flexible
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      // Lancement d'un nouvel écran de chat
-                      builder: (context) => Chat(
-                            peerId: document.documentID,
-                            peerAvatar: document['photoUrl'],
-                            chatMate: document['pseudoUtilisateur'],
-                          )));
+                context,
+                MaterialPageRoute(
+                  // Lancement d'un nouvel écran de chat
+                  builder: (context) => Chat(
+                        peerId: document.documentID,
+                        peerAvatar: db.getPhotoUtilisateur(document['codeAmi']),
+                        chatMate: db.getPseudoUtilisateur(document['codeAmi']),
+                      ),
+                ),
+              );
             },
             color: ThemeKomeet.greyColor2,
             padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
+                borderRadius: BorderRadius.circular(20.0)),
           ),
         ),
         margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
@@ -308,20 +441,25 @@ class MainScreenState extends State<MainScreen> {
   void onItemMenuPress(Choice choice) {
     if (choice.title == 'Réglages') {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Settings ()));
+          context, MaterialPageRoute(builder: (context) => Settings()));
     } else if (choice.title == 'Supprimer mon profil') {
       handleDeleteProfile();
     } else if (choice.title == 'Supprimer la conversation') {
-      Fluttertoast.showToast(msg: 'Conversation supprimée (implémenter)');
+      Fluttertoast.showToast(
+          msg: 'Conversation supprimée avec $selectedUser (implémenter)');
     } else if (choice.title == 'Désactiver les notifications') {
-      Fluttertoast.showToast(msg: 'Notifications désactivées (implémenter)');
+      Fluttertoast.showToast(
+          msg: 'Notifications désactivées (implémenter)',
+          gravity: ToastGravity.TOP);
       setState(() {
         Static.enableNotif = false;
       });
     } else if (choice.title == 'Supprimer cet ami') {
-      Fluttertoast.showToast(msg: 'Ami supprimé (implémenter)');
+      Fluttertoast.showToast(msg: '$selectedUser supprimé (implémenter)');
     } else if (choice.title == 'Activer les notifications') {
-      Fluttertoast.showToast(msg: 'Notifications activées (implémenter)');
+      Fluttertoast.showToast(
+          msg: 'Notifications activées (implémenter)',
+          gravity: ToastGravity.TOP);
       setState(() {
         Static.enableNotif = true;
       });
@@ -374,6 +512,7 @@ class MainScreenState extends State<MainScreen> {
         .delete(); // méthode pour supprimer de firebase le currentUser
   }
 
+  // Construction de l'écran ...
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -383,7 +522,7 @@ class MainScreenState extends State<MainScreen> {
         ),
         leading: IconButton(
           icon: Icon(Icons.exit_to_app),
-          onPressed: openDialog,
+          onPressed: openSignOutDialog,
         ),
         title: Text(
           'Messages',
@@ -394,8 +533,8 @@ class MainScreenState extends State<MainScreen> {
         actions: <Widget>[
           // Bouton ajouter amis
           IconButton(
-            onPressed: handleAddFriends,
-            icon: Icon(Icons.add),
+            onPressed: handleRandomFriends,
+            icon: Icon(Icons.people),
           ),
 
           //Bouton rechercher des contacts
@@ -404,6 +543,7 @@ class MainScreenState extends State<MainScreen> {
             icon: Icon(Icons.search),
             //padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
           ),
+          // Menu de droite
           PopupMenuButton<Choice>(
             onSelected: onItemMenuPress,
             itemBuilder: (BuildContext context) {
@@ -452,34 +592,39 @@ class MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
-      /*floatingActionButton: FloatingActionButton(
-        onPressed: handleAddFriends,
-        tooltip: 'Nouvel ami',
-        child: Icon(Icons.add),
-
-        backgroundColor: ThemeKomeet.floatingBtnColor,
-      ),*/
       body: WillPopScope(
         child: Stack(
           children: <Widget>[
-            // Liste de conversation
+            // Liste de conversations
             Container(
               child: StreamBuilder(
-                stream: Firestore.instance.collection('Utilisateur').snapshots(),
+                // création d'un stream : on récupère tous les utilisateurs de la BD
+                stream: Firestore.instance
+                    .collection('Connaissance')
+                    .where('codeUtilisateur', isEqualTo: currentUserId)
+                    .snapshots(),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                            ThemeKomeet.themeColor),
+                  // si pas d'amis ou lui-même (invisible)
+                  if (!snapshot.hasData ||
+                      snapshot.data.documents.length == 1 &&
+                          snapshot.data.documents[0]['codeUtilisateur'] ==
+                              currentUserId) {
+                    return Container(
+                      child: Center(
+                        child: Text(
+                          "Vous n'avez pas encore d'amis",
+                          style: TextStyle(color: ThemeKomeet.primaryColor),
+                        ),
                       ),
                     );
                   } else {
                     // construction de la listView
                     return ListView.builder(
                       padding: EdgeInsets.all(10.0),
-                      itemBuilder: (context, index) =>
-                          buildItem(context, snapshot.data.documents[index]),
+                      itemBuilder: (context, index) => buildItem(
+                          context,
+                          snapshot.data.documents[
+                              index]), //Appelle constructeur avec UN des documents d'amis
                       itemCount: snapshot.data.documents.length,
                     );
                   }
@@ -487,7 +632,7 @@ class MainScreenState extends State<MainScreen> {
               ),
             ),
 
-            // Loading
+            // Widget de chargement
             Positioned(
               child: isLoading
                   ? Container(
@@ -502,7 +647,7 @@ class MainScreenState extends State<MainScreen> {
             )
           ],
         ),
-        onWillPop: onBackPress,
+        onWillPop: onBackPress, // retour
       ),
     );
   }

@@ -17,72 +17,93 @@ import 'package:flutter_app_komeet/database.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/cupertino.dart';
 
 // Color picker
 import 'package:flutter_colorpicker/block_picker.dart';
 
 class Settings extends StatelessWidget {
+  // Constructeur
+  Settings({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(
           'Réglages',
-          style: TextStyle(color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: ThemeKomeet.primaryColor, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
       // Nouvel écran de Réglages
       body: new SettingsScreen(),
     );
-
   }
 }
 
 class SettingsScreen extends StatefulWidget {
+  // Constructeur
+  SettingsScreen({Key key}) : super(key: key);
+
   @override
   State createState() => new SettingsScreenState();
 }
 
 class SettingsScreenState extends State<SettingsScreen> {
-  TextEditingController controllerpseudoUtilisateur;
-  TextEditingController controllerAboutMe;
+  // base de données
+  DataBase db = new DataBase();
+
+  // Constructeur
+  SettingsScreenState({Key key});
+
+  // champs texte
+  TextEditingController controllerPseudoUtilisateur;
+  TextEditingController controllerStatut;
 
   // Préférences partagées :  stockage des données en local
   SharedPreferences prefs;
 
   String codeUtilisateur = '';
   String pseudoUtilisateur = '';
-  String aboutMe = '';
+  String statut = '';
   String photoUrl = '';
 
+  // déclenche le widget chargement
   bool isLoading = false;
+  // image de l'utilisateur
   File avatarImageFile;
 
+  // focus sur un champ texte
   final FocusNode focusNodepseudoUtilisateur = new FocusNode();
-  final FocusNode focusNodeAboutMe = new FocusNode();
+  final FocusNode focusNodestatut = new FocusNode();
 
   //color picker
 
   Color currentColor = ThemeKomeet.themeColor;
+
+  // texte du bouton : mode sombre/mode clair
   static String themeTxt;
 
+  // méthode de changement des couleurs
   void changeColor(Color color) {
     if (color == Colors.black) {
       handleDarkTheme();
     }
     currentColor = color;
-    setState(() {
-      ThemeKomeet.themeColor = currentColor;
-      Fluttertoast.showToast(msg: "Couleur Changée");
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) {
-          return MyApp();
-          // Retour à l'écran de main si l'utilisateur est connecté
-        }),
-      );
-    },
+    setState(
+      () {
+        ThemeKomeet.themeColor = currentColor;
+        Fluttertoast.showToast(msg: "Couleur Changée");
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) {
+            return MyApp();
+            // Retour à l'écran de main
+          }),
+        );
+      },
     );
   }
 
@@ -92,22 +113,24 @@ class SettingsScreenState extends State<SettingsScreen> {
     readLocal();
   }
 
+  // lecture des données déjà présentes dans les sharedPreferences
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     codeUtilisateur = prefs.getString('codeUtilisateur') ?? '';
     pseudoUtilisateur = prefs.getString('pseudoUtilisateur') ?? '';
-    aboutMe = prefs.getString('aboutMe') ?? '';
+    statut = prefs.getString('statut') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
 
-    controllerpseudoUtilisateur = new TextEditingController(text: pseudoUtilisateur);
-    controllerAboutMe = new TextEditingController(text: aboutMe);
+    controllerPseudoUtilisateur =
+        new TextEditingController(text: pseudoUtilisateur);
+    controllerStatut = new TextEditingController(text: statut);
 
     // Obligation de rafraichir
     setState(() {});
   }
 
-  // Procédures back-end d'envoi de la photo de profil
   Future getImage() async {
+    // image picker
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
@@ -132,7 +155,11 @@ class SettingsScreenState extends State<SettingsScreen> {
           Firestore.instance
               .collection('Utilisateur')
               .document(codeUtilisateur)
-              .updateData({'pseudoUtilisateur': pseudoUtilisateur, 'aboutMe': aboutMe, 'photoUrl': photoUrl}).then((data) async {
+              .updateData({
+            'pseudoUtilisateur': pseudoUtilisateur,
+            'statut': statut,
+            'photoUrl': photoUrl
+          }).then((data) async {
             await prefs.setString('photoUrl', photoUrl);
             setState(() {
               isLoading = false;
@@ -142,46 +169,56 @@ class SettingsScreenState extends State<SettingsScreen> {
             setState(() {
               isLoading = false;
             });
+            // message d'erreur en toast
             Fluttertoast.showToast(msg: err.toString());
           });
         }, onError: (err) {
           setState(() {
             isLoading = false;
           });
-          Fluttertoast.showToast(msg: 'This file is not an image');
+          Fluttertoast.showToast(msg: 'Erreur inconnue');
         });
       } else {
         setState(() {
           isLoading = false;
         });
-        Fluttertoast.showToast(msg: 'This file is not an image');
+        Fluttertoast.showToast(msg: 'Erreur inconnue');
       }
     }, onError: (err) {
       setState(() {
         isLoading = false;
       });
+      // message d'erreur en toast
       Fluttertoast.showToast(msg: err.toString());
     });
   }
 
   void handleUpdateData() {
+    // on se retire du champ texte
     focusNodepseudoUtilisateur.unfocus();
-    focusNodeAboutMe.unfocus();
+    focusNodestatut.unfocus();
 
     setState(() {
       isLoading = true;
+      // chargement lancé
     });
 
+    // mise à jour des données de firebase et des sharedPreferences
     Firestore.instance
         .collection('Utilisateur')
         .document(codeUtilisateur)
-        .updateData({'pseudoUtilisateur': pseudoUtilisateur, 'aboutMe': aboutMe, 'photoUrl': photoUrl}).then((data) async {
+        .updateData({
+      'pseudoUtilisateur': pseudoUtilisateur,
+      'statut': statut,
+      'photoUrl': photoUrl
+    }).then((data) async {
       await prefs.setString('pseudoUtilisateur', pseudoUtilisateur);
-      await prefs.setString('aboutMe', aboutMe);
+      await prefs.setString('statut', statut);
       await prefs.setString('photoUrl', photoUrl);
 
       setState(() {
         isLoading = false;
+        // chragement terminé
       });
 
       Fluttertoast.showToast(msg: "Mise à jour réussie");
@@ -190,6 +227,7 @@ class SettingsScreenState extends State<SettingsScreen> {
         isLoading = false;
       });
 
+      // message d'erreur en toast
       Fluttertoast.showToast(msg: err.toString());
     });
   }
@@ -198,8 +236,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   void checkTheme() {
     if (ThemeKomeet.darkTheme) {
       themeTxt = "MODE CLAIR";
-    }
-    else {
+    } else {
       themeTxt = "MODE SOMBRE";
     }
   }
@@ -207,9 +244,9 @@ class SettingsScreenState extends State<SettingsScreen> {
   // Choix de la couleur dans le color picker
   void handleChangeTheme() {
     focusNodepseudoUtilisateur.unfocus();
-    focusNodeAboutMe.unfocus();
+    focusNodestatut.unfocus();
     if (!ThemeKomeet.darkTheme) {
-      // launch theme changer...
+      // Changement du thème...
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -224,8 +261,7 @@ class SettingsScreenState extends State<SettingsScreen> {
           );
         },
       );
-    }
-    else {
+    } else {
       Fluttertoast.showToast(msg: "Pas de changement en mode sombre");
     }
   }
@@ -236,23 +272,29 @@ class SettingsScreenState extends State<SettingsScreen> {
       setState(() {
         ThemeKomeet.enableDarkMode(true);
       });
-    }
-    else if (ThemeKomeet.darkTheme){
+    } else if (ThemeKomeet.darkTheme) {
       setState(() {
         ThemeKomeet.enableDarkMode(false);
       });
     }
     checkTheme();
-      Fluttertoast.showToast(msg: "Changement");
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) {
-          return MyApp();
-        }),
-      );
-
+    Fluttertoast.showToast(msg: "Changement");
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) {
+        return MyApp();
+      }),
+    );
   }
 
+  Widget handleChangeLanguage() {
+    Navigator.pop(context);
+    return Container(
+      child: Text('Veuillez choisir votre langue'),
+    );
+  }
+
+  // Création de l'écran de Réglages
   @override
   Widget build(BuildContext context) {
     checkTheme();
@@ -273,7 +315,9 @@ class SettingsScreenState extends State<SettingsScreen> {
                                     placeholder: (context, url) => Container(
                                           child: CircularProgressIndicator(
                                             strokeWidth: 2.0,
-                                            valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor),
+                                            valueColor:
+                                                AlwaysStoppedAnimation<Color>(
+                                                    ThemeKomeet.themeColor),
                                           ),
                                           width: 90.0,
                                           height: 90.0,
@@ -284,7 +328,8 @@ class SettingsScreenState extends State<SettingsScreen> {
                                     height: 90.0,
                                     fit: BoxFit.cover,
                                   ),
-                                  borderRadius: BorderRadius.all(Radius.circular(45.0)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(45.0)),
                                   clipBehavior: Clip.hardEdge,
                                 )
                               : Icon(
@@ -299,7 +344,8 @@ class SettingsScreenState extends State<SettingsScreen> {
                                 height: 90.0,
                                 fit: BoxFit.cover,
                               ),
-                              borderRadius: BorderRadius.all(Radius.circular(45.0)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(45.0)),
                               clipBehavior: Clip.hardEdge,
                             ),
                       IconButton(
@@ -327,20 +373,24 @@ class SettingsScreenState extends State<SettingsScreen> {
                   Container(
                     child: Text(
                       'Pseudo',
-                      style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: ThemeKomeet.primaryColor),
+                      style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          color: ThemeKomeet.primaryColor),
                     ),
                     margin: EdgeInsets.only(left: 10.0, bottom: 5.0, top: 10.0),
                   ),
                   Container(
                     child: Theme(
-                      data: Theme.of(context).copyWith(primaryColor: ThemeKomeet.primaryColor),
+                      data: Theme.of(context)
+                          .copyWith(primaryColor: ThemeKomeet.primaryColor),
                       child: TextField(
                         decoration: InputDecoration(
                           hintText: 'Johnny...',
                           contentPadding: new EdgeInsets.all(5.0),
                           hintStyle: TextStyle(color: ThemeKomeet.greyColor),
                         ),
-                        controller: controllerpseudoUtilisateur,
+                        controller: controllerPseudoUtilisateur,
                         onChanged: (value) {
                           pseudoUtilisateur = value;
                         },
@@ -350,28 +400,32 @@ class SettingsScreenState extends State<SettingsScreen> {
                     margin: EdgeInsets.only(left: 30.0, right: 30.0),
                   ),
 
-                  // Langue
+                  // Statut
                   Container(
                     child: Text(
-                      'Langue',
-                      style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: ThemeKomeet.primaryColor),
+                      'Statut',
+                      style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          color: ThemeKomeet.primaryColor),
                     ),
                     margin: EdgeInsets.only(left: 10.0, top: 30.0, bottom: 5.0),
                   ),
                   Container(
                     child: Theme(
-                      data: Theme.of(context).copyWith(primaryColor: ThemeKomeet.primaryColor),
+                      data: Theme.of(context)
+                          .copyWith(primaryColor: ThemeKomeet.primaryColor),
                       child: TextField(
                         decoration: InputDecoration(
-                          hintText: 'Français...',
+                          hintText: 'Flutter...',
                           contentPadding: EdgeInsets.all(5.0),
                           hintStyle: TextStyle(color: ThemeKomeet.greyColor),
                         ),
-                        controller: controllerAboutMe,
+                        controller: controllerStatut,
                         onChanged: (value) {
-                          aboutMe = value;
+                          statut = value;
                         },
-                        focusNode: focusNodeAboutMe,
+                        focusNode: focusNodestatut,
                       ),
                     ),
                     margin: EdgeInsets.only(left: 30.0, right: 30.0),
@@ -426,17 +480,34 @@ class SettingsScreenState extends State<SettingsScreen> {
                 ),
                 margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
               ),
+              Container(
+                child: FlatButton(
+                  onPressed: handleChangeLanguage,
+                  child: Text(
+                    'Langue',
+                    style: TextStyle(fontSize: 16.0),
+                  ),
+                  color: ThemeKomeet.primaryColor,
+                  highlightColor: new Color(0xff8d93a0),
+                  splashColor: Colors.transparent,
+                  textColor: Colors.white,
+                  padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
+                ),
+                margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+              ),
             ],
           ),
           padding: EdgeInsets.only(left: 15.0, right: 15.0),
         ),
 
-        // Loading
+        // Widget de chargement
         Positioned(
           child: isLoading
               ? Container(
                   child: Center(
-                    child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(ThemeKomeet.themeColor)),
+                    child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            ThemeKomeet.themeColor)),
                   ),
                   color: Colors.white.withOpacity(0.8),
                 )
