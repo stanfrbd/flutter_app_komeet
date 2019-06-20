@@ -241,7 +241,7 @@ class DataBase {
   }
 
   //Méthode de suppression d'un message
-  Future<bool> deleteMessage(String idMsg) async {
+  /*Future<bool> deleteMessage(String idMsg) async {
     var query =
         Firestore.instance.collection('messages').document(idMsg).delete();
 
@@ -250,5 +250,52 @@ class DataBase {
     query.then((val) => success = true).catchError((error) => success = false);
 
     return success;
+  }*/
+
+  // Nouvelle avec la table qui n'a pas changé : messages
+
+  Future<Null> deleteMessage(String idMsg, String groupChatId) async {
+    Firestore.instance
+        .collection('messages')
+        .document(groupChatId)
+        .collection(groupChatId)
+        .document(idMsg)
+        .delete();
+  }
+
+  // Méthodes de changement de thème
+
+  void changeThemeUser(String codeUser, String codeTheme) {
+    Firestore.instance
+        .collection('Theme_Utilisateur')
+        .document(codeUser)
+        .setData({'codeUtilisateur': codeUser, 'codeTheme': codeTheme});
+  }
+
+  var clr;
+  String getThemeUser(String codeUser) {
+    var query = Firestore.instance
+        .collection('Theme_Utilisateur')
+        .document(codeUser)
+        .get();
+
+    query.then((doc) => this.clr = doc.data['codeTheme']);
+    return this.clr;
+  }
+  // Méthodes de changement de langue
+
+  void changeLangueUser(String codeUser, String codeLangue) {
+    Firestore.instance
+        .collection('Langue_Parle')
+        .document(codeUser)
+        .setData({'codeUtilisateur': codeUser, 'codeLangue': codeLangue});
+  }
+
+  var langue;
+  String getLangueUser(String codeUser) {
+    var query =
+        Firestore.instance.collection('Langue_Parle').document(codeUser).get();
+    query.then((doc) => this.langue = doc.data['codeLangue']);
+    return this.langue;
   }
 }

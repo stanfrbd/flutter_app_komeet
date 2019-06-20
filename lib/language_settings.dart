@@ -102,8 +102,8 @@ class LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
                           Fluttertoast.showToast(
                               msg: '$titreLangue choisi',
                               gravity: ToastGravity.TOP);
-                          // Ajout d'un ami en back-end
-                          //db.changeLanguage(currentUserId, codeLangue);
+                          // changement dans la base
+                          db.changeLangueUser(currentUserId, codeLangue);
                         },
                         title: Text(
                           '${snapshot.data.documents[index]['titreLangue']}',
