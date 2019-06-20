@@ -9,7 +9,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_komeet/const.dart';
 import 'package:flutter_app_komeet/main.dart';
-import 'dart:math' show Random;
 
 // ------------------------------------------------
 // Classe des méthodes back-end de firebase
@@ -121,46 +120,51 @@ class DataBase {
     return true;
   } //Fin addFriend
 
+  /* Non utilisée
   //Méthode d'ajout d'un ami tiré aléatoirement
-  // même problème qu'avec getPseudo et getPhoto
+  //Deux variables globales sont nécessaires
+  List<String> friendsYet;
+  List<String> possibleFriends;
+  //Méthode d'ajout d'un ami tiré aléatoirement
   Future<String> addRandomFriend(String userId) async {
     //On commence par récupérer les amis
-    var queryFriends = Firestore.instance
+    var queryFriends = await Firestore.instance
         .collection('Connaissance')
         .where('codeUtilisateur', isEqualTo: userId)
         .getDocuments();
 
     //On crée une liste d'identifiants à ne pas tirer au sort (amis et utilisateur courant)
-    List<String> friendsYet;
-    queryFriends.then((q) =>
-        {q.documents.forEach((doc) => friendsYet.add(doc.data['codeAmi']))});
-    friendsYet.add(userId);
+    queryFriends.documents
+        .forEach((doc) => this.friendsYet.add(doc.data['codeAmi']));
+
+    this.friendsYet.add(userId);
 
     //On récupère l'ensemble des utilisateurs
-    var queryAll = Firestore.instance
+    var queryAll = await Firestore.instance
         .collection('Utilisateur')
         .getDocuments(); //Future<QuerySnapshot>
 
     //On met leurs identifiants dans une liste
-    List<String> possibleFriends;
-    queryAll.then((q) => {
-          q.documents.forEach((doc) => {
-                //On n'ajoute que les utilisateurs à prendre en compte
-                if (!friendsYet.contains(doc.data['codeUtilisateur']))
-                  {possibleFriends.add(doc.data['codeUtilisateur'])}
-              })
+    queryAll.documents.forEach((doc) => {
+          //On n'ajoute que les utilisateurs à prendre en compte
+          if (!this.friendsYet.contains(doc.data['codeUtilisateur']))
+            {this.possibleFriends.add(doc.data['codeUtilisateur'])}
         });
 
     //On tire un utilisateur aléatoirement
     var random = new Random();
-    int ind = random.nextInt(possibleFriends.length);
-    String newFriendId = possibleFriends.elementAt(ind);
+    int ind = random.nextInt(this.possibleFriends.length);
+    String newFriendId = this.possibleFriends.elementAt(ind);
 
     //Ajout de l'ami
     addFriend(userId, newFriendId);
 
-    return newFriendId; //getPseudoUtilisateur(newFriendId);
+    this.friendsYet.clear();
+    this.possibleFriends.clear();
+
+    return newFriendId;
   }
+  */
 
   // Ajouter un utilisateur à une discussion
   Future<bool> addUserToDiscussion(

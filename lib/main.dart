@@ -5,6 +5,7 @@
 //-----------------------------------------------------
 
 import 'dart:async';
+import 'dart:math' show Random;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -52,7 +53,12 @@ class MainScreen extends StatefulWidget {
 //----------------------------------------------
 
 class MainScreenState extends State<MainScreen> {
+  // Utilisateurs stockés en local, accessible depuis les autres écrans
   static List<User> allUsers = new List<User>();
+
+  // amis en local
+  List<String> Friends = new List<String>();
+
   // base de données
   DataBase db = new DataBase();
   // Attributs
@@ -289,9 +295,25 @@ class MainScreenState extends State<MainScreen> {
   }
 
   // Procédure pour avoir des personnes en ami aléatoirement (principe Komeet)
-  Future<bool> handleRandomFriends() {
-    Fluttertoast.showToast(msg: 'Aléatoire (implémenter)');
-    // db.addRandomFriend();
+  Future<bool> handleRandomFriends() async {
+    int ind;
+    User newFriend;
+    Friends.add(
+        currentUserId); //On rajoute l'utilisateur courrant car il ne doit pas être tiré
+
+    //Tirage aléatoire à recommencer tant que le contact obtenu est déjà un ami
+    do {
+      var rdm = new Random();
+      ind = rdm.nextInt(allUsers.length);
+      newFriend = allUsers.elementAt(ind);
+    } while (Friends.contains(newFriend.getId())); //On recommence si déjà amis
+
+    Friends.remove(
+        currentUserId); //Pour plus de cohérence, on le retire une fois l'opération terminée
+
+    await db.addFriend(currentUserId, newFriend.getId());
+    var pseudo = newFriend.getPseudo();
+    Fluttertoast.showToast(msg: 'Ajout aléatoire : $pseudo ');
     return Future.value(true);
   }
 
@@ -299,6 +321,7 @@ class MainScreenState extends State<MainScreen> {
     if (document['codeAmi'] == currentUserId) {
       return Container();
     } else {
+      Friends.add(document['codeAmi']); // remplissage de la liste d'amis locale
       return Container(
         child: GestureDetector(
           onLongPress: () {
@@ -592,13 +615,8 @@ class MainScreenState extends State<MainScreen> {
                   // si pas d'amis
                   if (!snapshot.hasData) {
                     Fluttertoast.showToast(
-                        msg: "Vous n'avez pas encore d'ami",
-                        gravity: ToastGravity.TOP,
-                        toastLength: Toast.LENGTH_LONG);
-                    Fluttertoast.showToast(
-                        msg: "Recherchez-les dans avec notre menu !",
-                        gravity: ToastGravity.CENTER,
-                        toastLength: Toast.LENGTH_LONG);
+                        msg: "Vous n'avez pas encore d'amis...",
+                        gravity: ToastGravity.CENTER);
 
                     return Container();
                   } else {
