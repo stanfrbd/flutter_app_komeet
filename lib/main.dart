@@ -5,7 +5,6 @@
 //-----------------------------------------------------
 
 import 'dart:async';
-import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -35,44 +34,35 @@ class MainScreen extends StatefulWidget {
 
   // Utilisateur courant
   final String currentUserId;
-  final String currentUserPhoto;
-  final String currentUserPseudo;
-  final String currentUserStatus;
 
   // Constructeur
-  MainScreen(
-      {Key key,
-      @required this.currentUserId,
-      @required this.currentUserPhoto,
-      @required this.currentUserPseudo,
-      @required this.currentUserStatus})
-      : super(key: key);
+  MainScreen({
+    Key key,
+    @required this.currentUserId,
+  }) : super(key: key);
 
   // Création d'un nouvel état de MainScreen avec les widgets
   @override
   State createState() => MainScreenState(
-      currentUserId: currentUserId,
-      currentUserPhoto: currentUserPhoto,
-      currentUserPseudo: currentUserPseudo,
-      currentUserStatus: currentUserStatus);
+        currentUserId: currentUserId,
+      );
 }
+// --------------------------------------------
+// Création de l'état qui hérite de Mainscreen
+//----------------------------------------------
 
 class MainScreenState extends State<MainScreen> {
+  static List<User> allUsers = new List<User>();
   // base de données
   DataBase db = new DataBase();
   // Attributs
   final String currentUserId;
-  final String currentUserPhoto;
-  final String currentUserPseudo;
-  final String currentUserStatus;
 
   // Constructeur
-  MainScreenState(
-      {Key key,
-      @required this.currentUserId,
-      @required this.currentUserPhoto,
-      @required this.currentUserPseudo,
-      @required this.currentUserStatus});
+  MainScreenState({
+    Key key,
+    @required this.currentUserId,
+  });
 
   // Lancement du widget chargement commandé par ce booléen
   bool isLoading = false;
@@ -86,6 +76,10 @@ class MainScreenState extends State<MainScreen> {
     return Future.value(false);
   }
 
+  //--------------------------------------------
+  // Dialogue de confirmation pour la déconnexion
+  // --------------------------------------------
+  // Future<Null> procédure évenementielle qui ne revoie rien
   Future<Null> openSignOutDialog() async {
     switch (await showDialog(
         context: context,
@@ -124,7 +118,7 @@ class MainScreenState extends State<MainScreen> {
                 ),
               ),
 
-              // Confirmation de déconnexion
+              // Confirmation de déconnexion de type 0,1 => switch
               SimpleDialogOption(
                 onPressed: () {
                   Navigator.pop(context, 0);
@@ -175,11 +169,14 @@ class MainScreenState extends State<MainScreen> {
       case 0:
         break;
       case 1:
-        handleSignOut(); // Déconnexion back-end
+        handleSignOut(); // Procédure de la déconnexion
         break;
     }
   }
 
+  // -------------------------------------------------
+  // Procédure évenementielle de suppression d'un ami
+  // ------------------------------------------------
   Future<Null> handleDeleteFriend(String codeUtilisateur) async {
     switch (await showDialog(
         context: context,
@@ -265,46 +262,51 @@ class MainScreenState extends State<MainScreen> {
             ],
           );
         })) {
-      case 0:
+      case 0: // même principe que la procédure précédente
         break;
       case 1:
-        Fluttertoast.showToast(msg: '$selectedUser Supprimé des amis');
-        db.deleteFriend(codeUtilisateur, currentUserId);
+        Fluttertoast.showToast(
+            msg: '$selectedUser Supprimé des amis'); // retour utilisateur
+        db.deleteFriend(
+            codeUtilisateur, currentUserId); // suppression dans la base
         break;
     }
   }
 
-  // Méthode pour rechercher un contact
+  // -------------------------------------------------
+  // Procédure évenementielle pour rechercher un ami
+  // ------------------------------------------------
+
+  // Lancement d'un nouvel écran de SearchUser
   Future<Null> handleSearchContact() {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
             builder: (context) => SearchUser(
                   currentUserId: currentUserId,
-                  currentUserPhoto: currentUserPhoto,
-                  currentUserPseudo: currentUserPseudo,
-                  currentUserStatus: currentUserStatus,
                 )),
         (Route<dynamic> route) => true);
+    return null;
   }
 
-  // Méthode pour avoir des personnes aléatoirement (principe Komeet)
+  // Procédure pour avoir des personnes en ami aléatoirement (principe Komeet)
   Future<bool> handleRandomFriends() {
     Fluttertoast.showToast(msg: 'Aléatoire (implémenter)');
+    // db.addRandomFriend();
     return Future.value(true);
   }
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
-    if (document['codeUtilisateur'] == currentUserId) {
+    if (document['codeAmi'] == currentUserId) {
       return Container();
     } else {
       return Container(
         child: GestureDetector(
           onLongPress: () {
             setState(() {
-              selectedUser = document['pseudoUtilisateur'];
+              selectedUser = db.getSingleUser(document['codeAmi']).getPseudo();
             });
             Fluttertoast.showToast(msg: 'selectionné : $selectedUser');
-            handleDeleteFriend(document['codeUtilisateur']);
+            handleDeleteFriend(document['codeAmi']);
           },
           child: FlatButton(
             child: Row(
@@ -321,7 +323,10 @@ class MainScreenState extends State<MainScreen> {
                           height: 50.0,
                           padding: EdgeInsets.all(15.0),
                         ),
-                    imageUrl: document['photoUrl'],
+                    imageUrl: db
+                            .getSingleUser(document['codeAmi'])
+                            .getPhoto() ??
+                        "https://user-images.githubusercontent.com/44167150/59460176-bba7a500-8e1e-11e9-99dd-324b32162d57.jpg",
                     width: 50.0,
                     height: 50.0,
                     fit: BoxFit.cover,
@@ -336,7 +341,8 @@ class MainScreenState extends State<MainScreen> {
                       children: <Widget>[
                         Container(
                           child: Text(
-                            document['pseudoUtilisateur'],
+                            db.getSingleUser(document['codeAmi']).getPseudo() ??
+                                "Chargement...",
                             style: TextStyle(
                                 color: ThemeKomeet.primaryColor,
                                 fontWeight: FontWeight.bold,
@@ -347,7 +353,8 @@ class MainScreenState extends State<MainScreen> {
                         ),
                         Container(
                           child: Text(
-                            '${document['statut'] ?? "Komeet c'est trop cool !"}',
+                            db.getSingleUser(document['codeAmi']).getStatus() ??
+                                "Komeet c'est trop cool !",
                             // il faudra mettre le dernier message à la place
                             style: TextStyle(color: ThemeKomeet.primaryColor),
                           ),
@@ -363,33 +370,7 @@ class MainScreenState extends State<MainScreen> {
                   child: Icon(
                     Icons.arrow_forward_ios,
                     color: ThemeKomeet.primaryColor,
-                  ), /*PopupMenuButton<Choice>(
-                    icon: Icon(Icons.menu, color: ThemeKomeet.primaryColor),
-                    onSelected: onItemMenuPress,
-                    itemBuilder: (BuildContext context) {
-                      return Static.friendsOptions.map((Choice choice) {
-                        return PopupMenuItem<Choice>(
-                          value: choice,
-                          child: Row(
-                            children: <Widget>[
-                              Icon(
-                                choice.icon,
-                                color: ThemeKomeet.primaryColor,
-                              ),
-                              Container(
-                                width: 10.0,
-                              ),
-                              Text(
-                                choice.title,
-                                style:
-                                    TextStyle(color: ThemeKomeet.primaryColor),
-                              ),
-                            ],
-                          ),
-                        );
-                      }).toList();
-                    },
-                  ),  */
+                  ),
                 ),
               ],
             ),
@@ -400,9 +381,11 @@ class MainScreenState extends State<MainScreen> {
                 MaterialPageRoute(
                   // Lancement d'un nouvel écran de chat
                   builder: (context) => Chat(
-                        peerId: document.documentID,
-                        peerAvatar: document['photoUrl'],
-                        chatMate: document['pseudoUtilisateur'],
+                        peerId: document['codeAmi'],
+                        peerAvatar:
+                            db.getSingleUser(document['codeAmi']).getPhoto(),
+                        chatMate:
+                            db.getSingleUser(document['codeAmi']).getPseudo(),
                       ),
                 ),
               );
@@ -578,14 +561,32 @@ class MainScreenState extends State<MainScreen> {
       body: WillPopScope(
         child: Stack(
           children: <Widget>[
+            Container(
+              child: StreamBuilder(
+                  stream:
+                      Firestore.instance.collection('Utilisateur').snapshots(),
+                  builder: (context, snapshot) {
+                    allUsers.clear();
+                    for (int i = 0; i < snapshot.data.documents.length; i++) {
+                      var doc = snapshot.data.documents[i];
+                      User u = new User(
+                          id: doc['codeUtilisateur'],
+                          photo: doc['photoUrl'],
+                          pseudo: doc['pseudoUtilisateur'],
+                          status: doc['statut']);
+                      allUsers.add(u);
+                    }
+
+                    return Container();
+                  }),
+            ),
             // Liste de conversations
             Container(
               child: StreamBuilder(
                 // création d'un stream : on récupère tous les utilisateurs de la BD
                 stream: Firestore.instance
                     .collection('Connaissance')
-                    .document(currentUserId)
-                    .collection('sesAmis')
+                    .where('codeUtilisateur', isEqualTo: currentUserId)
                     .snapshots(),
                 builder: (context, snapshot) {
                   // si pas d'amis ou lui-même (invisible)

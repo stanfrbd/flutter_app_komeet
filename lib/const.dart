@@ -98,6 +98,7 @@ class Static {
   ];
 }
 
+// classe non utilisée mais pourrait être utilisée dans le futur
 class Language {
   final int id;
   final String name;
@@ -116,4 +117,34 @@ class Language {
     const Language(id: 8, name: 'Italien', symbol: '🇮🇹'),
     const Language(id: 9, name: 'Grec', symbol: '🇬🇷'),
   ];
+}
+
+// classe qui permet de récupérer tous les attributs lors de l'ajout des amis
+class User {
+  User(
+      {@required this.id,
+      @required this.photo,
+      @required this.pseudo,
+      @required this.status});
+
+  final String id;
+  final String pseudo;
+  final String photo;
+  final String status;
+
+  String getId() {
+    return this.id;
+  }
+
+  String getPhoto() {
+    return this.photo;
+  }
+
+  String getPseudo() {
+    return this.pseudo;
+  }
+
+  String getStatus() {
+    return this.status;
+  }
 }

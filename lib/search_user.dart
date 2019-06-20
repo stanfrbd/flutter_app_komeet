@@ -15,18 +15,12 @@ import 'package:flutter/cupertino.dart';
 class SearchUser extends StatelessWidget {
   // Utilisateur courant
   final String currentUserId;
-  final String currentUserPhoto;
-  final String currentUserPseudo;
-  final String currentUserStatus;
 
   // Constructeur
-  SearchUser(
-      {Key key,
-      @required this.currentUserId,
-      @required this.currentUserPhoto,
-      @required this.currentUserPseudo,
-      @required this.currentUserStatus})
-      : super(key: key);
+  SearchUser({
+    Key key,
+    @required this.currentUserId,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +36,6 @@ class SearchUser extends StatelessWidget {
       // Nouvel écran de Recherche Utilisateur
       body: new SearchUserScreen(
         currentUserId: currentUserId,
-        currentUserPhoto: currentUserPhoto,
-        currentUserPseudo: currentUserPseudo,
-        currentUserStatus: currentUserStatus,
       ),
     );
   }
@@ -53,53 +44,37 @@ class SearchUser extends StatelessWidget {
 class SearchUserScreen extends StatefulWidget {
   // Utilisateur courant
   final String currentUserId;
-  final String currentUserPhoto;
-  final String currentUserPseudo;
-  final String currentUserStatus;
 
   // Constructeur
-  SearchUserScreen(
-      {Key key,
-      @required this.currentUserId,
-      @required this.currentUserPhoto,
-      @required this.currentUserPseudo,
-      @required this.currentUserStatus})
-      : super(key: key);
+  SearchUserScreen({
+    Key key,
+    @required this.currentUserId,
+  }) : super(key: key);
 
   @override
   SearchUserScreenState createState() => new SearchUserScreenState(
-      currentUserId: currentUserId,
-      currentUserPhoto: currentUserPhoto,
-      currentUserPseudo: currentUserPseudo,
-      currentUserStatus: currentUserStatus);
+        currentUserId: currentUserId,
+      );
 }
 
 class SearchUserScreenState extends State<SearchUserScreen> {
   // Utilisateur courant
   final String currentUserId;
-  final String currentUserPhoto;
-  final String currentUserPseudo;
-  final String currentUserStatus;
 
-  //database
+  //Base de données
   DataBase db = new DataBase();
 
   // Constructeur
-  SearchUserScreenState(
-      {Key key,
-      @required this.currentUserId,
-      @required this.currentUserPhoto,
-      @required this.currentUserPseudo,
-      @required this.currentUserStatus});
+  SearchUserScreenState({
+    Key key,
+    @required this.currentUserId,
+  });
 
   // Champ texte
   TextEditingController editingController = TextEditingController();
 
   // requête de recherche
   String query = ' ';
-
-  // couleur de l'ami sélectionné
-  Color selectedColor = Colors.white;
 
   // création du widget (départ)
   @override
@@ -135,11 +110,10 @@ class SearchUserScreenState extends State<SearchUserScreen> {
           ),
           Expanded(
             child: StreamBuilder(
-              // Construction d'un stream : on récupère tous les utilisateurs de la BD
+              // Construction d'un stream : on récupère tous les utilisateurs de la BD dont le pseudo = query
               stream: Firestore.instance
                   .collection('Utilisateur')
-                  .where('pseudoUtilisateur',
-                      isEqualTo: query) // isEqualTO (moins permissif)
+                  .where('pseudoUtilisateur', isEqualTo: query)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
@@ -147,8 +121,7 @@ class SearchUserScreenState extends State<SearchUserScreen> {
                 } else {
                   return ListView.builder(
                     shrinkWrap: true,
-                    itemCount: snapshot.data.documents
-                        .length, //Nombre de documents de la collection
+                    itemCount: snapshot.data.documents.length,
                     itemBuilder: (context, index) {
                       // création des items
                       return ListTile(
@@ -159,17 +132,8 @@ class SearchUserScreenState extends State<SearchUserScreen> {
                               msg:
                                   '${snapshot.data.documents[index]['pseudoUtilisateur']} ajouté aux amis',
                               gravity: ToastGravity.TOP);
-                          // Ajout d'un ami en back-end
-                          db.addFriend(
-                              codeAmi,
-                              snapshot.data.documents[index]
-                                  ['pseudoUtilisateur'],
-                              snapshot.data.documents[index]['photoUrl'],
-                              snapshot.data.documents[index]['statut'],
-                              currentUserId,
-                              currentUserPseudo,
-                              currentUserPhoto,
-                              currentUserStatus);
+                          // Ajout d'un ami dans la base
+                          db.addFriend(currentUserId, codeAmi);
                         },
                         leading: GestureDetector(
                           behavior: HitTestBehavior.translucent,

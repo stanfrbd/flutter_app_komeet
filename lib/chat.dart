@@ -13,7 +13,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app_komeet/const.dart';
-import 'package:flutter_app_komeet/main.dart';
 import 'package:flutter_app_komeet/database.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -512,6 +511,7 @@ class ChatScreenState extends State<ChatScreen> {
   // Lors de l'appui sur la flèche de retour arrière
   Future<Null> onBackPress() {
     Navigator.pop(context);
+    return null;
   }
 
   // Création de l'écran
