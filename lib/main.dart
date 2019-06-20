@@ -304,7 +304,7 @@ class MainScreenState extends State<MainScreen> {
     //Tirage aléatoire à recommencer tant que le contact obtenu est déjà un ami
     do {
       var rdm = new Random();
-      ind = rdm.nextInt(allUsers.length);
+      ind = rdm.nextInt(allUsers.length) + 1;
       newFriend = allUsers.elementAt(ind);
     } while (Friends.contains(newFriend.getId())); //On recommence si déjà amis
 
@@ -312,8 +312,8 @@ class MainScreenState extends State<MainScreen> {
         currentUserId); //Pour plus de cohérence, on le retire une fois l'opération terminée
 
     await db.addFriend(currentUserId, newFriend.getId());
-    var pseudo = newFriend.getPseudo();
-    Fluttertoast.showToast(msg: 'Ajout aléatoire : $pseudo ');
+    var pseudo = newFriend.getPseudo() ?? 'Max atteint';
+    Fluttertoast.showToast(msg: 'Ajout aléatoire :' + pseudo);
     return Future.value(true);
   }
 
