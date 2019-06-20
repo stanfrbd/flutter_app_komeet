@@ -20,6 +20,7 @@ Rémi T. - Josquin I. - Antoine D-G. - Stanislas M.
 * Changer les couleurs **[fonctionnel]**
 * Mettre en mode sombre **[fonctionnel]**
 * Copier / coller des messages **[fonctionnel]**
+* Supprimer des messages **[fonctionnel]**
 * Notifications in-app **[En cours, ne sera peut-être pas ajouté]**
 * Timers **[optionnel, ne sera peut-être pas ajouté]**
 * Ajouter aléatoirement des personnes **[optionnel, ne sera peut-être pas ajouté]**
