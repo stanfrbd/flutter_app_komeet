@@ -589,19 +589,18 @@ class MainScreenState extends State<MainScreen> {
                     .where('codeUtilisateur', isEqualTo: currentUserId)
                     .snapshots(),
                 builder: (context, snapshot) {
-                  // si pas d'amis ou lui-même (invisible)
-                  if (!snapshot.hasData ||
-                      snapshot.data.documents.length == 1 &&
-                          snapshot.data.documents[0]['codeUtilisateur'] ==
-                              currentUserId) {
-                    return Container(
-                      child: Center(
-                        child: Text(
-                          "Vous n'avez pas encore d'amis",
-                          style: TextStyle(color: ThemeKomeet.primaryColor),
-                        ),
-                      ),
-                    );
+                  // si pas d'amis
+                  if (!snapshot.hasData) {
+                    Fluttertoast.showToast(
+                        msg: "Vous n'avez pas encore d'ami",
+                        gravity: ToastGravity.CENTER,
+                        toastLength: Toast.LENGTH_LONG);
+                    Fluttertoast.showToast(
+                        msg: "Recherchez-les dans avec notre menu !",
+                        gravity: ToastGravity.CENTER,
+                        toastLength: Toast.LENGTH_SHORT);
+
+                    return Container();
                   } else {
                     // construction de la listView
                     return ListView.builder(

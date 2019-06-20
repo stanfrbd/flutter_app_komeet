@@ -133,7 +133,9 @@ class SearchUserScreenState extends State<SearchUserScreen> {
                                   '${snapshot.data.documents[index]['pseudoUtilisateur']} ajouté aux amis',
                               gravity: ToastGravity.TOP);
                           // Ajout d'un ami dans la base
-                          db.addFriend(currentUserId, codeAmi);
+                          if (currentUserId != codeAmi) {
+                            db.addFriend(currentUserId, codeAmi);
+                          }
                         },
                         leading: GestureDetector(
                           behavior: HitTestBehavior.translucent,
