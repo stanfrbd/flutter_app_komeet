@@ -593,12 +593,12 @@ class MainScreenState extends State<MainScreen> {
                   if (!snapshot.hasData) {
                     Fluttertoast.showToast(
                         msg: "Vous n'avez pas encore d'ami",
-                        gravity: ToastGravity.CENTER,
+                        gravity: ToastGravity.TOP,
                         toastLength: Toast.LENGTH_LONG);
                     Fluttertoast.showToast(
                         msg: "Recherchez-les dans avec notre menu !",
                         gravity: ToastGravity.CENTER,
-                        toastLength: Toast.LENGTH_SHORT);
+                        toastLength: Toast.LENGTH_LONG);
 
                     return Container();
                   } else {
