@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_komeet/const.dart';
 import 'package:flutter_app_komeet/login.dart';
 import 'package:flutter_app_komeet/database.dart';
+import 'package:flutter_app_komeet/language_settings.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -442,6 +443,30 @@ class SettingsScreenState extends State<SettingsScreen> {
                   padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
                 ),
                 margin: EdgeInsets.only(top: 50.0, bottom: 10.0),
+              ),
+              Container(
+                child: FlatButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LanguageSettings(
+                                currentUserId:
+                                    prefs.getString('codeUtilisateur'),
+                              )),
+                    );
+                  },
+                  child: Text(
+                    "LANGUE VISIBLE",
+                    style: TextStyle(fontSize: 16.0),
+                  ),
+                  color: ThemeKomeet.primaryColor,
+                  highlightColor: new Color(0xff8d93a0),
+                  splashColor: Colors.transparent,
+                  textColor: Colors.white,
+                  padding: EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
+                ),
+                margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
               ),
               Container(
                 child: FlatButton(
