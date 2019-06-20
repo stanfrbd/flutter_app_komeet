@@ -21,9 +21,9 @@ Rémi T. - Josquin I. - Antoine D-G. - Stanislas M.
 * Mettre en mode sombre **[fonctionnel]**
 * Copier / coller des messages **[fonctionnel]**
 * Supprimer des messages **[fonctionnel]**
+* Ajouter aléatoirement des personnes **[Fonctionnel]**
 * Notifications in-app **[En cours, ne sera peut-être pas ajouté]**
 * Timers **[optionnel, ne sera peut-être pas ajouté]**
-* Ajouter aléatoirement des personnes **[optionnel, ne sera peut-être pas ajouté]**
 
 <img src="https://user-images.githubusercontent.com/44167150/59147905-bfdc5880-8a01-11e9-9151-7425f80d2143.png" alt="drawing" width="200"/>
 
