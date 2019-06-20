@@ -99,9 +99,6 @@ class LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(
             builder: (context) => MainScreen(
                   currentUserId: prefs.getString('codeUtilisateur'),
-                  currentUserPseudo: prefs.getString('pseudoUtilisateur'),
-                  currentUserPhoto: prefs.getString('photoUrl'),
-                  currentUserStatus: prefs.getString('statut'),
                 )),
       );
     }
@@ -158,6 +155,7 @@ class LoginScreenState extends State<LoginScreen> {
         await prefs.setString('codeUtilisateur', currentUser.uid);
         await prefs.setString('pseudoUtilisateur', currentUser.displayName);
         await prefs.setString('photoUrl', currentUser.photoUrl);
+        await prefs.setString('langue', 'Français');
       } else {
         Fluttertoast.showToast(msg: "Ecriture en local");
 
@@ -180,9 +178,6 @@ class LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(
             builder: (context) => MainScreen(
                   currentUserId: firebaseUser.uid,
-                  currentUserPseudo: prefs.getString('pseudoUtilisateur'),
-                  currentUserPhoto: prefs.getString('photoUrl'),
-                  currentUserStatus: prefs.getString('statut'),
                 )),
       );
     } else {

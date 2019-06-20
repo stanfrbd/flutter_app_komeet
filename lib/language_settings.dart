@@ -5,9 +5,9 @@
 //-----------------------------------------------------
 
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_app_komeet/const.dart';
 import 'package:flutter_app_komeet/database.dart';
+import 'package:flutter_app_komeet/settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/cupertino.dart';
@@ -104,6 +104,9 @@ class LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
                               gravity: ToastGravity.TOP);
                           // changement dans la base
                           db.changeLangueUser(currentUserId, codeLangue);
+                          setState(() {
+                            SettingsScreenState.language = titreLangue;
+                          });
                         },
                         title: Text(
                           '${snapshot.data.documents[index]['titreLangue']}',

@@ -97,3 +97,54 @@ class Static {
     const Choice(title: 'Mode clair', icon: Icons.wb_sunny)
   ];
 }
+
+// classe non utilisée mais pourrait être utilisée dans le futur
+class Language {
+  final int id;
+  final String name;
+  final String symbol;
+
+  const Language({this.id, this.name, this.symbol});
+
+  static List<Language> userLanguage = const <Language>[
+    const Language(id: 1, name: 'Français', symbol: '🇫🇷'),
+    const Language(id: 2, name: 'Anglais', symbol: '🇺🇸'),
+    const Language(id: 3, name: 'Allemand', symbol: '🇩🇪'),
+    const Language(id: 4, name: 'Espagnol', symbol: '🇪🇸'),
+    const Language(id: 5, name: 'Chinois', symbol: '🇨🇳'),
+    const Language(id: 6, name: 'Japonais', symbol: '🇯🇵'),
+    const Language(id: 7, name: 'Russe', symbol: '🇷🇺'),
+    const Language(id: 8, name: 'Italien', symbol: '🇮🇹'),
+    const Language(id: 9, name: 'Grec', symbol: '🇬🇷'),
+  ];
+}
+
+// classe qui permet de récupérer tous les attributs lors de l'ajout des amis
+class User {
+  User(
+      {@required this.id,
+      @required this.photo,
+      @required this.pseudo,
+      @required this.status});
+
+  final String id;
+  final String pseudo;
+  final String photo;
+  final String status;
+
+  String getId() {
+    return this.id;
+  }
+
+  String getPhoto() {
+    return this.photo;
+  }
+
+  String getPseudo() {
+    return this.pseudo;
+  }
+
+  String getStatus() {
+    return this.status;
+  }
+}

@@ -70,6 +70,8 @@ class SettingsScreenState extends State<SettingsScreen> {
   String pseudoUtilisateur = '';
   String statut = '';
   String photoUrl = '';
+  static String language =
+      'Français'; // static pour être récupérée dans language_settings
 
   // déclenche le widget chargement
   bool isLoading = false;
@@ -81,7 +83,6 @@ class SettingsScreenState extends State<SettingsScreen> {
   final FocusNode focusNodestatut = new FocusNode();
 
   //color picker
-
   Color currentColor = ThemeKomeet.themeColor;
 
   // texte du bouton : mode sombre/mode clair
@@ -121,6 +122,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     pseudoUtilisateur = prefs.getString('pseudoUtilisateur') ?? '';
     statut = prefs.getString('statut') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
+    language = prefs.getString('langue') ?? '';
 
     controllerPseudoUtilisateur =
         new TextEditingController(text: pseudoUtilisateur);
@@ -216,6 +218,7 @@ class SettingsScreenState extends State<SettingsScreen> {
       await prefs.setString('pseudoUtilisateur', pseudoUtilisateur);
       await prefs.setString('statut', statut);
       await prefs.setString('photoUrl', photoUrl);
+      await prefs.setString('langue', language);
 
       setState(() {
         isLoading = false;

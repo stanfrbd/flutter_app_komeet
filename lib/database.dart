@@ -5,27 +5,18 @@
 //-----------------------------------------------------
 
 import 'dart:async';
-import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter_app_komeet/chat.dart';
 import 'package:flutter_app_komeet/const.dart';
-import 'package:flutter_app_komeet/login.dart';
-import 'package:flutter_app_komeet/settings.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_app_komeet/main.dart';
+import 'dart:math' show Random;
 
 // ------------------------------------------------
 // Classe des méthodes back-end de firebase
 // ------------------------------------------------
 
 class DataBase {
-  // modification de structure, simple proposition,
-  // si vous n'êtes pas d'accord on change tout, je ne veux pas imposer
-
+/* Ancienne version de deleteFriend, avec les collections 'sesAmis'
   Future<bool> deleteFriend(
       String codeAmi, String codeUtilisateurCourant) async {
     // suppression d'un ami dans l'utilisateur courant
@@ -45,7 +36,7 @@ class DataBase {
     return true;
   }
 
-  // plus d'attributs pour le copié-collé...
+  // Ancienne version de addFriend
   Future<bool> addFriend(
       String codeAmi,
       String pseudoAmi,
@@ -84,8 +75,21 @@ class DataBase {
       'photoUrl': photoUtilisateurCourant,
       'statut': statutUtilisateurCourant
     });
+    */
+  Future<void> deleteFriend(
+      String codeAmi, String codeUtilisateurCourant) async {
+    Firestore.instance
+        .collection("Connaissance")
+        .document('$codeAmi-$codeUtilisateurCourant')
+        .delete();
+    Firestore.instance
+        .collection("Connaissance")
+        .document('$codeUtilisateurCourant-$codeAmi')
+        .delete();
+  }
 
-    /*try {
+  Future<bool> addFriend(String codeUtilisateur, String codeAmi) async {
+    try {
       //Ajout d'un ami dans la BD
       Firestore.instance
           .collection('Connaissance')
@@ -112,10 +116,53 @@ class DataBase {
       addUserToDiscussion('$codeUtilisateur-$codeAmi', codeAmi);
     } on Exception {
       return false;
-    }*/
+    }
+
     return true;
   } //Fin addFriend
 
+  //Méthode d'ajout d'un ami tiré aléatoirement
+  // même problème qu'avec getPseudo et getPhoto
+  Future<String> addRandomFriend(String userId) async {
+    //On commence par récupérer les amis
+    var queryFriends = Firestore.instance
+        .collection('Connaissance')
+        .where('codeUtilisateur', isEqualTo: userId)
+        .getDocuments();
+
+    //On crée une liste d'identifiants à ne pas tirer au sort (amis et utilisateur courant)
+    List<String> friendsYet;
+    queryFriends.then((q) =>
+        {q.documents.forEach((doc) => friendsYet.add(doc.data['codeAmi']))});
+    friendsYet.add(userId);
+
+    //On récupère l'ensemble des utilisateurs
+    var queryAll = Firestore.instance
+        .collection('Utilisateur')
+        .getDocuments(); //Future<QuerySnapshot>
+
+    //On met leurs identifiants dans une liste
+    List<String> possibleFriends;
+    queryAll.then((q) => {
+          q.documents.forEach((doc) => {
+                //On n'ajoute que les utilisateurs à prendre en compte
+                if (!friendsYet.contains(doc.data['codeUtilisateur']))
+                  {possibleFriends.add(doc.data['codeUtilisateur'])}
+              })
+        });
+
+    //On tire un utilisateur aléatoirement
+    var random = new Random();
+    int ind = random.nextInt(possibleFriends.length);
+    String newFriendId = possibleFriends.elementAt(ind);
+
+    //Ajout de l'ami
+    addFriend(userId, newFriendId);
+
+    return newFriendId; //getPseudoUtilisateur(newFriendId);
+  }
+
+  // Ajouter un utilisateur à une discussion
   Future<bool> addUserToDiscussion(
       String codeDiscussion, String codeUtilisateur) async {
     try {
@@ -157,7 +204,7 @@ class DataBase {
     return documentReference;
   }
 
-  //Rempli le document dans lequel on stocke le message
+  //Remplit le document dans lequel on stocke le message
   Future<bool> completeMessageDocument(
       DocumentReference docRef, codeUtilisateur, peerId, content, type) async {
     try {
@@ -189,7 +236,43 @@ class DataBase {
     return query;
   }
 
+  // Les requêtes sur lesquelles on boquait nécessitaient en fait des FutureWidgets :
+
+/*##############################################################################*/
+/*main.dart :																	*/
+/*Le WIDGET aurait dû RESSEMBLER A CA pour que cette méthode fonctionne :	*/
+/*##############################################################################*/
+/*
+return FutureBuilder<String> (
+  future: db.getPseudoUtilisateur(document['codeAmi']), //La valeur qu'on veut utiliser
+    initialData: 'Loading...', //La valeur par défault qu'on utilise pendant que ça charge
+      builder: (BuildContext context, AsyncSnapshot<String> text) {
+        return new Text(
+            text.data //Le widget retourné une fois que la valeur souhaitée est arrivée
+        );
+      },
+);
+*/
+
+/*##############################################################################*/
+/*database.dart :																*/
+/*getPseudoUtilisateur DOIT RESSEMBLER A CA (plus besoin de variable globale)	*/
+/*##############################################################################*/
+/*
+  Future<String> getPseudoUtilisateur(String code) async {
+    var query  = await Firestore.instance
+        .collection('Utilisateur')
+        .document(code)
+        .get();
+
+    var pseudo = await query.data['pseudoUtilisateur'];
+
+    return pseudo;
+  }
+*/
+
   //Obtenir le pseudo d'un utilisateur à partir de son code utiisateur
+  // ne peut pas être utilisée car envoi de Future<String> en réalité
   String getPseudoUtilisateur(String codeUtilisateur) {
     //Variable qui stockera le résultat de la requête
     var query;
@@ -228,6 +311,7 @@ class DataBase {
   }
 
   //Obtenir l'url de la photo de profil à partir du codeUtilisateur
+  // même problème que getPseudo
   String getPhotoUtilisateur(String userId) {
     var query;
     try {
@@ -240,7 +324,7 @@ class DataBase {
     return query['photoUrl'];
   }
 
-  //Méthode de suppression d'un message
+  //Méthode de suppression d'un message dans la table prévue au départ
   /*Future<bool> deleteMessage(String idMsg) async {
     var query =
         Firestore.instance.collection('messages').document(idMsg).delete();
@@ -252,8 +336,7 @@ class DataBase {
     return success;
   }*/
 
-  // Nouvelle avec la table qui n'a pas changé : messages
-
+  // Nouvelle méthode avec la table actuelle : messages, fonctionne
   Future<Null> deleteMessage(String idMsg, String groupChatId) async {
     Firestore.instance
         .collection('messages')
@@ -263,8 +346,25 @@ class DataBase {
         .delete();
   }
 
-  // Méthodes de changement de thème
+  // Méthode pour obtenir un utilisateur complet, voir la classe User dans const.dart
+  User getSingleUser(String codeUtilisateur) {
+    // Un utilisateur qui a tous les attributs (photo, id, pesudo, statut)
+    User u;
 
+    // la liste statique que l'on importe qui contient tous les Utilisateurs de la base
+    var users = MainScreenState.allUsers;
+
+    int i = 0;
+    do {
+      i++;
+    } while (users[i].getId() != codeUtilisateur && i < users.length);
+    u = users[i];
+    return u ??
+        new User(
+            id: 'erreur', photo: 'erreur', pseudo: 'erreur', status: 'erreur');
+  }
+
+  // Méthodes de changement de thème
   void changeThemeUser(String codeUser, String codeTheme) {
     Firestore.instance
         .collection('Theme_Utilisateur')
@@ -298,4 +398,7 @@ class DataBase {
     query.then((doc) => this.langue = doc.data['codeLangue']);
     return this.langue;
   }
+
+  // Renvoyer un utilisateur complet avec tous ses attributs
+
 }
